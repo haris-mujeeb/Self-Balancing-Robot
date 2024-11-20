@@ -2,13 +2,15 @@
 
 // Global debug mode (set to false to disable all debugging)
 #define DEBUG_MODE true      
-#define TIMING true
 // Module-specific debug modes
-#define DEBUG_CONTROL false    // Debugging for Communication module
-#define DEBUG_MOTOR false   // Debugging for Motor Control module
-#define DEBUG_VOLTAGE false  // Debugging for Communication module
-#define DEBUG_IMU false     // Debugging for IMU module
-#define DEBUG_KALMAN false  // Debugging for Communication module
+#define DEBUG_MOTOR true     // Debugging for Motor Control module
+#define DEBUG_VOLTAGE true   // Debugging for Communication module
+#define DEBUG_IMU true       // Debugging for IMU module
+#define DEBUG_KALMAN true    // Debugging for Communication module
+#define DEBUG_CONTROL true   // Debugging for Communication module
+#define DEBUG_PID_PITCH true // Debugging for PID control for Pitch
+#define DEBUG_PID_YAW true // Debugging for PID control for Pitch
+#define DEBUG_PID_POSITION true // Debugging for PID control for Pitch
 
 // Macro for conditional debugging
 #if DEBUG_MODE

@@ -9,23 +9,24 @@
 #include "kalman_filter.hpp"
 #include "MsTimer2.h"
 
+constexpr double kp_balance = 55.0;           // PID parameter for balance control
+constexpr double kd_balance = 0.75;          // PID parameter for balance control
+constexpr double kp_speed = 10.0;            // PID parameter for speed control
+constexpr double ki_speed = 0.26;            // PID parameter for speed control
+constexpr double kp_turn = 2.5;              // PID parameter for turning control
+constexpr double kd_turn = 0.5;              // PID parameter for turning control
+constexpr float angle_zero = 0.0f;           // Default angle zero
+constexpr float angular_velocity_zero = 0.0f; // Default angular velocity zero
+constexpr float dt = 0.005f;                 // Time step for control loop
+constexpr float Q_angle = 0.001f;            // Process noise covariance for angle
+constexpr float Q_gyro = 0.005f;             // Process noise covariance for gyro
+constexpr float R_angle = 0.5f;              // Measurement noise covariance for angle
+constexpr float C_0 = 1.0f;                  // Kalman filter constant
+constexpr float K_comp_filter = 0.05f;       // Complementary filter constant
+constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
+
 
 class motion_controller {
-  private:
-    //Setting PID parameters
-    double kp_balance = 55, kd_balance = 0.75; //  PID parameters for balance control.
-    double kp_speed = 10, ki_speed = 0.26; // PID parameters for controlling speed.
-    double kp_turn = 2.5, kd_turn = 0.5; // PID parameters for controlling the robot's turning.
-    float angle_zero = 0, angular_velocity_zero = 0;
-
-   // Setting Kalman filter parameters
-   float dt = 0.005, Q_angle = 0.001, Q_gyro = 0.005, 
-          R_angle = 0.5, C_0 = 1, K_comp_filter = 0.05;
-
-  // Double data = 0;
-    int16_t encoder_left_pulse_num_speed = 0;
-    int16_t encoder_right_pulse_num_speed = 0;
-
   public:
     TB6612FNG motor;
     PIDController pid;
@@ -45,4 +46,13 @@ class motion_controller {
     void turnLeft(float rotation);
     void turnRight(float rotation);
     void moveBack(float speed);
+    
+  private:
+    void checkVoltageLevel(unsigned long& lastVoltageTime);
+    void updateSensorValues(float& angle_m, float& gyro_x, float& gyro_z);
+    void runPitchControl(float& gyro_x);
+    void runYawControl();
+    void runPositionControl();
+    void updateMotorVelocities();
+
 };

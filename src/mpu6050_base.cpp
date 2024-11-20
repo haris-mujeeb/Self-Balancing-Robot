@@ -16,10 +16,14 @@ void mpu6050_base::init() {
   gyro_x_cal = gyro_x_cal / CALIBRATION_SAMPLES;
   gyro_y_cal = gyro_y_cal / CALIBRATION_SAMPLES;
   gyro_z_cal = gyro_z_cal / CALIBRATION_SAMPLES;
-
   // Initialize timer for control loop
   loop_timer = micros();  // To calculate microseconds
+#ifdef DEBUG_IMU 
+  String debugMsg = "[Debug] [gyro_x_cal: " + String(gyro_x_cal)  
+      + "] [gyro_y_cal: " + String(gyro_y_cal) + "] [gyro_z_cal: " + String(gyro_z_cal) + "]";  
+  DEBUG_PRINT(DEBUG_IMU, debugMsg);
   DEBUG_PRINT(DEBUG_IMU, "[Debug] IMU started.");  
+#endif
 }
 
 
@@ -105,8 +109,9 @@ void mpu6050_base::read_mpu_6050_data() {
     gyro_x = Wire.read() << 8 | Wire.read();
     gyro_y = Wire.read() << 8 | Wire.read();
     gyro_z = Wire.read() << 8 | Wire.read();
-    DEBUG_PRINT(DEBUG_IMU, "[Debug] data read from MPU6060 sucessfull.");
-  };
+    return;
+  }; 
+  ERROR_PRINT("[Error] data cannot be read from MPU6060!");
 };
 
 

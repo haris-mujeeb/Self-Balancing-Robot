@@ -8,7 +8,7 @@
 #define DEBUG_MOTOR true   // Debugging for Motor Control module
 #define DEBUG_VOLTAGE false  // Debugging for Communication module
 #define DEBUG_IMU false     // Debugging for IMU module
-#define DEBUG_KALMAN false  // Debugging for Communication module
+#define DEBUG_KALMAN true  // Debugging for Communication module
 
 // Macro for conditional debugging
 #if DEBUG_MODE
