@@ -6,9 +6,9 @@
 // Volatile variables that track the pulse counts from the encoders.
 volatile int long encoder_count_left_a = 0; 
 volatile int long encoder_count_right_a = 0;
-volatile double pwm_left = 0;
-volatile double pwm_right = 0;
-/* Note: 
+volatile uint8_t pwm_left = 0;
+volatile uint8_t pwm_right = 0;
+/* Note: `
     'volatile' tells the compiler that the value of encoder_count_right_a can change at any time, outside of the normal program flow. 
     This is commonly used for variables that are modified within an interrupt service routine (ISR) or by another thread. */
 
@@ -40,14 +40,14 @@ void motion_controller::init(){
 
 void motion_controller::balance() {
   static unsigned long lastVoltageTime = 0; 
-  if (millis() - lastVoltageTime >= 100) { // Call voltage_read() every 1000ms
+  if (millis() - lastVoltageTime >= 1000) { // Call voltage_read() every 1000ms
     lastVoltageTime = millis();
     voltage_read();
   }
 
   if(controller_instance && (last_value > 6.0)) {
-    sei(); // set enable interrupts
-
+    // set enable interrupts
+    sei(); 
     // Kalman filter with PD controller
     controller_instance->mpu.read_mpu_6050_data();
     float angle_m = atan2(controller_instance->mpu.acc_y , controller_instance->mpu.acc_z) * 57.3;
@@ -63,14 +63,12 @@ void motion_controller::balance() {
     pwm_left = (uint8_t)abs(pwm_signed_value);
     pwm_right = (uint8_t)abs(pwm_signed_value);
 
-    String debugMsg = "[Debug] [pid output: "+ String(balance_control_output) + "]"  
-      + "[pwm_left: "+ String(pwm_left) + "]" 
-      + "[pwm_right: "+ String(pwm_right) + "]";
+    String debugMsg = String(controller_instance->kfilter.angle) + "," + String(balance_control_output)
+      + "," + String(pwm_left);
     DEBUG_PRINT(DEBUG_CONTROL, debugMsg);
     controller_instance->motor.motorA(pwm_left, pwm_signed_value > 0);
     controller_instance->motor.motorB(pwm_right, pwm_signed_value > 0);
-    DEBUG_PRINT(TIMING, ".");
   } else {
-        // DEBUG_PRINT(TIMING, ".");
+        DEBUG_PRINT(DEBUG_CONTROL, "[Debug] balance() not called.");
   }
 }

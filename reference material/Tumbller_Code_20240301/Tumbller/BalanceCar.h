@@ -30,7 +30,7 @@ double angular_velocity_zero = 0; //x axle angular velocity calibration
 volatile unsigned long encoder_count_right_a = 0;
 volatile unsigned long encoder_count_left_a = 0;
 int16_t ax, ay, az, gx, gy, gz;
-float dt = 0.005, Q_angle = 0.001, Q_gyro = 0.005, R_angle = 0.5, C_0 = 1, K1 = 0.05;
+const float dt = 0.005, Q_angle = 0.001, Q_gyro = 0.005, R_angle = 0.5, C_0 = 1, K1 = 0.05;
 
 int encoder_left_pulse_num_speed = 0;
 int encoder_right_pulse_num_speed = 0;

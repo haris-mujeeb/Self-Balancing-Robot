@@ -4,8 +4,8 @@
 #define DEBUG_MODE true      
 #define TIMING true
 // Module-specific debug modes
-#define DEBUG_CONTROL false    // Debugging for Communication module
-#define DEBUG_MOTOR false   // Debugging for Motor Control module
+#define DEBUG_CONTROL true    // Debugging for Communication module
+#define DEBUG_MOTOR true   // Debugging for Motor Control module
 #define DEBUG_VOLTAGE false  // Debugging for Communication module
 #define DEBUG_IMU false     // Debugging for IMU module
 #define DEBUG_KALMAN false  // Debugging for Communication module
@@ -15,7 +15,7 @@
   #if TIMING
     #define DEBUG_PRINT(module, x) \
         if (module) { \
-          Serial.println(String(millis())); \
+          Serial.println(x); \
         }
   #else
     #define DEBUG_PRINT(module, x) \
