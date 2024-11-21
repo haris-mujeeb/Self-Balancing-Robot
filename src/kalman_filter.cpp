@@ -39,10 +39,11 @@ double KalmanFilter::getAngle( double measured_angle, double measured_gyro) {
   q_bias += K_1 * angle_err;
   angle_dot = measured_angle - q_bias;
   // Debug output for Kalman values
+
 #ifdef DEBUG_KALMAN
-  String debugMsg = "[Debug] [Kalman values] [angle: " + String(angle_m) +
-              "] [q_bias: " + String(q_bias) + "] [angle_dot: " + String(angle_dot) + "]");
-  DEBUG_PRINT(DEBUG_IMU, debugMsg);
+  String debugMsg = "[Debug] [Kalman values] [angle:" + String(angle) +
+              "] [q_bias:" + String(q_bias) + "] [angle_dot: " + String(angle_dot) + "]";
+  DEBUG_PRINT(DEBUG_KALMAN, debugMsg);
 #endif
 
   return angle;

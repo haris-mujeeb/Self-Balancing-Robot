@@ -14,7 +14,7 @@ class motion_controller {
   private:
     //Setting PID parameters
     double kp_balance = 55, kd_balance = 0.75; //  PID parameters for balance control.
-    double kp_speed = 10, ki_speed = 0.26; // PID parameters for controlling speed.
+    double kp_position = 10, ki_position = 0.26; // PID parameters for controlling speed.
     double kp_turn = 2.5, kd_turn = 0.5; // PID parameters for controlling the robot's turning.
     float angle_zero = 0, angular_velocity_zero = 0;
 

@@ -36,10 +36,10 @@ int encoder_left_pulse_num_speed = 0;
 int encoder_right_pulse_num_speed = 0;
 double speed_control_output = 0;
 double rotation_control_output = 0;
-double speed_filter = 0;
+double encoder_speed_filtered = 0;
 int speed_control_period_count = 0;
 double car_speed_integeral = 0;
-double speed_filter_old = 0;
+double encoder_speed_filtered_old = 0;
 int setting_car_speed = 0;
 int setting_turn_speed = 0;
 double pwm_left = 0;
@@ -89,12 +89,12 @@ void balanceCar() {
     double car_speed = (encoder_left_pulse_num_speed + encoder_right_pulse_num_speed) * 0.5;
     encoder_left_pulse_num_speed = 0;
     encoder_right_pulse_num_speed = 0;
-    speed_filter = speed_filter_old * 0.7 + car_speed * 0.3;
-    speed_filter_old = speed_filter;
-    car_speed_integeral += speed_filter;
+    encoder_speed_filtered = encoder_speed_filtered_old * 0.7 + car_speed * 0.3;
+    encoder_speed_filtered_old = encoder_speed_filtered;
+    car_speed_integeral += encoder_speed_filtered;
     car_speed_integeral += -setting_car_speed;
     car_speed_integeral = constrain(car_speed_integeral, -3000, 3000);
-    speed_control_output = -kp_speed * speed_filter - ki_speed * car_speed_integeral;
+    speed_control_output = -kp_speed * encoder_speed_filtered - ki_speed * car_speed_integeral;
     rotation_control_output = setting_turn_speed + kd_turn * kalmanfilter.Gyro_z;
   }
 

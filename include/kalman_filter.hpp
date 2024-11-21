@@ -1,3 +1,5 @@
+#include <Arduino.h>
+#include "debugConfig.h"
 
 class KalmanFilter {
  private:

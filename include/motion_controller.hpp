@@ -11,8 +11,9 @@
 
 constexpr double kp_balance = 55.0;           // PID parameter for balance control
 constexpr double kd_balance = 0.75;          // PID parameter for balance control
-constexpr double kp_speed = 10.0;            // PID parameter for speed control
-constexpr double ki_speed = 0.26;            // PID parameter for speed control
+constexpr double kp_position = 10;            // PID parameter for speed control
+constexpr double kd_position = 0.0012*2;            // PID parameter for speed control
+constexpr double ki_position = 0.26;            // PID parameter for speed control
 constexpr double kp_turn = 2.5;              // PID parameter for turning control
 constexpr double kd_turn = 0.5;              // PID parameter for turning control
 constexpr float angle_zero = 0.0f;           // Default angle zero
@@ -24,7 +25,7 @@ constexpr float R_angle = 0.5f;              // Measurement noise covariance for
 constexpr float C_0 = 1.0f;                  // Kalman filter constant
 constexpr float K_comp_filter = 0.05f;       // Complementary filter constant
 constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
-
+constexpr uint8_t POSITION_CONTROL_FREQUENCY = 0; // e.g. one time after 8 interrupt calls to balance()
 
 class motion_controller {
   public:
@@ -36,21 +37,20 @@ class motion_controller {
     motion_controller() : motor(TB6612FNG(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT)),
       pid(PIDController(kp_balance, 0, kd_balance, -3000.0f, 3000.0f)),
       mpu(mpu6050_base()), 
-      kfilter(KalmanFilter(dt, Q_angle, Q_gyro, R_angle, C_0)){
-      };
-      
+      kfilter(KalmanFilter(dt, Q_angle, Q_gyro, R_angle, C_0)){};  
     void init();
-    //MsTimer2::set(5, balance);  // run balance every 5ms
     static void balance();   // void balance(float speed, float turn);
     void moveForward(float speed);
-    void turnLeft(float rotation);
-    void turnRight(float rotation);
     void moveBack(float speed);
-    
+    void turnLeft(float rotation_speed);
+    void turnRight(float rotation_speed);
+    void stop();
+
   private:
     void checkVoltageLevel(unsigned long& lastVoltageTime);
-    void updateSensorValues(float& angle_m, float& gyro_x, float& gyro_z);
-    void runPitchControl(float& gyro_x);
+    void updateSensorValues();
+    void updateEncoderValues();
+    void runPitchControl();
     void runYawControl();
     void runPositionControl();
     void updateMotorVelocities();
