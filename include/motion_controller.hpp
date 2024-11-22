@@ -1,58 +1,138 @@
 #pragma once
+
 #include <stdint.h>
 #include "HardwareSerial.h"
 #include "debugConfig.h"
 #include "pins.hpp"
-#include "pid.hpp"
 #include "tb6612fng.hpp"
 #include "mpu6050_base.hpp"
 #include "kalman_filter.hpp"
 #include "MsTimer2.h"
 
-constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
-constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8; // e.g. one time after 8 interrupt calls to balance()
-constexpr double kp_balance = 55.0;           // PID parameter for balance control
-constexpr double kd_balance = 0.75;          // PID parameter for balance control
-constexpr double kp_position = 10*POSITION_CONTROL_FREQUENCY/8;            // PID parameter for speed control
-constexpr double kd_position = 0;            // PID parameter for speed control
-constexpr double ki_position = 0.26*POSITION_CONTROL_FREQUENCY/8;            // PID parameter for speed control
-constexpr double kp_turn = 2.5;              // PID parameter for turning control
-constexpr double kd_turn = 0.5;              // PID parameter for turning control
-constexpr float angle_zero = 0.0f;           // Default angle zero
-constexpr float angular_velocity_zero = 0.0f; // Default angular velocity zero
-constexpr float dt = 0.007f;                 // Time step for control loop
-constexpr float Q_angle = 0.001f;            // Process noise covariance for angle
-constexpr float Q_gyro = 0.005f;             // Process noise covariance for gyro
-constexpr float R_angle = 0.5f;              // Measurement noise covariance for angle
-constexpr float C_0 = 1.0f;                  // Kalman filter constant
-constexpr float K_comp_filter = 0.05f;       // Complementary filter constant
-
+/**
+ * @class motion_controller
+ * @brief A class to control the motion of a self-balancing robot.
+ * 
+ * This class provides methods to initialize the robot's control system and control its movement, 
+ * including forward, backward, turning, and stopping. It leverages a Kalman filter for state estimation 
+ * and uses PID controllers for stable motion.
+ */
 class motion_controller {
   public:
-    TB6612FNG motor;
-    PIDController pid;
-    mpu6050_base mpu;
-    KalmanFilter kfilter;
-    
-    motion_controller() : motor(TB6612FNG(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT)),
-      pid(PIDController(kp_balance, 0, kd_balance, -3000.0f, 3000.0f)),
-      mpu(mpu6050_base()), 
-      kfilter(KalmanFilter(dt, Q_angle, Q_gyro, R_angle, C_0)){};  
+    /**
+     * @brief Constructor for the motion_controller class.
+     */
+    motion_controller(){};
+
+    /**
+     * @brief Initializes the motion controller and its components.
+     * 
+     * Sets up sensors, motor drivers, interrupts, and the timer to manage the robot's balance control loop.
+     */
     void init();
-    static void balance();   // void balance(float speed, float turn);
+
+    /**
+     * @brief Balance control loop for the robot.
+     * 
+     * This function is called periodically by a timer to maintain the robot's balance. 
+     * It calculates control outputs based on sensor data and applies them to the motors.
+     */
+    static void balance();
+
+    /**
+     * @brief Moves the robot forward at the specified speed.
+     * 
+     * @param speed The forward speed for the robot (positive value).
+     */
     void moveForward(float speed);
+
+    /**
+     * @brief Moves the robot backward at the specified speed.
+     * 
+     * @param speed The backward speed for the robot (positive value).
+     */
     void moveBack(float speed);
+
+    /**
+     * @brief Turns the robot to the left at the specified rotation speed.
+     * 
+     * @param rotation_speed The angular speed for left turn (positive value).
+     */
     void turnLeft(float rotation_speed);
+
+    /**
+     * @brief Turns the robot to the right at the specified rotation speed.
+     * 
+     * @param rotation_speed The angular speed for right turn (positive value).
+     */
     void turnRight(float rotation_speed);
+
+    /**
+     * @brief Stops the robot's movement.
+     * 
+     * Sets both the forward speed and rotation speed to zero, halting all motion.
+     */
     void stop();
 
   private:
-    void checkVoltageLevel(unsigned long& lastVoltageTime);
-    void updateSensorValues();
-    void updateEncoderValues();
-    void runPitchControl();
-    void runYawControl();
-    void runPositionControl();
-    void updateMotorVelocities();
-
+    float setting_car_speed = 0;            ///< The target forward/backward speed of the robot.
+    float setting_car_rotation_speed = 0;  ///< The target rotation speed of the robot.
 };
+
+/**
+ * @brief Moves the robot forward at the specified speed.
+ * 
+ * Sets the forward speed for the robot while ensuring no rotational motion.
+ * 
+ * @param speed The forward speed for the robot (positive value).
+ */
+inline void motion_controller::moveForward(float speed){
+  setting_car_speed = speed;
+  setting_car_rotation_speed = 0;
+}
+
+/**
+ * @brief Moves the robot backward at the specified speed.
+ * 
+ * Sets the backward speed for the robot while ensuring no rotational motion.
+ * 
+ * @param speed The backward speed for the robot (positive value).
+ */
+inline void motion_controller::moveBack(float speed){
+  setting_car_speed = -speed;
+  setting_car_rotation_speed = 0;
+}
+
+/**
+ * @brief Turns the robot to the left at the specified rotation speed.
+ * 
+ * Stops forward/backward motion and sets the rotation speed for a left turn.
+ * 
+ * @param rotation_speed The angular speed for left turn (positive value).
+ */
+inline void motion_controller::turnLeft(float rotation_speed){
+  setting_car_speed = 0;
+  setting_car_rotation_speed = rotation_speed;
+}
+
+/**
+ * @brief Turns the robot to the right at the specified rotation speed.
+ * 
+ * Stops forward/backward motion and sets the rotation speed for a right turn.
+ * 
+ * @param rotation_speed The angular speed for right turn (positive value).
+ */
+inline void motion_controller::turnRight(float rotation_speed){
+  setting_car_speed = 0;
+  setting_car_rotation_speed = -rotation_speed;
+}
+
+/**
+ * @brief Stops the robot's movement.
+ * 
+ * Sets both the forward/backward and rotation speeds to zero, halting all motion.
+ */
+inline void motion_controller::stop(){
+  setting_car_speed = 0;
+  setting_car_rotation_speed = 0;
+}

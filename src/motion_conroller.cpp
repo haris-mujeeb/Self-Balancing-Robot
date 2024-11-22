@@ -1,171 +1,173 @@
 #include "motion_controller.hpp"
 #include "EnableInterrupt.hpp"
-#include "voltage.hpp"
 
-#if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
+#if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
     String debugMsg = "[Debug]";
 #endif
 
-#if defined(PLOT_MODE)
+#if (PLOT_MODE)
     String plotMsg = "";
 #endif
 
-#ifdef DEBUG_ENCODER
+#if DEBUG_ENCODER
     String debugEncoderMsg = "[Debug]";
 #endif
 
+// Constants
+constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
+constexpr uint8_t VOLTAGE_MEASUREMENT_PERIOD = 100;   // Minimum allowed voltage for operation 
+constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8;   // e.g. one time after 8 interrupt calls to balance()
 
-/* Note: 
-    'volatile' tells the compiler that the value of encoder_count_right_a can change at any time, outside of the normal program flow. 
-    This is commonly used for variables that are modified within an interrupt service routine (ISR) or by another thread. */
-// Volatile variables that track the pulse counts from the encoders.
-volatile int long encoder_count_left_a = 0; 
-volatile int long encoder_count_right_a = 0;
-volatile double pwm_left = 0;
-volatile double pwm_right = 0;
-volatile int16_t encoder_left_position = 0;
-volatile int16_t encoder_right_position = 0;
-volatile uint8_t position_control_period_count = 0;
-// volatile double left_position_pid_output = 0;
-// volatile double right_position_pid_output = 0;
-volatile double pitch_pid_output = 0;
-volatile double position_pid_output = 0;
-volatile double yaw_pid_output = 0;
-// volatile double motor_position = 0;
-volatile double encoder_speed_filtered = 0;
-volatile double encoder_speed_filtered_old = 0;
-volatile double robot_position = 0;
-volatile double setting_car_speed = 0;
-volatile double setting_car_rotation_speed = 0;
-volatile double pitch_angle = 0; 
-volatile double gyro_x = 0;
-volatile double gyro_z = 0;
-motion_controller* controller_instance = nullptr; // for attaching balance() to MsTimer2 
+// Control Gains
+constexpr double kp_balance = 55.0;
+constexpr double kd_balance = 0.75;
+constexpr double kp_position = 10*POSITION_CONTROL_FREQUENCY/8;
+constexpr double kd_position = 0;
+constexpr double ki_position = 0.26*POSITION_CONTROL_FREQUENCY/8;
+constexpr double kp_turn = 2.5;
+constexpr double kd_turn = 0.5;
 
-void encoderCounterLeftA() { encoder_count_left_a++;}
-void encoderCounterRightA() { encoder_count_right_a++;}
+// Kalman Filter and Complementary Filter Constants
+constexpr float angle_zero = 0.0f;           ///< Default zero angle for the system
+constexpr float angular_velocity_zero = 0.0f; ///< Default zero angular velocity
+constexpr float dt = 0.005f;                 ///< Time step for the control loop (in seconds)
+constexpr float Q_angle = 0.001f;            ///< Process noise covariance for angle in the Kalman filter
+constexpr float Q_gyro = 0.005f;             ///< Process noise covariance for gyro readings
+constexpr float R_angle = 0.5f;              ///< Measurement noise covariance for angle measurements
+constexpr float C_0 = 1.0f;                  ///< Kalman filter constant for angle measurement update
+constexpr float K_comp_filter = 0.05f;       ///< Complementary filter constant for sensor fusion
+
+// Volatile variables for encoder counts (due to interrupt handling)
+volatile int long encoder_count_left_a = 0;  ///< Left encoder count (updated in ISR)
+volatile int long encoder_count_right_a = 0; ///< Right encoder count (updated in ISR)
+/* 
+Note:
+    'volatile' keyword ensures the compiler does not optimize these variables, as their values may change unexpectedly due to interrupts.
+*/
 
 
+double pwm_left = 0;                         ///< Left motor PWM (control value)
+double pwm_right = 0;                        ///< Right motor PWM (control value)
+int long encoder_left_position = 0;          ///< Position of the left encoder
+int long encoder_right_position = 0;         ///< Position of the right encoder
+unsigned int position_control_period_count = 0; ///< Counter for position control frequency
+double pitch_pid_output = 0;                 ///< Output of the pitch PID controller
+double position_pid_output = 0;              ///< Output of the position PID controller
+double yaw_pid_output = 0;                  ///< Output of the yaw PID controller
+double encoder_speed_filtered = 0;           ///< Filtered encoder speed value
+double encoder_speed_filtered_old = 0;       ///< Previous filtered encoder speed value
+double robot_position = 0;                   ///< Current position of the robot
+double setting_car_speed = 0;                ///< Desired speed of the robot
+double setting_car_rotation_speed = 0;       ///< Desired rotational speed (yaw)
+float pitch_angle = 0;                       ///< Measured pitch angle
+float gyro_x = 0;                            ///< Gyro X-axis angular velocity
+float gyro_z = 0;                            ///< Gyro Z-axis angular velocity
+float voltage_value = 0;                     ///< Measured battery voltage
+
+// Instances
+motion_controller* controller_instance = nullptr; ///< Pointer to the motion controller instance for managing balance function
+TB6612FNG motors(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT); ///< Motor controller instance for controlling the motors
+mpu6050_base mpu;                               ///< MPU6050 sensor instance for motion sensing
+KalmanFilter kalman(dt, Q_angle, Q_gyro, R_angle, C_0); ///< Kalman filter instance for angle estimation
+
+// Function Declarations for controlling and updating robot state
+void checkVoltageLevel(unsigned long&);
+void updateSensorValues(float&, float&, float&);
+void runPitchControl();
+void updateEncoderValues();
+void runPositionControl();
+void runYawControl();
+void updateMotorVelocities();
+
+// Interrupt Handlers for Encoder Counts
+void encoderCounterLeftA() { encoder_count_left_a++;} ///< ISR for left encoder count (incremented on pin change)
+void encoderCounterRightA() { encoder_count_right_a++;} ///< ISR for right encoder count (incremented on pin change)
+
+/**
+ * @brief Initializes the motion controller system, setting up sensors and hardware.
+ * 
+ * This function performs the necessary setup tasks for the motion controller, including 
+ * configuring the motors, initializing the MPU sensor, enabling interrupts for encoders,
+ * and setting up a timer for the balance control function.
+ */
 void motion_controller::init(){
   controller_instance = this;
-  motor.init();
-  mpu.init();
-  voltage_init();
-  enableInterrupt(ENCODER_LEFT_A_PIN|PINCHANGEINTERRUPT, encoderCounterLeftA, CHANGE);
+  analogReference(INTERNAL);  ///< Use internal voltage reference for ADC
+  motors.init();               ///< Initialize motor controller
+  mpu.init();                  ///< Initialize MPU sensor
+
+  // Enable encoder interrupts for left and right encoder
+  enableInterrupt(ENCODER_LEFT_A_PIN | PINCHANGEINTERRUPT, encoderCounterLeftA, CHANGE);
   enableInterrupt(ENCODER_RIGHT_A_PIN, encoderCounterRightA, CHANGE);
-  MsTimer2::set(dt*1000, balance);
+
+  // Set up a timer to call the balance function at regular intervals
+  MsTimer2::set(dt * 1000, balance);
   MsTimer2::start();
+
   DEBUG_PRINT(DEBUG_MODE, "[Debug] motion_controller setup complete.");
 }
 
-void motion_controller::moveForward(float speed){
-  setting_car_speed = speed;
-  setting_car_rotation_speed = 0;
-}
-
-void motion_controller::moveBack(float speed){
-  setting_car_speed = -speed;
-  setting_car_rotation_speed = 0;
-}
-
-void motion_controller::turnLeft(float rotation_speed){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = rotation_speed;
-}
-
-void motion_controller::turnRight(float rotation_speed){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = -rotation_speed;
-}
-
-void motion_controller::stop(){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = 0;
-}
-
+/**
+ * @brief Balance control function executed periodically by the timer.
+ * 
+ * This function is responsible for maintaining the robot's balance. It checks the 
+ * voltage level, reads sensor data, computes control outputs for pitch, position, 
+ * and yaw, and applies appropriate motor speeds.
+ */
 void motion_controller::balance() {
   static unsigned long lastVoltageTime = 0; 
 
-  // stop execution if controller_instance not found.
-  if (!controller_instance) { 
-    ERROR_PRINT("[Error] no controller_instance found!");
-    // stop motors and exit funciton
-    return;
-  }
-
   // stop execution if voltage is low.
-  controller_instance->checkVoltageLevel(lastVoltageTime);
-  if(last_value <= MINIMUM_ALLOWED_VOLTAGE) {
-    // debug message
-  #ifdef DEBUG_CONTROL
-    DEBUG_PRINT(DEBUG_CONTROL ,"[Debug] Voltage low!");
-  #endif
-    // stop motors and the exit funciton
-    controller_instance->motor.stop();
+  checkVoltageLevel(lastVoltageTime);
+  if(voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
+    ERROR_PRINT("[Error] Voltage low!");  ///< Print error if voltage is below the minimum threshold
+    motors.stop();  ///< Stop the motors if voltage is insufficient
     return;
   }
 
-  // Enable global interrupts
-  sei();
+  sei();  // Enable global interrupts for sensor updates
+  updateSensorValues(pitch_angle, gyro_x, gyro_z);  // Update sensor reading
+  runPitchControl();     // Compute pitch control
+  updateEncoderValues(); // Update encoder data
 
-  
-  // Read sensor data and 
-  controller_instance->updateSensorValues();
-
-  // compute pitch angle pid control output
-  controller_instance->runPitchControl();
-
-  // update total steps taken
-  controller_instance->updateEncoderValues();
-
-  // run position control after every 8 interrupt calls 
+  // Update position and yaw control periodically
   position_control_period_count ++;
   if (position_control_period_count >= POSITION_CONTROL_FREQUENCY) {
     position_control_period_count = 0;
-    
-    // compute position pid control output
-    controller_instance->runPositionControl();
+    runPositionControl(); ///< Compute position control output
+    runYawControl();      ///< Compute yaw control output
+  }
 
-    // compute yaw angle pid control output
-    controller_instance->runYawControl();
-    
-    // Reset total distance count
-
-}
-  // update total pid output
+  // Compute PWM values for motor control
   pwm_left = pitch_pid_output - yaw_pid_output - position_pid_output;
   pwm_right = pitch_pid_output + yaw_pid_output - position_pid_output;
   
-  // Apply the control output to the motors
-  controller_instance->updateMotorVelocities();
+  // Update motor velocities with computed PWM values
+  updateMotorVelocities();
 
-#if defined(DEBUG_CONTROL) 
+  // Debugging and plotting sections
+#if DEBUG_CONTROL 
  debugMsg += "[pwn_left:" + String(pwm_left) + "]"; 
  debugMsg += "[pwn_right:" + String(pwm_right) + "]"; 
 #endif
 
-// Print Debug messages
-#ifdef DEBUG_PID_PITCH
-  debugMsg += "[PITCH PID: " + String(pitch_pid_output) + "]";
-#endif
-
-#ifdef DEBUG_PID_YAW
+#if DEBUG_PID_YAW
   debugMsg += "[YAW PID: " + String(yaw_pid_output) + "]";
 #endif
 
-#ifdef DEBUG_PID_POSITION
+#if DEBUG_PID_POSITION
   debugMsg += "[POS PID:" + String(position_pid_output) + "]";
   debugMsg += "[postion:" + String(robot_position) + "]";
 #endif
 
-#if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
+#if (DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
   DEBUG_PRINT(DEBUG_MODE, debugMsg);
   debugMsg = "[Debug]";
 #endif
 
-#if defined (PLOT_MODE)
-  plotMsg += String(controller_instance->kfilter.angle) + ","; 
-  plotMsg += String(gyro_z) + ","; 
+#if (PLOT_MODE)
+  plotMsg += String(pitch_angle) + ","; 
+  plotMsg += String(gyro_z)  + ","; 
   plotMsg += String(robot_position) + ","; 
   plotMsg += String(pitch_pid_output) + ","; 
   plotMsg += String(yaw_pid_output) + ","; 
@@ -176,7 +178,8 @@ void motion_controller::balance() {
   plotMsg = "";
 #endif
 
-#ifdef DEBUG_ENCODER
+#if DEBUG_ENCODER
+  // Debug encoder position data
   debugEncoderMsg += "[encoder_l_pos:" + String(encoder_left_position) 
     +"][encoder_r_pos:"+ String(encoder_right_position) + "]";
   DEBUG_PRINT(DEBUG_ENCODER, debugEncoderMsg)
@@ -184,44 +187,95 @@ void motion_controller::balance() {
 #endif
 }
 
-void motion_controller::checkVoltageLevel(unsigned long& lastVoltageTime) {
-  if (millis() - lastVoltageTime >= 1000) { // Call voltage_read() every 100ms
-    lastVoltageTime = millis();
-    voltage_read();
+
+// Helper Function Definitions
+
+/**
+ * @brief Checks if the voltage level of the system is within the acceptable range.
+ * 
+ * This function reads the voltage from the specified pin and updates the voltage value. 
+ * If the voltage level is below the minimum threshold, the system is stopped to prevent damage.
+ * 
+ * @param voltage_measure_time Reference to the last voltage measurement time in milliseconds.
+ */inline void checkVoltageLevel(unsigned long& voltage_measure_time) {
+  if (millis() - voltage_measure_time >= VOLTAGE_MEASUREMENT_PERIOD) { // Call voltage_read() every 100ms
+    voltage_measure_time = millis();
+    voltage_value = (analogRead(VOL_MEASURE_PIN) * 1.1 / 1024) * ((10 + 1.5) / 1.5);
+    debugMsg +=  "[voltage:" + String(voltage_value)+"]";
   }
 }
 
-void motion_controller::updateEncoderValues(){
+
+/**
+ * @brief Updates encoder position values based on the current encoder counts.
+ * 
+ * This function calculates the net encoder position by adding or subtracting the encoder counts 
+ * based on the motor's direction. The counts are then reset for the next measurement cycle.
+ */
+inline void updateEncoderValues(){
   encoder_left_position +=  pwm_left < 0 ? -encoder_count_left_a : encoder_count_left_a;
   encoder_right_position += pwm_right < 0 ? -encoder_count_right_a : encoder_count_right_a;
   encoder_count_left_a = 0;
   encoder_count_right_a = 0;
 }
 
-void motion_controller::updateSensorValues(){
-controller_instance->mpu.read_mpu_6050_data(); 
-  // update imu data
+
+/**
+ * @brief Updates the sensor values using the MPU module.
+ * 
+ * Reads data from the MPU6050 sensor to compute the pitch angle and angular velocities. 
+ * The calculated pitch angle is then processed through a Kalman filter for better estimation.
+ * 
+ * @param pitch_angle Reference to the pitch angle variable to be updated.
+ * @param gyro_x Reference to the x-axis angular velocity variable to be updated.
+ * @param gyro_z Reference to the z-axis angular velocity variable to be updated.
+ */
+inline void updateSensorValues(float& pitch_angle, float& gyro_x, float& gyro_z){
+  mpu.read_mpu_6050_data();
 
   // Compute angle and angular velocities
-  pitch_angle = atan2(controller_instance->mpu.acc_y, controller_instance->mpu.acc_z) * 57.3;
-  gyro_x = (controller_instance->mpu.gyro_x - 128.1) / 131.0;
-  gyro_z = -controller_instance->mpu.gyro_z / 131.0;
+  pitch_angle = atan2(mpu.acc_y, mpu.acc_z) * 57.3;
+  gyro_x = (mpu.gyro_x - 128.1) / 131.0;
+  gyro_z = -mpu.gyro_z / 131.0;
 
   // Update Kalman filter
-  controller_instance->kfilter.getAngle(pitch_angle, gyro_x);
+  kalman.getAngle(pitch_angle, gyro_x);
 }
 
-void motion_controller::runPitchControl() {
+
+/**
+ * @brief Executes the pitch control algorithm.
+ * 
+ * This function computes the pitch PID output based on the balance control gains, 
+ * the estimated angle from the Kalman filter, and the angular velocity.
+ */
+inline void runPitchControl() {
   // Compute balance control output
-  pitch_pid_output = kp_balance * (controller_instance->kfilter.angle - angle_zero) 
-                    + kd_balance * (controller_instance->mpu.gyro_x  - angular_velocity_zero);
+  pitch_pid_output = kp_balance * (kalman.angle - angle_zero) 
+                    + kd_balance * (gyro_x  - angular_velocity_zero);
+  Serial.print(kalman.angle);
+  Serial.println(gyro_x);
 }
 
-void motion_controller::runYawControl(){
+
+/**
+ * @brief Executes the yaw control algorithm.
+ * 
+ * Calculates the yaw PID output to control the rotational motion of the robot 
+ * using the z-axis angular velocity and desired rotation speed.
+ */
+inline void runYawControl(){
   yaw_pid_output = setting_car_rotation_speed + kd_turn * gyro_z;
 }
 
-void motion_controller::runPositionControl(){
+
+/**
+ * @brief Executes the position control algorithm.
+ * 
+ * This function uses encoder readings to compute the position PID output, 
+ * which helps in maintaining or changing the robot's position based on the target speed.
+ */
+inline void runPositionControl(){
   double encoder_speed = (encoder_left_position + encoder_right_position) * 0.5;
   encoder_left_position = 0;
   encoder_right_position = 0;
@@ -233,10 +287,14 @@ void motion_controller::runPositionControl(){
   position_pid_output = - kp_position * encoder_speed_filtered - ki_position * robot_position;
 }
 
-void motion_controller::updateMotorVelocities() {
-  // Set motor A
-  controller_instance->motor.motorA(pwm_left);
 
-  // Set motor B
-  controller_instance->motor.motorB(pwm_right);
+/**
+ * @brief Updates motor velocities based on the calculated PWM values.
+ * 
+ * This function applies the computed PWM values to the motor controller to drive the motors.
+ */
+inline void updateMotorVelocities() {
+  // Set motor A and B
+  motors.motorA(pwm_left);
+  motors.motorB(pwm_right);
 }

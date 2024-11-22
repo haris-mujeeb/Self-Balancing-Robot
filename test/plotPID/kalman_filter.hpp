@@ -1,7 +1,7 @@
 
 class KalmanFilter {
  private:
-  float dt, Q_angle, Q_gyro, R_angle, C_0;
+  float m_dt, m_Q_angle, m_Q_gyro, m_R_angle, m_C_0;
   float q_bias, angle_err;
   float Pdot[4] = {0,0,0,0};
   float P[2][2] = {{1, 0}, {0, 1}};

@@ -26,13 +26,14 @@
  * accelerometer and gyroscope for each axis (X, Y, Z).
  */
 struct IMUErrorData {
-    float AccErrorX = 0;  ///< Accelerometer error in the X axis
-    float AccErrorY = 0;  ///< Accelerometer error in the Y axis
-    float AccErrorZ = 0;  ///< Accelerometer error in the Z axis
-    float GyroErrorX = 0; ///< Gyroscope error in the X axis
-    float GyroErrorY = 0; ///< Gyroscope error in the Y axis
-    float GyroErrorZ = 0; ///< Gyroscope error in the Z axis
+    float accel_x = 0;  ///< Accelerometer error in the X axis
+    float accel_y = 0;  ///< Accelerometer error in the Y axis
+    float accel_z = 0;  ///< Accelerometer error in the Z axis
+    float gyro_x = 0; ///< Gyroscope error in the X axis
+    float gyro_y = 0; ///< Gyroscope error in the Y axis
+    float gyro_z = 0; ///< Gyroscope error in the Z axis
 };
+
 
 /**
  * @class mpu6050_base
@@ -57,29 +58,15 @@ public:
    * 
    * @param i2c_addr I2C address of the MPU6050 sensor (default 0x68).
    */
-  mpu6050_base(uint8_t i2c_addr = 0x68) : mpu6050_addr(i2c_addr), set_gyro_angles(false) {}
+  mpu6050_base(uint8_t i2c_addr = 0x68) : mpu6050_addr(i2c_addr){}
 
-  double acc_x = 0;                     ///< Accelerometer data in the X axis
-  double acc_y = 0;                     ///< Accelerometer data in the Y axis
-  double acc_z = 0;                     ///< Accelerometer data in the Z axis
-  double temp = 0;                      ///< Temperature data from the MPU6050
-  double gyro_x = 0;                    ///< Gyroscope data in the X axis
-  double gyro_y = 0;                    ///< Gyroscope data in the Y axis
-  double gyro_z = 0;                    ///< Gyroscope data in the Z axis
-  long gyro_x_cal = 0;                 ///< Calibration offset for gyroscope X axis
-  long gyro_y_cal = 0;                 ///< Calibration offset for gyroscope Y axis
-  long gyro_z_cal = 0;                 ///< Calibration offset for gyroscope Z axis
-  double angle_pitch = 0;               ///< Pitch angle calculated from sensor data
-  double angle_roll = 0;                ///< Roll angle calculated from sensor data
-  double acc_total_vector = 0;          ///< Total vector calculated from accelerometer readings
-  double angle_roll_acc = 0;            ///< Roll angle based on accelerometer data
-  double angle_pitch_acc = 0;           ///< Pitch angle based on accelerometer data
-  double angle_pitch_output = 0;        ///< Filtered pitch angle output
-  double angle_roll_output = 0;         ///< Filtered roll angle output
-  bool set_gyro_angles = false;        ///< Flag indicating whether gyro angles have been initialized
-
-  double angle_zero = 0;                ///< Zero angle for pitch axis
-  double angular_velocity_zero = 0;     ///< Zero angular velocity for pitch axis
+  float acc_x = 0;                     ///< Accelerometer data in the X axis
+  float acc_y = 0;                     ///< Accelerometer data in the Y axis
+  float acc_z = 0;                     ///< Accelerometer data in the Z axis
+  float temperature = 0;                      ///< Temperature data from the MPU6050
+  float gyro_x = 0;                    ///< Gyroscope data in the X axis
+  float gyro_y = 0;                    ///< Gyroscope data in the Y axis
+  float gyro_z = 0;                    ///< Gyroscope data in the Z axis
 
   /**
    * @brief Initializes the MPU6050 sensor and calibrates the gyroscope.
@@ -147,3 +134,5 @@ public:
    */
   void recalibrate(HardwareSerial &serialPort);
 };
+
+extern mpu6050_base mpu;

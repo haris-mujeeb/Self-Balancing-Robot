@@ -1,7 +1,7 @@
 #include "debugConfig.h"
 #include "motion_controller.hpp"
 
-motion_controller motion;
+motion_controller motionController;
 
 void inputHandle();
 
@@ -14,7 +14,7 @@ void setup() {
   // while(digitalRead(KEY_MODE));  // Stop execution until Push button is pressed.
   // DEBUG_PRINT(DEBUG_MODE, "[Debug] Starting the loop...");
 
-  motion.init();
+  motionController.init();
   DEBUG_PRINT(DEBUG_MODE, "[Debug] Robot initiated.");
 }
 
@@ -30,19 +30,19 @@ void inputHandle(){
       switch (input)
       {
       case 'w':
-        motion.moveForward(40);  // 40 or 80
+        motionController.moveForward(40);  // 40 or 80
         break;
       case 's':
-        motion.moveBack(40);  // 40 or 80
+        motionController.moveBack(40);  // 40 or 80
         break;
       case 'a':
-        motion.turnLeft(20);  // 50
+        motionController.turnLeft(20);  // 50
         break;
       case 'd':
-          motion.turnRight(20);  // 50
+          motionController.turnRight(20);  // 50
         break;
       case 'f':
-          motion.stop();  // 50
+          motionController.stop();  // 50
         break;
       default:
         break;

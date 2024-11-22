@@ -48,7 +48,7 @@ void encoderCounterRightA() { encoder_count_right_a++;}
 
 void motion_controller::init(){
   controller_instance = this;
-  motor.init();
+  motors.init();
   mpu.init();
   voltage_init();
   enableInterrupt(ENCODER_LEFT_A_PIN|PINCHANGEINTERRUPT, encoderCounterLeftA, CHANGE);
@@ -95,13 +95,13 @@ void motion_controller::balance() {
 
   // stop execution if voltage is low.
   controller_instance->checkVoltageLevel(lastVoltageTime);
-  if(last_value <= MINIMUM_ALLOWED_VOLTAGE) {
+  if(last_voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
     // debug message
   #ifdef DEBUG_CONTROL
     DEBUG_PRINT(DEBUG_CONTROL ,"[Debug] Voltage low!");
   #endif
     // stop motors and the exit funciton
-    controller_instance->motor.stop();
+    controller_instance->motors.stop();
     return;
   }
 
@@ -235,8 +235,8 @@ void motion_controller::runPositionControl(){
 
 void motion_controller::updateMotorVelocities() {
   // Set motor A
-  controller_instance->motor.motorA(pwm_left);
+  controller_instance->motors.motorA(pwm_left);
 
   // Set motor B
-  controller_instance->motor.motorB(pwm_right);
+  controller_instance->motors.motorB(pwm_right);
 }

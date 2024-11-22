@@ -29,15 +29,11 @@ constexpr float K_comp_filter = 0.05f;       // Complementary filter constant
 
 class motion_controller {
   public:
-    TB6612FNG motor;
-    PIDController pid;
+    TB6612FNG motors;
     mpu6050_base mpu;
     KalmanFilter kfilter;
     
-    motion_controller() : motor(TB6612FNG(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT)),
-      pid(PIDController(kp_balance, 0, kd_balance, -3000.0f, 3000.0f)),
-      mpu(mpu6050_base()), 
-      kfilter(KalmanFilter(dt, Q_angle, Q_gyro, R_angle, C_0)){};  
+    motion_controller(); 
     void init();
     static void balance();   // void balance(float speed, float turn);
     void moveForward(float speed);
