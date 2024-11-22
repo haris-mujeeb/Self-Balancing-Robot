@@ -56,16 +56,10 @@ public:
 
   // Core method declarations with compile-time optimizations
   void init();
-  void motorA(uint8_t speed, bool clockwise);
-  void motorB(uint8_t speed, bool clockwise);
-  void move(uint8_t speed, bool clockwise);
+  void motorA(int16_t speed);
+  void motorB(int16_t speed);
+  void move(int16_t speed);
   void stop();
-
-  // Utility methods
-  void moveCCW(uint8_t speed);
-  void moveCW(uint8_t speed);
-  void moveForw(uint8_t speed);
-  void moveBack(uint8_t speed);
 };
 
 #endif // TB6612FNG_H

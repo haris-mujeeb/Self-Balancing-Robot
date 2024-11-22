@@ -82,7 +82,7 @@ void setup() {
 }
 
 void draw() {
-    if (millis() - interval > 1000) {
+    if (millis() - interval > 100) {
         // resend single character to trigger DMP init/start
         // in case the MPU is halted/reset while applet is running
         port.write('r');

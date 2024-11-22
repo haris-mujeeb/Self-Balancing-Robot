@@ -133,12 +133,14 @@ void balanceCar() {
 #endif
 
 #if defined (PLOT_MODE)
-  plotMsg += String(pwm_left) + ","; 
-  plotMsg += String(pwm_right) + ","; 
+  plotMsg += String(kalmanfilter_angle) + ","; 
+  plotMsg += String(kalmanfilter.Gyro_z) + ","; 
+  plotMsg += String(car_speed_integeral) + ",";
   plotMsg += String(balance_control_output) + ","; 
   plotMsg += String(rotation_control_output) + ","; 
   plotMsg += String(speed_control_output) + ","; 
-  plotMsg += String(car_speed_integeral); 
+  plotMsg += String(pwm_left) + ","; 
+  plotMsg += String(pwm_right); 
   SEND_FOR_PLOT(plotMsg);
   plotMsg = "";
 #endif

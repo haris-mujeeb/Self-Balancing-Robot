@@ -22,7 +22,10 @@ void TB6612FNG::init() {
 
 
 // Motor control methods with compile-time optimization
-void TB6612FNG::motorA(uint8_t speed, bool clockwise) {
+void TB6612FNG::motorA(int16_t speed) {
+  bool clockwise = speed > 0 ? true : false;
+  speed = constrain(speed, -255, 255);
+  speed = static_cast<uint8_t>(abs(speed));
   digitalWrite(ain1Pin, clockwise ? LOW : HIGH);
 #if TWO_PINS_SINGLE_MOTOR
   digitalWrite(ain2Pin, clockwise ? HIGH : LOW);
@@ -34,7 +37,10 @@ void TB6612FNG::motorA(uint8_t speed, bool clockwise) {
 }
 
 
-void TB6612FNG::motorB(uint8_t speed, bool clockwise) {
+void TB6612FNG::motorB(int16_t speed) {
+  bool clockwise = speed > 0 ? true : false;
+  speed = constrain(speed, -255, 255);
+  speed = static_cast<uint8_t>(abs(speed));
   #if defined(MOTOR_MODE_INVERTED_PINS)
       digitalWrite(bin1Pin, clockwise ? LOW : HIGH);
   #elif defined(MOTOR_MODE_FOUR_PINS)
@@ -59,18 +65,13 @@ inline void TB6612FNG::stop() {
 }
 
 
-void TB6612FNG::move(unsigned char speed, bool clockwise) {
+void TB6612FNG::move(int16_t speed) {
   if (speed == 0) {
     stop();
   } else {
-    motorA(speed, clockwise);
-#ifdef MOTOR_MODE_INVERTED_PINS || MOTOR_MODE_FOUR_PINS
-    motorB(speed, clockwise);
+    motorA(speed);
+#if  defined(MOTOR_MODE_INVERTED_PINS) || defined(MOTOR_MODE_FOUR_PINS)
+    motorB(speed);
 #endif
   }
 }
-
-void TB6612FNG::moveCCW(unsigned char speed) { move(speed, false); }
-void TB6612FNG::moveCW(unsigned char speed) { move(speed, true); }
-void TB6612FNG::moveForw(unsigned char speed) { move(speed, false); }
-void TB6612FNG::moveBack(unsigned char speed) { move(speed, true); }

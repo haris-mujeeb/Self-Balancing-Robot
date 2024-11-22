@@ -9,11 +9,13 @@
 #include "kalman_filter.hpp"
 #include "MsTimer2.h"
 
+constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
+constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8; // e.g. one time after 8 interrupt calls to balance()
 constexpr double kp_balance = 55.0;           // PID parameter for balance control
 constexpr double kd_balance = 0.75;          // PID parameter for balance control
-constexpr double kp_position = 10;            // PID parameter for speed control
-constexpr double kd_position = 0.0012*2;            // PID parameter for speed control
-constexpr double ki_position = 0.26;            // PID parameter for speed control
+constexpr double kp_position = 10*POSITION_CONTROL_FREQUENCY/8;            // PID parameter for speed control
+constexpr double kd_position = 0;            // PID parameter for speed control
+constexpr double ki_position = 0.26*POSITION_CONTROL_FREQUENCY/8;            // PID parameter for speed control
 constexpr double kp_turn = 2.5;              // PID parameter for turning control
 constexpr double kd_turn = 0.5;              // PID parameter for turning control
 constexpr float angle_zero = 0.0f;           // Default angle zero
@@ -24,8 +26,6 @@ constexpr float Q_gyro = 0.005f;             // Process noise covariance for gyr
 constexpr float R_angle = 0.5f;              // Measurement noise covariance for angle
 constexpr float C_0 = 1.0f;                  // Kalman filter constant
 constexpr float K_comp_filter = 0.05f;       // Complementary filter constant
-constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
-constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8; // e.g. one time after 8 interrupt calls to balance()
 
 class motion_controller {
   public:

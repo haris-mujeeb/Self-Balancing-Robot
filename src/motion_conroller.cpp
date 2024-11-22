@@ -37,7 +37,7 @@ volatile double encoder_speed_filtered_old = 0;
 volatile double robot_position = 0;
 volatile double setting_car_speed = 0;
 volatile double setting_car_rotation_speed = 0;
-volatile double angle_m = 0; 
+volatile double pitch_angle = 0; 
 volatile double gyro_x = 0;
 volatile double gyro_z = 0;
 motion_controller* controller_instance = nullptr; // for attaching balance() to MsTimer2 
@@ -164,12 +164,14 @@ void motion_controller::balance() {
 #endif
 
 #if defined (PLOT_MODE)
-  plotMsg += String(pwm_left) + ","; 
-  plotMsg += String(pwm_right) + ","; 
+  plotMsg += String(controller_instance->kfilter.angle) + ","; 
+  plotMsg += String(gyro_z) + ","; 
+  plotMsg += String(robot_position) + ","; 
   plotMsg += String(pitch_pid_output) + ","; 
   plotMsg += String(yaw_pid_output) + ","; 
   plotMsg += String(position_pid_output) + ","; 
-  plotMsg += String(robot_position); 
+  plotMsg += String(pwm_left) + ","; 
+  plotMsg += String(pwm_right); 
   SEND_FOR_PLOT(true, plotMsg);
   plotMsg = "";
 #endif
@@ -197,22 +199,22 @@ void motion_controller::updateEncoderValues(){
 }
 
 void motion_controller::updateSensorValues(){
+controller_instance->mpu.read_mpu_6050_data(); 
   // update imu data
-  controller_instance->mpu.read_mpu_6050_data(); 
 
   // Compute angle and angular velocities
-  angle_m = atan2(controller_instance->mpu.acc_y, controller_instance->mpu.acc_z) * 57.3;
-  gyro_x = (controller_instance->mpu.gyro_x - 128.1) / 131;
-  gyro_z = -controller_instance->mpu.gyro_z / 131;
+  pitch_angle = atan2(controller_instance->mpu.acc_y, controller_instance->mpu.acc_z) * 57.3;
+  gyro_x = (controller_instance->mpu.gyro_x - 128.1) / 131.0;
+  gyro_z = -controller_instance->mpu.gyro_z / 131.0;
 
   // Update Kalman filter
-  controller_instance->kfilter.getAngle(angle_m, gyro_x);
+  controller_instance->kfilter.getAngle(pitch_angle, gyro_x);
 }
 
 void motion_controller::runPitchControl() {
   // Compute balance control output
   pitch_pid_output = kp_balance * (controller_instance->kfilter.angle - angle_zero) 
-                    + kd_balance * (gyro_x - angular_velocity_zero);
+                    + kd_balance * (controller_instance->mpu.gyro_x  - angular_velocity_zero);
 }
 
 void motion_controller::runYawControl(){
