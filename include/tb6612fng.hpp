@@ -122,7 +122,7 @@ public:
         pinMode(bin2Pin, OUTPUT);
         pinMode(pwmbPin, OUTPUT);
         #endif
-        DEBUG_PRINT(DEBUG_MOTOR, "[Debug] Motors initialized.");
+        DEBUG_PRINT(DEBUG_MOTOR, "Motors initialized.");
     }
 
     /**
@@ -140,7 +140,7 @@ public:
         #endif
         analogWrite(pwmaPin, speed);
         digitalWrite(stbyPin, HIGH);
-        DEBUG_PRINT(DEBUG_MOTOR, "[Debug] [speed: " + String(speed) + "] MotorA moving " + (clockwise ? "Clockwise" : "Counter-clockwise"));
+        DEBUG_PRINT(DEBUG_MOTOR, "[speed: " + String(speed) + "] MotorA moving " + (clockwise ? "Clockwise" : "Counter-clockwise"));
     }
 
     /**
@@ -160,7 +160,7 @@ public:
         #endif
         analogWrite(pwmbPin, speed);
         digitalWrite(stbyPin, HIGH);
-        DEBUG_PRINT(DEBUG_MOTOR, "[Debug] [speed: " + String(speed) + "] MotorB moving " + (clockwise ? "Clockwise" : "Counter-clockwise"));
+        DEBUG_PRINT(DEBUG_MOTOR, "[speed: " + String(speed) + "] MotorB moving " + (clockwise ? "Clockwise" : "Counter-clockwise"));
     }
 
     /**
@@ -174,7 +174,7 @@ public:
         #elif defined(MOTOR_MODE_FOUR_PINS)
         analogWrite(pwmbPin, 0);
         #endif
-        DEBUG_PRINT(DEBUG_MOTOR, "[Debug] Motors stopped.");
+        DEBUG_PRINT(DEBUG_MOTOR, "Motors stopped.");
     }
 
     /**

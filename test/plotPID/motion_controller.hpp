@@ -34,7 +34,7 @@ class motion_controller {
     KalmanFilter kfilter;
     
     motion_controller(); 
-    void init();
+    void run();
     static void balance();   // void balance(float speed, float turn);
     void moveForward(float speed);
     void moveBack(float speed);

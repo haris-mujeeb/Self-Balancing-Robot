@@ -17,7 +17,7 @@ void TB6612FNG::init() {
       pinMode(bin2Pin, OUTPUT);
       pinMode(pwmbPin, OUTPUT);
   #endif
-  DEBUG_PRINT(DEBUG_MOTOR, "[Debug] Motors initialized.");
+  DEBUG_PRINT(DEBUG_MOTOR, "Motors initialized.");
 }
 
 
@@ -32,7 +32,7 @@ void TB6612FNG::motorA(int16_t speed) {
 #endif
   analogWrite(pwmaPin, speed);
   digitalWrite(stbyPin, HIGH);
-  DEBUG_PRINT(DEBUG_MOTOR, "[Debug] [speed: " + String(speed) 
+  DEBUG_PRINT(DEBUG_MOTOR, "[speed: " + String(speed) 
     + "] MotorA moving " + (clockwise ? "Clockwise" : "Counter-clockwise"));
 }
 
@@ -49,7 +49,7 @@ void TB6612FNG::motorB(int16_t speed) {
   #endif
   analogWrite(pwmbPin, speed);
   digitalWrite(stbyPin, HIGH);
-    DEBUG_PRINT(DEBUG_MOTOR, "[Debug] [speed: " + String(speed)
+    DEBUG_PRINT(DEBUG_MOTOR, "[speed: " + String(speed)
       + "] MotorB moving " + (clockwise ? "Clockwise" : "Counter-clockwise"));
 }
 
@@ -61,7 +61,7 @@ inline void TB6612FNG::stop() {
 #elif defined(MOTOR_MODE_FOUR_PINS)
   analogWrite(pwmbPin, 0);
 #endif
-  DEBUG_PRINT(DEBUG_MOTOR, "[Debug] Motors stopped.");
+  DEBUG_PRINT(DEBUG_MOTOR, "Motors stopped.");
 }
 
 

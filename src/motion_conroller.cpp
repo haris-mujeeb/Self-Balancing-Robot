@@ -2,7 +2,7 @@
 #include "EnableInterrupt.hpp"
 
 #if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
-    String debugMsg = "[Debug]";
+    String debugMsg = "";
 #endif
 
 #if (PLOT_MODE)
@@ -10,13 +10,14 @@
 #endif
 
 #if DEBUG_ENCODER
-    String debugEncoderMsg = "[Debug]";
+    String debugEncoderMsg = "";
 #endif
 
 // Constants
 constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
 constexpr uint8_t VOLTAGE_MEASUREMENT_PERIOD = 100;   // Minimum allowed voltage for operation 
 constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8;   // e.g. one time after 8 interrupt calls to balance()
+constexpr uint16_t START_UP_TIME = 5000;  // Time for robot to stand upright.
 
 // Control Gains
 constexpr double kp_balance = 55.0;
@@ -63,9 +64,9 @@ float pitch_angle = 0;                       ///< Measured pitch angle
 float gyro_x = 0;                            ///< Gyro X-axis angular velocity
 float gyro_z = 0;                            ///< Gyro Z-axis angular velocity
 float voltage_value = 0;                     ///< Measured battery voltage
+bool disableWdt = true;
 
 // Instances
-motion_controller* controller_instance = nullptr; ///< Pointer to the motion controller instance for managing balance function
 TB6612FNG motors(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT); ///< Motor controller instance for controlling the motors
 mpu6050_base mpu;                               ///< MPU6050 sensor instance for motion sensing
 KalmanFilter kalman(dt, Q_angle, Q_gyro, R_angle, C_0); ///< Kalman filter instance for angle estimation
@@ -78,10 +79,12 @@ void updateEncoderValues();
 void runPositionControl();
 void runYawControl();
 void updateMotorVelocities();
+void checkStopConditions();
 
 // Interrupt Handlers for Encoder Counts
 void encoderCounterLeftA() { encoder_count_left_a++;} ///< ISR for left encoder count (incremented on pin change)
 void encoderCounterRightA() { encoder_count_right_a++;} ///< ISR for right encoder count (incremented on pin change)
+
 
 /**
  * @brief Initializes the motion controller system, setting up sensors and hardware.
@@ -90,8 +93,7 @@ void encoderCounterRightA() { encoder_count_right_a++;} ///< ISR for right encod
  * configuring the motors, initializing the MPU sensor, enabling interrupts for encoders,
  * and setting up a timer for the balance control function.
  */
-void motion_controller::init(){
-  controller_instance = this;
+void motion_controller::run(){
   analogReference(INTERNAL);  ///< Use internal voltage reference for ADC
   motors.init();               ///< Initialize motor controller
   mpu.init();                  ///< Initialize MPU sensor
@@ -104,7 +106,7 @@ void motion_controller::init(){
   MsTimer2::set(dt * 1000, balance);
   MsTimer2::start();
 
-  DEBUG_PRINT(DEBUG_MODE, "[Debug] motion_controller setup complete.");
+  DEBUG_PRINT(DEBUG_MODE, "motion_controller setup complete.");
 }
 
 /**
@@ -115,18 +117,27 @@ void motion_controller::init(){
  * and yaw, and applies appropriate motor speeds.
  */
 void motion_controller::balance() {
-  static unsigned long lastVoltageTime = 0; 
+  static unsigned long lastVoltageTime = 0;
+  static unsigned long balancingStartTime = 0;
 
   // stop execution if voltage is low.
   checkVoltageLevel(lastVoltageTime);
   if(voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
-    ERROR_PRINT("[Error] Voltage low!");  ///< Print error if voltage is below the minimum threshold
+    ERROR_PRINT("Voltage low!");  ///< Print error if voltage is below the minimum threshold
     motors.stop();  ///< Stop the motors if voltage is insufficient
+    balancingStartTime = millis();
     return;
   }
-
-  sei();  // Enable global interrupts for sensor updates
+  
+  // Configure watchdog timer
+  if(millis() - balancingStartTime > 3000){
+    wdt_enable(WDTO_500MS); // Watchdog timeout set to 500 milli seconds
+    disableWdt = false;
+  } 
+ 
+  sei();  // Enable global interrupts
   updateSensorValues(pitch_angle, gyro_x, gyro_z);  // Update sensor reading
+  checkStopConditions();
   runPitchControl();     // Compute pitch control
   updateEncoderValues(); // Update encoder data
 
@@ -160,9 +171,9 @@ void motion_controller::balance() {
   debugMsg += "[postion:" + String(robot_position) + "]";
 #endif
 
-#if (DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
+#if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
   DEBUG_PRINT(DEBUG_MODE, debugMsg);
-  debugMsg = "[Debug]";
+  debugMsg = "";
 #endif
 
 #if (PLOT_MODE)
@@ -174,7 +185,7 @@ void motion_controller::balance() {
   plotMsg += String(position_pid_output) + ","; 
   plotMsg += String(pwm_left) + ","; 
   plotMsg += String(pwm_right); 
-  SEND_FOR_PLOT(true, plotMsg);
+  SEND_FOR_PLOT(plotMsg);
   plotMsg = "";
 #endif
 
@@ -183,7 +194,7 @@ void motion_controller::balance() {
   debugEncoderMsg += "[encoder_l_pos:" + String(encoder_left_position) 
     +"][encoder_r_pos:"+ String(encoder_right_position) + "]";
   DEBUG_PRINT(DEBUG_ENCODER, debugEncoderMsg)
-  debugEncoderMsg = "[Debug]";
+  debugEncoderMsg = "";
 #endif
 }
 
@@ -253,8 +264,6 @@ inline void runPitchControl() {
   // Compute balance control output
   pitch_pid_output = kp_balance * (kalman.angle - angle_zero) 
                     + kd_balance * (gyro_x  - angular_velocity_zero);
-  Serial.print(kalman.angle);
-  Serial.println(gyro_x);
 }
 
 
@@ -298,3 +307,50 @@ inline void updateMotorVelocities() {
   motors.motorA(pwm_left);
   motors.motorB(pwm_right);
 }
+
+
+/**
+ * @brief Checks the stop conditions for the robot based on its pitch angle.
+ * 
+ * This function checks if the robot's pitch angle exceeds 20 degrees. If it does,
+ * the motors are stopped, and the system enters an infinite loop. The watchdog timer
+ * (WDT) will reset the system if it is not reset within the timeout period. If the 
+ * angle is within acceptable limits, the WDT is reset to continue normal operation.
+ * 
+ * @note If the watchdog timer is disabled (via `disableWdt`), the WDT is not used.
+ */
+inline void checkStopConditions(){
+  // Check if the absolute pitch angle exceeds 20 degrees and the watchdog timer (WDT) is enabled
+  if(abs(pitch_angle > 20) && !disableWdt) {
+    /**
+     * @brief Logs an error message and stops the motors if the pitch angle exceeds 20 degrees.
+     * 
+     * The system will stop the motors and enter an infinite loop. The WDT will reset the
+     * system after the timeout period if the loop is not broken (i.e., the WDT is not reset).
+     */
+    ERROR_PRINT("Angle exceeded 20 degrees! Restarting...");
+        
+    // Stop the motors to prevent further movement
+    motors.stop();
+
+     /**
+     * @brief Infinite loop to prevent further execution.
+     * 
+     * The system will stay in this loop until the WDT resets the system.
+     */
+    while (true) { 
+    // The watchdog timer will cause a system reset if the WDT is not reset within the timeout period
+    // The system will stay in this loop until it is reset by the watchdog     
+    }
+
+    // If the angle is within acceptable limits, reset the watchdog timer to keep the system running
+    } else if(!disableWdt) {
+    /**
+     * @brief Resets the watchdog timer if the system is operating normally.
+     * 
+     * This ensures that the system will not be reset by the WDT if it is functioning properly.
+     */
+    wdt_reset();     // Reset the WDT to prevent a system reset
+  }
+}
+

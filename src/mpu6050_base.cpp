@@ -46,10 +46,10 @@ void mpu6050_base::init() {
   gyro_z_cal /= CALIBRATION_SAMPLES;
 
   #ifdef DEBUG_IMU 
-    String debugMsg = "[Debug] [gyro_x_cal: " + String(gyro_x_cal)  
+    String debugMsg = "[gyro_x_cal: " + String(gyro_x_cal)  
         + "] [gyro_y_cal: " + String(gyro_y_cal) + "] [gyro_z_cal: " + String(gyro_z_cal) + "]";  
     DEBUG_PRINT(DEBUG_IMU, debugMsg);
-    DEBUG_PRINT(DEBUG_IMU, "[Debug] IMU started.");  
+    DEBUG_PRINT(DEBUG_IMU, "IMU started.");  
   #endif
 }
 
@@ -157,12 +157,12 @@ void mpu6050_base::read_mpu_6050_data() {
   }
 
   #ifdef DEBUG_IMU 
-    String debugMsg = "[Debug] [acc_x: " + String(acc_x)  
+    String debugMsg = "[acc_x: " + String(acc_x)  
         + "] [gyro_x: " + String(gyro_x) + "] [gyro_z: " + String(gyro_z) + "]";  
     DEBUG_PRINT(DEBUG_IMU, debugMsg);
   #endif
 
-  ERROR_PRINT("[Error] Data cannot be read from MPU6050!");
+  ERROR_PRINT("Data cannot be read from MPU6050!");
 }
 
 

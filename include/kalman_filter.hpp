@@ -95,7 +95,7 @@ class KalmanFilter {
 
     // Debugging output for Kalman filter state
   #ifdef DEBUG_KALMAN
-    String debugMsg = "[Debug] [Kalman values] [angle:" + String(angle) +
+    String debugMsg = "[Kalman values] [angle:" + String(angle) +
                 "] [q_bias:" + String(q_bias) + "] [angle_dot: " + String(angle_dot) + "]";
     DEBUG_PRINT(DEBUG_KALMAN, debugMsg);
   #endif

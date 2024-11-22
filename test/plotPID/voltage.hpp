@@ -21,7 +21,7 @@ void voltage_init() {
     last_value = 0;                // Initialize the last_value to 0 (or an appropriate baseline)
     
     #ifdef DEBUG_VOLTAGE  // If voltage debug mode is enabled in the configuration
-        DEBUG_PRINT(DEBUG_VOLTAGE, "[Debug] Voltage sensor initialized.");
+        DEBUG_PRINT(DEBUG_VOLTAGE, "Voltage sensor initialized.");
     #endif
 }
 
@@ -45,7 +45,7 @@ float voltage_read() {
     last_value = voltage;
 
     #ifdef DEBUG_VOLTAGE  // If voltage debug mode is enabled
-        String debugMsg = "[Debug] Voltage reading: " + String(voltage) + "V";
+        String debugMsg = "Voltage reading: " + String(voltage) + "V";
         DEBUG_PRINT(DEBUG_VOLTAGE, debugMsg);  // Print the voltage reading to serial for debugging
     #endif
 

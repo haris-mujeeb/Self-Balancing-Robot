@@ -19,7 +19,7 @@ void mpu6050_base::init() {
 
   // Initialize timer for control loop
   loop_timer = micros();  // To calculate microseconds
-  DEBUG_PRINT(DEBUG_IMU, "[Debug] IMU started.");  
+  DEBUG_PRINT(DEBUG_IMU, "IMU started.");  
 }
 
 
@@ -105,7 +105,7 @@ void mpu6050_base::read_mpu_6050_data() {
     gyro_x = Wire.read() << 8 | Wire.read();
     gyro_y = Wire.read() << 8 | Wire.read();
     gyro_z = Wire.read() << 8 | Wire.read();
-    DEBUG_PRINT(DEBUG_IMU, "[Debug] data read from MPU6060 sucessfull.");
+    DEBUG_PRINT(DEBUG_IMU, "data read from MPU6060 sucessfull.");
   };
 };
 
@@ -131,7 +131,7 @@ IMUErrorData mpu6050_base::calculate_IMU_error() {
   imuError.GyroErrorY /= MPU6050_READINGS;
   imuError.GyroErrorZ /= MPU6050_READINGS;
 
-  String debugMsg = "[Debug] imu error data " 
+  String debugMsg = "imu error data " 
     + String(imuError.AccErrorX)  + ", " + String(imuError.AccErrorY)
     + ", " + String(imuError.AccErrorZ) + ", " + String(imuError.GyroErrorX)
     + ", " + String(imuError.GyroErrorY) + ", " + String(imuError.GyroErrorZ);
@@ -143,7 +143,7 @@ IMUErrorData mpu6050_base::calculate_IMU_error() {
 IMUErrorData mpu6050_base::calculate_IMU_error(HardwareSerial &serialPort) {
   IMUErrorData imuError = mpu6050_base::calculate_IMU_error(); 
   // Print the error values on the Serial Monitor
-  String debugMsg = "[Debug] IMU Error Data: AccErrorX=" + String(imuError.AccErrorX)
+  String debugMsg = "IMU Error Data: AccErrorX=" + String(imuError.AccErrorX)
                 + ", AccErrorY=" + String(imuError.AccErrorY)
                 + ", AccErrorZ=" + String(imuError.AccErrorZ)
                 + ", GyroErrorX=" + String(imuError.GyroErrorX)
@@ -174,7 +174,7 @@ void mpu6050_base::recalibrate() {
 
 void mpu6050_base::recalibrate(HardwareSerial &serialPort) {
   recalibrate();
-  String debugMsg = String("[Debug] Re-calibration complete ") + 
+  String debugMsg = String("Re-calibration complete ") + 
   String("[Zero Angle: ") + String(angle_zero) + String("] [Zero Angular Velocity: ") 
   + String(angular_velocity_zero) + String("]");
   DEBUG_PRINT(DEBUG_IMU, debugMsg);

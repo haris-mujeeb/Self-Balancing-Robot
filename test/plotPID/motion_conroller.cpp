@@ -2,16 +2,16 @@
 #include "EnableInterrupt.hpp"
 #include "voltage.hpp"
 
-#if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
-    String debugMsg = "[Debug]";
+#if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
+    String debugMsg = "";
 #endif
 
-#if defined(PLOT_MODE)
+#if (PLOT_MODE)
     String plotMsg = "";
 #endif
 
 #ifdef DEBUG_ENCODER
-    String debugEncoderMsg = "[Debug]";
+    String debugEncoderMsg = "";
 #endif
 
 
@@ -46,16 +46,20 @@ void encoderCounterLeftA() { encoder_count_left_a++;}
 void encoderCounterRightA() { encoder_count_right_a++;}
 
 
-void motion_controller::init(){
+void motion_controller::run(){
   controller_instance = this;
   motors.init();
   mpu.init();
   voltage_init();
   enableInterrupt(ENCODER_LEFT_A_PIN|PINCHANGEINTERRUPT, encoderCounterLeftA, CHANGE);
   enableInterrupt(ENCODER_RIGHT_A_PIN, encoderCounterRightA, CHANGE);
+}
+
+
+void motion_controller::run(){
   MsTimer2::set(dt*1000, balance);
   MsTimer2::start();
-  DEBUG_PRINT(DEBUG_MODE, "[Debug] motion_controller setup complete.");
+  DEBUG_PRINT(DEBUG_MODE, "motion_controller setup complete.");
 }
 
 void motion_controller::moveForward(float speed){
@@ -88,7 +92,7 @@ void motion_controller::balance() {
 
   // stop execution if controller_instance not found.
   if (!controller_instance) { 
-    ERROR_PRINT("[Error] no controller_instance found!");
+    ERROR_PRINT("no controller_instance found!");
     // stop motors and exit funciton
     return;
   }
@@ -98,7 +102,7 @@ void motion_controller::balance() {
   if(last_voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
     // debug message
   #ifdef DEBUG_CONTROL
-    DEBUG_PRINT(DEBUG_CONTROL ,"[Debug] Voltage low!");
+    DEBUG_PRINT(DEBUG_CONTROL ,"Voltage low!");
   #endif
     // stop motors and the exit funciton
     controller_instance->motors.stop();
@@ -139,7 +143,7 @@ void motion_controller::balance() {
   // Apply the control output to the motors
   controller_instance->updateMotorVelocities();
 
-#if defined(DEBUG_CONTROL) 
+#if (DEBUG_CONTROL) 
  debugMsg += "[pwn_left:" + String(pwm_left) + "]"; 
  debugMsg += "[pwn_right:" + String(pwm_right) + "]"; 
 #endif
@@ -158,12 +162,12 @@ void motion_controller::balance() {
   debugMsg += "[postion:" + String(robot_position) + "]";
 #endif
 
-#if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
+#if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
   DEBUG_PRINT(DEBUG_MODE, debugMsg);
-  debugMsg = "[Debug]";
+  debugMsg = "";
 #endif
 
-#if defined (PLOT_MODE)
+#if (PLOT_MODE)
   plotMsg += String(controller_instance->kfilter.angle) + ","; 
   plotMsg += String(gyro_z) + ","; 
   plotMsg += String(robot_position) + ","; 
@@ -180,7 +184,7 @@ void motion_controller::balance() {
   debugEncoderMsg += "[encoder_l_pos:" + String(encoder_left_position) 
     +"][encoder_r_pos:"+ String(encoder_right_position) + "]";
   DEBUG_PRINT(DEBUG_ENCODER, debugEncoderMsg)
-  debugEncoderMsg = "[Debug]";
+  debugEncoderMsg = "";
 #endif
 }
 

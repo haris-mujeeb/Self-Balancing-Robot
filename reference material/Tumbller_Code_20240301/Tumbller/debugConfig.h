@@ -30,11 +30,7 @@
 
 
 #if PLOT_MODE
-  #define SEND_FOR_PLOT(x) \
-    Serial.println(x); 
-#else
-  #define SEND_FOR_PLOT(module, x) 
-#endif
+  #define SEND_FOR_PLOT(x) Serial.println(x); 
 
 
 // Macro for error messages (always active)

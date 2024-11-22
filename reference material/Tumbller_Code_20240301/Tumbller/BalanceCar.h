@@ -19,7 +19,7 @@
 MPU6050 mpu;
 KalmanFilter kalmanfilter;
 
-String debugMsg = "[Debug]";
+String debugMsg = "";
 String plotMsg = "";
 
 //Setting PID parameters
@@ -108,7 +108,7 @@ void balanceCar() {
   pwm_left = constrain(pwm_left, -255, 255);
   pwm_right = constrain(pwm_right, -255, 255);
 
-  #if defined(DEBUG_CONTROL) 
+  #if (DEBUG_CONTROL) 
   debugMsg += "[pwn_left:" + String(pwm_left) + "]"; 
   debugMsg += "[pwn_right:" + String(pwm_right) + "]"; 
   #endif
@@ -127,12 +127,12 @@ void balanceCar() {
   debugMsg += "[postion:" + String(car_speed_integeral) + "]";
 #endif`
 
-#if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
+#if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
   DEBUG_PRINT(DEBUG_MODE, debugMsg);
-  debugMsg = "[Debug]";
+  debugMsg = "";
 #endif
 
-#if defined (PLOT_MODE)
+#if (PLOT_MODE)
   plotMsg += String(kalmanfilter_angle) + ","; 
   plotMsg += String(kalmanfilter.Gyro_z) + ","; 
   plotMsg += String(car_speed_integeral) + ",";

@@ -8,6 +8,8 @@
 #include "mpu6050_base.hpp"
 #include "kalman_filter.hpp"
 #include "MsTimer2.h"
+#include <avr/wdt.h>
+
 
 /**
  * @class motion_controller
@@ -23,13 +25,13 @@ class motion_controller {
      * @brief Constructor for the motion_controller class.
      */
     motion_controller(){};
-
+    
     /**
      * @brief Initializes the motion controller and its components.
      * 
      * Sets up sensors, motor drivers, interrupts, and the timer to manage the robot's balance control loop.
      */
-    void init();
+    void run();
 
     /**
      * @brief Balance control loop for the robot.

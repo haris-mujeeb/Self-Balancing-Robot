@@ -1,7 +1,7 @@
 #pragma once
 
 // plot mode (for plotting pitch angle , yaw angle and position along with there correspoing pid output values)
-#define PLOT_MODE true      
+#define PLOT_MODE false      
 
 // Global debug mode (set to false to disable all debugging)
 #define DEBUG_MODE false     
@@ -22,7 +22,7 @@
       if (module) { \
         Serial.print("[time: "); \
         Serial.print(String(millis())); \
-        Serial.print("] "); \
+        Serial.print("][Debug] "); \
         Serial.println(x); \
       }
 #else
@@ -30,11 +30,16 @@
 #endif
 
 #if PLOT_MODE
-  #define SEND_FOR_PLOT(module, x) \
-      if (module) { Serial.println(x); }
+  #define SEND_FOR_PLOT(x) Serial.println(x);
 #else
   #define SEND_FOR_PLOT(module, x)
 #endif
 
 // Macro for error messages (always active)
-#define ERROR_PRINT(x) Serial.println(x)
+#define ERROR_PRINT(x) \
+  do { \
+    Serial.print("[time: "); \
+    Serial.print(String(millis())); \
+    Serial.print("][ERROR]"); \
+    Serial.println(x); \
+  } while(0)
