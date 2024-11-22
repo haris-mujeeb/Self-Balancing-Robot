@@ -18,14 +18,14 @@ constexpr double kp_turn = 2.5;              // PID parameter for turning contro
 constexpr double kd_turn = 0.5;              // PID parameter for turning control
 constexpr float angle_zero = 0.0f;           // Default angle zero
 constexpr float angular_velocity_zero = 0.0f; // Default angular velocity zero
-constexpr float dt = 0.005f;                 // Time step for control loop
+constexpr float dt = 0.007f;                 // Time step for control loop
 constexpr float Q_angle = 0.001f;            // Process noise covariance for angle
 constexpr float Q_gyro = 0.005f;             // Process noise covariance for gyro
 constexpr float R_angle = 0.5f;              // Measurement noise covariance for angle
 constexpr float C_0 = 1.0f;                  // Kalman filter constant
 constexpr float K_comp_filter = 0.05f;       // Complementary filter constant
 constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 6.0;   // Minimum allowed voltage for operation 
-constexpr uint8_t POSITION_CONTROL_FREQUENCY = 0; // e.g. one time after 8 interrupt calls to balance()
+constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8; // e.g. one time after 8 interrupt calls to balance()
 
 class motion_controller {
   public:

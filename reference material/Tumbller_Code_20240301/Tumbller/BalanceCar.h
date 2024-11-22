@@ -10,12 +10,17 @@
 #include "KalmanFilter.h"
 #include "I2Cdev.h"
 #include "EnableInterrupt.h"
+#include "debugConfig.h"
+
 //#include "MPU6050_6Axis_MotionApps20.h"
 
 #include "MPU6050.h"
 #include "Wire.h"
 MPU6050 mpu;
 KalmanFilter kalmanfilter;
+
+String debugMsg = "[Debug]";
+String plotMsg = "";
 
 //Setting PID parameters
 
@@ -100,9 +105,44 @@ void balanceCar() {
 
   pwm_left = balance_control_output - speed_control_output - rotation_control_output;
   pwm_right = balance_control_output - speed_control_output + rotation_control_output;
-
   pwm_left = constrain(pwm_left, -255, 255);
   pwm_right = constrain(pwm_right, -255, 255);
+
+  #if defined(DEBUG_CONTROL) 
+  debugMsg += "[pwn_left:" + String(pwm_left) + "]"; 
+  debugMsg += "[pwn_right:" + String(pwm_right) + "]"; 
+  #endif
+
+  // Print Debug messages
+#ifdef DEBUG_PID_PITCH
+  debugMsg += "[PITCH PID: " + String(balance_control_output) + "]";
+#endif
+
+#ifdef DEBUG_PID_YAW
+  debugMsg += "[YAW PID: " + String(rotation_control_output) + "]";
+#endif
+
+#ifdef DEBUG_PID_POSITION
+  debugMsg += "[POS PID:" + String(speed_control_output) + "]";
+  debugMsg += "[postion:" + String(car_speed_integeral) + "]";
+#endif`
+
+#if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
+  DEBUG_PRINT(DEBUG_MODE, debugMsg);
+  debugMsg = "[Debug]";
+#endif
+
+#if defined (PLOT_MODE)
+  plotMsg += String(pwm_left) + ","; 
+  plotMsg += String(pwm_right) + ","; 
+  plotMsg += String(balance_control_output) + ","; 
+  plotMsg += String(rotation_control_output) + ","; 
+  plotMsg += String(speed_control_output) + ","; 
+  plotMsg += String(car_speed_integeral); 
+  SEND_FOR_PLOT(plotMsg);
+  plotMsg = "";
+#endif
+
   if (motion_mode != START && motion_mode != STOP && (kalmanfilter_angle < balance_angle_min || balance_angle_max < kalmanfilter_angle))
   {
     motion_mode = STOP;

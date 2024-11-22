@@ -14,6 +14,7 @@
 #define DEBUG_PID_POSITION false  // Debugging for PID control for Pitch
 #define DEBUG_ENCODER false  // Debugging for Motor incremental encoders
 
+
 // Macro for conditional debugging
 #if DEBUG_MODE
   #define DEBUG_PRINT(module, x) \
@@ -27,12 +28,14 @@
   #define DEBUG_PRINT(module, x)
 #endif
 
+
 #if PLOT_MODE
-  #define SEND_FOR_PLOT(module, x) \
-      if (module) { Serial.println(x); }
+  #define SEND_FOR_PLOT(x) \
+    Serial.println(x); 
 #else
-  #define SEND_FOR_PLOT(module, x)
+  #define SEND_FOR_PLOT(module, x) 
 #endif
+
 
 // Macro for error messages (always active)
 #define ERROR_PRINT(x) Serial.println(x)

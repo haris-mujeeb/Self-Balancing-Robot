@@ -6,6 +6,10 @@
     String debugMsg = "[Debug]";
 #endif
 
+#if defined(PLOT_MODE)
+    String plotMsg = "";
+#endif
+
 #ifdef DEBUG_ENCODER
     String debugEncoderMsg = "[Debug]";
 #endif
@@ -17,8 +21,8 @@
 // Volatile variables that track the pulse counts from the encoders.
 volatile int long encoder_count_left_a = 0; 
 volatile int long encoder_count_right_a = 0;
-volatile int16_t pwm_left = 0;
-volatile int16_t pwm_right = 0;
+volatile double pwm_left = 0;
+volatile double pwm_right = 0;
 volatile int16_t encoder_left_position = 0;
 volatile int16_t encoder_right_position = 0;
 volatile uint8_t position_control_period_count = 0;
@@ -33,9 +37,9 @@ volatile double encoder_speed_filtered_old = 0;
 volatile double robot_position = 0;
 volatile double setting_car_speed = 0;
 volatile double setting_car_rotation_speed = 0;
-volatile float angle_m = 0; 
-volatile float gyro_x = 0;
-volatile float gyro_z = 0;
+volatile double angle_m = 0; 
+volatile double gyro_x = 0;
+volatile double gyro_z = 0;
 motion_controller* controller_instance = nullptr; // for attaching balance() to MsTimer2 
 
 void encoderCounterLeftA() { encoder_count_left_a++;}
@@ -152,11 +156,22 @@ void motion_controller::balance() {
 #ifdef DEBUG_PID_POSITION
   debugMsg += "[POS PID:" + String(position_pid_output) + "]";
   debugMsg += "[postion:" + String(robot_position) + "]";
-#endif`
+#endif
 
 #if defined(DEBUG_CONTROL) || defined(DEBUG_PID_PITCH) || defined(DEBUG_PID_YAW) || defined(DEBUG_PID_POSITION)
   DEBUG_PRINT(DEBUG_MODE, debugMsg);
   debugMsg = "[Debug]";
+#endif
+
+#if defined (PLOT_MODE)
+  plotMsg += String(pwm_left) + ","; 
+  plotMsg += String(pwm_right) + ","; 
+  plotMsg += String(pitch_pid_output) + ","; 
+  plotMsg += String(yaw_pid_output) + ","; 
+  plotMsg += String(position_pid_output) + ","; 
+  plotMsg += String(robot_position); 
+  SEND_FOR_PLOT(true, plotMsg);
+  plotMsg = "";
 #endif
 
 #ifdef DEBUG_ENCODER
@@ -168,7 +183,7 @@ void motion_controller::balance() {
 }
 
 void motion_controller::checkVoltageLevel(unsigned long& lastVoltageTime) {
-  if (millis() - lastVoltageTime >= 100) { // Call voltage_read() every 100ms
+  if (millis() - lastVoltageTime >= 1000) { // Call voltage_read() every 100ms
     lastVoltageTime = millis();
     voltage_read();
   }
@@ -197,11 +212,7 @@ void motion_controller::updateSensorValues(){
 void motion_controller::runPitchControl() {
   // Compute balance control output
   pitch_pid_output = kp_balance * (controller_instance->kfilter.angle - angle_zero) 
-                                + kd_balance * (gyro_x - angular_velocity_zero);
-
-  // Constrain control output and update motor PWM values
-  pwm_left = pitch_pid_output;
-  pwm_right = pitch_pid_output;
+                    + kd_balance * (gyro_x - angular_velocity_zero);
 }
 
 void motion_controller::runYawControl(){
