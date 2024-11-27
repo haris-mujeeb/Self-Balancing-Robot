@@ -1,0 +1,32 @@
+\doxysection{ei\+\_\+portk\+\_\+speed.\+h}
+\hypertarget{src_2utility_2ei__portk__speed_8h_source}{}\label{src_2utility_2ei__portk__speed_8h_source}\index{src/utility/ei\_portk\_speed.h@{src/utility/ei\_portk\_speed.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA8}}
+\DoxyCodeLine{00003\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ INTERRUPT\_FLAG\_PINA8++;}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA9}}
+\DoxyCodeLine{00006\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ INTERRUPT\_FLAG\_PINA9++;}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA10}}
+\DoxyCodeLine{00009\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ INTERRUPT\_FLAG\_PINA10++;}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA11}}
+\DoxyCodeLine{00012\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ INTERRUPT\_FLAG\_PINA11++;}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA12}}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ INTERRUPT\_FLAG\_PINA12++;}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA13}}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ INTERRUPT\_FLAG\_PINA13++;}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA14}}
+\DoxyCodeLine{00021\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ INTERRUPT\_FLAG\_PINA14++;}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PINA15}}
+\DoxyCodeLine{00024\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ INTERRUPT\_FLAG\_PINA15++;}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

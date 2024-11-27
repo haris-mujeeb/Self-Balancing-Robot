@@ -1,0 +1,144 @@
+\doxysection{tb6612fng.\+hpp}
+\hypertarget{include_2tb6612fng_8hpp_source}{}\label{include_2tb6612fng_8hpp_source}\index{include/tb6612fng.hpp@{include/tb6612fng.hpp}}
+\mbox{\hyperlink{include_2tb6612fng_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ TB6612FNG\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ TB6612FNG\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{include_2pins_8hpp}{pins.hpp}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}debugConfig.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Compile-\/time\ configuration\ modes}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ Uncomment\ one\ of\ the\ following\ to\ enable\ the\ desired\ motor\ control\ mode:}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \#define\ MOTOR\_MODE\_SINGLE\_DIRECTION\ \ ///<\ Use\ two\ pins\ per\ motor\ (single\ direction\ mode).}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ MOTOR\_MODE\_INVERTED\_PINS\ \ \ \ \ \ \ }}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ \#define\ MOTOR\_MODE\_FOUR\_PINS\ \ \ \ \ \ \ \ \ ///<\ Use\ four\ pins\ per\ motor\ for\ advanced\ control.}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_t_b6612_f_n_g}{TB6612FNG}}\ \{}
+\DoxyCodeLine{00028\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ Motor\ driver\ pin\ definitions\ based\ on\ selected\ mode}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#if\ defined(MOTOR\_MODE\_SINGLE\_DIRECTION)}}
+\DoxyCodeLine{00031\ \ \ \ \ uint16\_t\ stbyPin;\ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ uint16\_t\ ain1Pin;\ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ uint16\_t\ ain2Pin;\ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ uint16\_t\ pwmaPin;\ \ \ \ \ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#elif\ defined(MOTOR\_MODE\_INVERTED\_PINS)}}
+\DoxyCodeLine{00036\ \ \ \ \ uint16\_t\ stbyPin;\ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ uint16\_t\ ain1Pin;\ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ uint16\_t\ bin1Pin;\ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ uint16\_t\ pwmaPin;\ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ uint16\_t\ pwmbPin;\ \ \ \ \ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#elif\ defined(MOTOR\_MODE\_FOUR\_PINS)}}
+\DoxyCodeLine{00042\ \ \ \ \ uint16\_t\ stbyPin;\ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ uint16\_t\ ain1Pin;\ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ uint16\_t\ ain2Pin;\ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ uint16\_t\ bin1Pin;\ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ uint16\_t\ bin2Pin;\ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ uint16\_t\ pwmaPin;\ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ uint16\_t\ pwmbPin;\ \ \ \ \ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ \#error\ "{}No\ motor\ mode\ defined.\ Please\ define\ one\ of\ MOTOR\_MODE\_SINGLE\_DIRECTION,\ MOTOR\_MODE\_INVERTED\_PINS,\ or\ MOTOR\_MODE\_FOUR\_PINS."{}}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{//\ Constructors\ for\ the\ motor\ driver,\ tailored\ to\ the\ selected\ configuration}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#if\ defined(MOTOR\_MODE\_SINGLE\_DIRECTION)}}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ad992abc39f283257fb85e1e7884e7b6a}{TB6612FNG}}(uint16\_t\ stby,\ uint16\_t\ ain1,\ uint16\_t\ ain2,\ uint16\_t\ pwma)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ stbyPin\ =\ stby;\ ain1Pin\ =\ ain1;\ ain2Pin\ =\ ain2;\ pwmaPin\ =\ pwma;}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#if\ defined(MOTOR\_MODE\_INVERTED\_PINS)}}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_aec6d80113ecb062870b55bb79c6e0e9a}{TB6612FNG}}(uint16\_t\ stby,\ uint16\_t\ ain1,\ uint16\_t\ bin1,\ uint16\_t\ pwma,\ uint16\_t\ pwmb)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ stbyPin\ =\ stby;\ ain1Pin\ =\ ain1;\ bin1Pin\ =\ bin1;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ pwmaPin\ =\ pwma;\ pwmbPin\ =\ pwmb;}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#if\ defined(MOTOR\_MODE\_FOUR\_PINS)}}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ad992abc39f283257fb85e1e7884e7b6a}{TB6612FNG}}(uint16\_t\ stby,\ uint16\_t\ ain1,\ uint16\_t\ ain2,\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint16\_t\ bin1,\ uint16\_t\ bin2,\ uint16\_t\ pwma,\ uint16\_t\ pwmb)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ stbyPin\ =\ stby;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ ain1Pin\ =\ ain1;\ ain2Pin\ =\ ain2;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ bin1Pin\ =\ bin1;\ bin2Pin\ =\ bin2;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ pwmaPin\ =\ pwma;\ pwmbPin\ =\ pwmb;}
+\DoxyCodeLine{00103\ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a0079f87445ae8cd84d9d2635501cb03e}{init}}()\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ pinMode(stbyPin,\ OUTPUT);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ pinMode(ain1Pin,\ OUTPUT);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ pinMode(pwmaPin,\ OUTPUT);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(MOTOR\_MODE\_SINGLE\_DIRECTION)}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ pinMode(ain2Pin,\ OUTPUT);}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(MOTOR\_MODE\_INVERTED\_PINS)}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ pinMode(bin1Pin,\ OUTPUT);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ pinMode(pwmbPin,\ OUTPUT);}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(MOTOR\_MODE\_FOUR\_PINS)}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ pinMode(ain2Pin,\ OUTPUT);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ pinMode(bin1Pin,\ OUTPUT);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ pinMode(bin2Pin,\ OUTPUT);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ pinMode(pwmbPin,\ OUTPUT);}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ DEBUG\_PRINT(DEBUG\_MOTOR,\ \textcolor{stringliteral}{"{}Motors\ initialized."{}});}
+\DoxyCodeLine{00126\ \ \ \ \ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_ae3d7b26b114008f87c219e9c2a6f9fc4}{motorA}}(int16\_t\ speed)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ clockwise\ =\ speed\ >\ 0;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ speed\ =\ constrain(speed,\ -\/255,\ 255);}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ speed\ =\ abs(speed);}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ digitalWrite(ain1Pin,\ clockwise\ ?\ LOW\ :\ HIGH);}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ TWO\_PINS\_SINGLE\_MOTOR}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ digitalWrite(ain2Pin,\ clockwise\ ?\ HIGH\ :\ LOW);}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ analogWrite(pwmaPin,\ speed);}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ digitalWrite(stbyPin,\ HIGH);}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ DEBUG\_PRINT(DEBUG\_MOTOR,\ \textcolor{stringliteral}{"{}[speed:\ "{}}\ +\ String(speed)\ +\ \textcolor{stringliteral}{"{}]\ MotorA\ moving\ "{}}\ +\ (clockwise\ ?\ \textcolor{stringliteral}{"{}Clockwise"{}}\ :\ \textcolor{stringliteral}{"{}Counter-\/clockwise"{}}));}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a9b03eea41b9a92efd53663f519fba7e4}{motorB}}(int16\_t\ speed)\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ clockwise\ =\ speed\ >\ 0;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ speed\ =\ constrain(speed,\ -\/255,\ 255);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ speed\ =\ abs(speed);}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ defined(MOTOR\_MODE\_INVERTED\_PINS)}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ digitalWrite(bin1Pin,\ clockwise\ ?\ LOW\ :\ HIGH);}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(MOTOR\_MODE\_FOUR\_PINS)}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ digitalWrite(bin1Pin,\ clockwise\ ?\ LOW\ :\ HIGH);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ digitalWrite(bin2Pin,\ clockwise\ ?\ HIGH\ :\ LOW);}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ analogWrite(pwmbPin,\ speed);}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ digitalWrite(stbyPin,\ HIGH);}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ DEBUG\_PRINT(DEBUG\_MOTOR,\ \textcolor{stringliteral}{"{}[speed:\ "{}}\ +\ String(speed)\ +\ \textcolor{stringliteral}{"{}]\ MotorB\ moving\ "{}}\ +\ (clockwise\ ?\ \textcolor{stringliteral}{"{}Clockwise"{}}\ :\ \textcolor{stringliteral}{"{}Counter-\/clockwise"{}}));}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_ab4591356984459671d43426e6835ce97}{stop}}()\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ digitalWrite(stbyPin,\ LOW);}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ analogWrite(pwmaPin,\ 0);}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ MOTOR\_MODE\_INVERTED\_PINS}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ analogWrite(pwmbPin,\ 0);}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#elif\ defined(MOTOR\_MODE\_FOUR\_PINS)}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ analogWrite(pwmbPin,\ 0);}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ DEBUG\_PRINT(DEBUG\_MOTOR,\ \textcolor{stringliteral}{"{}Motors\ stopped."{}});}
+\DoxyCodeLine{00178\ \ \ \ \ \}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a17d2f95be759b5a4e18ed9231aaece0d}{move}}(int16\_t\ speed)\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (speed\ ==\ 0)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ab4591356984459671d43426e6835ce97}{stop}}();}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ae3d7b26b114008f87c219e9c2a6f9fc4}{motorA}}(speed);}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#if\ defined(MOTOR\_MODE\_INVERTED\_PINS)\ ||\ defined(MOTOR\_MODE\_FOUR\_PINS)}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_a9b03eea41b9a92efd53663f519fba7e4}{motorB}}(speed);}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{class_t_b6612_f_n_g}{TB6612FNG}}\ motors;}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TB6612FNG\_H}}
+
+\end{DoxyCode}

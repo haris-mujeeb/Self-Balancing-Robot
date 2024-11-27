@@ -1,0 +1,38 @@
+\doxysection{ei\+\_\+\+Pin\+Change\+Tiny25.\+h}
+\hypertarget{src_2utility_2ei___pin_change_tiny25_8h_source}{}\label{src_2utility_2ei___pin_change_tiny25_8h_source}\index{src/utility/ei\_PinChangeTiny25.h@{src/utility/ei\_PinChangeTiny25.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_RISING}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00003\ \ \ risingPinsPORTB\ |=\ portMask;}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_RISING}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_FALLING}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00009\ \ \ fallingPinsPORTB\ |=\ portMask;}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_FALLING}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#if\ defined\ EI\_SECTION\_ASSIGNFUNCTIONSREGISTERS}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00016\ \ \ calculatedPointer=\&portBFunctions.pinZero\ +\ portBitNumber;}
+\DoxyCodeLine{00017\ \ \ *calculatedPointer\ =\ userFunction;}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00019\ \ \ portSnapshotB=*portInputRegister(portNumber);}
+\DoxyCodeLine{00020\ \ \ pcmsk=\&PCMSK;}
+\DoxyCodeLine{00021\ \ \ GIMSK\ |=\ \_BV(5);}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_ASSIGNFUNCTIONSREGISTERS}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_DISABLEPINCHANGE}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00027\ \ \ PCMSK\ \&=\ \string~portMask;}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordflow}{if}\ (PCMSK\ ==\ 0)\ \{\ GIMSK\ \&=\ \string~\_BV(5);\ \};}
+\DoxyCodeLine{00029\ \ \ risingPinsPORTB\ \&=\ \string~portMask;}
+\DoxyCodeLine{00030\ \ \ fallingPinsPORTB\ \&=\ \string~portMask;}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_DISABLEPINCHANGE}}
+
+\end{DoxyCode}

@@ -1,0 +1,460 @@
+\doxysection{I2\+Cdev Class Reference}
+\hypertarget{class_i2_cdev}{}\label{class_i2_cdev}\index{I2Cdev@{I2Cdev}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_i2_cdev_a0a466e2323d9f719a1ecc9fa11ac5c84}{I2\+Cdev}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_abe6d8ea07027d362419de86188981559}{read\+Bit}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_aaaa3b9ef9500a7d69ccc3d0ccaae33c4}{read\+BitW}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_a8e5e9742072bb80db06ccd46f52e2b6d}{read\+Bits}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_a1f417ba3e5ce99832e07c31522c97f87}{read\+BitsW}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_ad3fb41ce124a29f93749d99611c75c33}{read\+Byte}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_a545cd48b1e806e7e467b542c9e38e8c8}{read\+Word}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_aca9c503da5cffd6ac6f8eff9b195c5f4}{read\+Bytes}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static int8\+\_\+t \mbox{\hyperlink{class_i2_cdev_a1b3d895dc6a00cbb5fb3b0441b2e35de}{read\+Words}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_aa68890af87de5471d32e583ebbd91acb}{write\+Bit}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint8\+\_\+t data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_a1b5fbedfadec5d429c81ee84d27e658d}{write\+BitW}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint16\+\_\+t data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_a913371251b6a41520c080115650e1b59}{write\+Bits}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint8\+\_\+t data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_a8f8652a1328224cce867eed665a45c4d}{write\+BitsW}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint16\+\_\+t data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_aeb297637ef985cd562da465ba61b7042}{write\+Byte}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_acbe68a802d6a177301736e60bedd1def}{write\+Word}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint16\+\_\+t data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_aa4e39cac6c0eac5112f9132084bcc93e}{write\+Bytes}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data)
+\item 
+static bool \mbox{\hyperlink{class_i2_cdev_aae37c0526e4b4730a5b2ffd752fd8b21}{write\+Words}} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data)
+\item 
+\Hypertarget{class_i2_cdev_ada206f7b5787944363ad9c56a7602351}\label{class_i2_cdev_ada206f7b5787944363ad9c56a7602351} 
+static int8\+\_\+t {\bfseries read\+Bit} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_a819dec6daa932e8a7137066c834f6bc3}\label{class_i2_cdev_a819dec6daa932e8a7137066c834f6bc3} 
+static int8\+\_\+t {\bfseries read\+BitW} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_aceeb3b466e36d87cb40767337bb6bede}\label{class_i2_cdev_aceeb3b466e36d87cb40767337bb6bede} 
+static int8\+\_\+t {\bfseries read\+Bits} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_a13a03873c2806b464f1455d33110ef80}\label{class_i2_cdev_a13a03873c2806b464f1455d33110ef80} 
+static int8\+\_\+t {\bfseries read\+BitsW} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_ab11d59589047e81521fb1cb91bdce262}\label{class_i2_cdev_ab11d59589047e81521fb1cb91bdce262} 
+static int8\+\_\+t {\bfseries read\+Byte} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_a6d5d90a762bb6fb950a0f168c5405801}\label{class_i2_cdev_a6d5d90a762bb6fb950a0f168c5405801} 
+static int8\+\_\+t {\bfseries read\+Word} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_a9db3ad2a5a5fc99a10de028598088143}\label{class_i2_cdev_a9db3ad2a5a5fc99a10de028598088143} 
+static int8\+\_\+t {\bfseries read\+Bytes} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_a7bb5571bcef670759c995b02380cdb8a}\label{class_i2_cdev_a7bb5571bcef670759c995b02380cdb8a} 
+static int8\+\_\+t {\bfseries read\+Words} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, uint16\+\_\+t timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}})
+\item 
+\Hypertarget{class_i2_cdev_aa4fee368b18443d2f0098647d260ef00}\label{class_i2_cdev_aa4fee368b18443d2f0098647d260ef00} 
+static bool {\bfseries write\+Bit} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint8\+\_\+t data)
+\item 
+\Hypertarget{class_i2_cdev_adb39954a2858470b16ed1264cc871e34}\label{class_i2_cdev_adb39954a2858470b16ed1264cc871e34} 
+static bool {\bfseries write\+BitW} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Num, uint16\+\_\+t data)
+\item 
+\Hypertarget{class_i2_cdev_a19a09ceb15a27ac621fc7816f0dac5c3}\label{class_i2_cdev_a19a09ceb15a27ac621fc7816f0dac5c3} 
+static bool {\bfseries write\+Bits} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint8\+\_\+t data)
+\item 
+\Hypertarget{class_i2_cdev_a3d0caf5928c7b5e14696aa325344670b}\label{class_i2_cdev_a3d0caf5928c7b5e14696aa325344670b} 
+static bool {\bfseries write\+BitsW} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t bit\+Start, uint8\+\_\+t length, uint16\+\_\+t data)
+\item 
+\Hypertarget{class_i2_cdev_a630ff78728db0cfc4e06556ab87ebd18}\label{class_i2_cdev_a630ff78728db0cfc4e06556ab87ebd18} 
+static bool {\bfseries write\+Byte} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t data)
+\item 
+\Hypertarget{class_i2_cdev_a939f61622f39de4c3b14b02bb12d9927}\label{class_i2_cdev_a939f61622f39de4c3b14b02bb12d9927} 
+static bool {\bfseries write\+Word} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint16\+\_\+t data)
+\item 
+\Hypertarget{class_i2_cdev_a3ff98d08476804e210ce0575995e5235}\label{class_i2_cdev_a3ff98d08476804e210ce0575995e5235} 
+static bool {\bfseries write\+Bytes} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data)
+\item 
+\Hypertarget{class_i2_cdev_a255d5177c0736b5c069708e7ad8a0cf4}\label{class_i2_cdev_a255d5177c0736b5c069708e7ad8a0cf4} 
+static bool {\bfseries write\+Words} (uint8\+\_\+t dev\+Addr, uint8\+\_\+t reg\+Addr, uint8\+\_\+t length, uint16\+\_\+t \texorpdfstring{$\ast$}{*}data)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static uint16\+\_\+t \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{read\+Timeout}} = I2\+CDEV\+\_\+\+DEFAULT\+\_\+\+READ\+\_\+\+TIMEOUT
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_i2_cdev_a0a466e2323d9f719a1ecc9fa11ac5c84}\index{I2Cdev@{I2Cdev}!I2Cdev@{I2Cdev}}
+\index{I2Cdev@{I2Cdev}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{I2Cdev()}{I2Cdev()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a0a466e2323d9f719a1ecc9fa11ac5c84} 
+I2\+Cdev\+::\+I2\+Cdev (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Default constructor. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i2_cdev_abe6d8ea07027d362419de86188981559}\index{I2Cdev@{I2Cdev}!readBit@{readBit}}
+\index{readBit@{readBit}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readBit()}{readBit()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_abe6d8ea07027d362419de86188981559} 
+int8\+\_\+t I2\+Cdev\+::read\+Bit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Num}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read a single bit from an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to read from \\
+\hline
+{\em bit\+Num} & Bit position to read (0-\/7) \\
+\hline
+{\em data} & Container for single bit value \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of read operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a8e5e9742072bb80db06ccd46f52e2b6d}\index{I2Cdev@{I2Cdev}!readBits@{readBits}}
+\index{readBits@{readBits}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readBits()}{readBits()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a8e5e9742072bb80db06ccd46f52e2b6d} 
+int8\+\_\+t I2\+Cdev\+::read\+Bits (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Start}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read multiple bits from an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to read from \\
+\hline
+{\em bit\+Start} & First bit position to read (0-\/7) \\
+\hline
+{\em length} & Number of bits to read (not more than 8) \\
+\hline
+{\em data} & Container for right-\/aligned value (i.\+e. \textquotesingle{}101\textquotesingle{} read from any bit\+Start position will equal 0x05) \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of read operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a1f417ba3e5ce99832e07c31522c97f87}\index{I2Cdev@{I2Cdev}!readBitsW@{readBitsW}}
+\index{readBitsW@{readBitsW}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readBitsW()}{readBitsW()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a1f417ba3e5ce99832e07c31522c97f87} 
+int8\+\_\+t I2\+Cdev\+::read\+BitsW (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Start}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read multiple bits from a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to read from \\
+\hline
+{\em bit\+Start} & First bit position to read (0-\/15) \\
+\hline
+{\em length} & Number of bits to read (not more than 16) \\
+\hline
+{\em data} & Container for right-\/aligned value (i.\+e. \textquotesingle{}101\textquotesingle{} read from any bit\+Start position will equal 0x05) \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of read operation (1 = success, 0 = failure, -\/1 = timeout) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_aaaa3b9ef9500a7d69ccc3d0ccaae33c4}\index{I2Cdev@{I2Cdev}!readBitW@{readBitW}}
+\index{readBitW@{readBitW}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readBitW()}{readBitW()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_aaaa3b9ef9500a7d69ccc3d0ccaae33c4} 
+int8\+\_\+t I2\+Cdev\+::read\+BitW (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Num}{, }\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read a single bit from a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to read from \\
+\hline
+{\em bit\+Num} & Bit position to read (0-\/15) \\
+\hline
+{\em data} & Container for single bit value \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of read operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_ad3fb41ce124a29f93749d99611c75c33}\index{I2Cdev@{I2Cdev}!readByte@{readByte}}
+\index{readByte@{readByte}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readByte()}{readByte()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_ad3fb41ce124a29f93749d99611c75c33} 
+int8\+\_\+t I2\+Cdev\+::read\+Byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read single byte from an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to read from \\
+\hline
+{\em data} & Container for byte value read from device \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of read operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_aca9c503da5cffd6ac6f8eff9b195c5f4}\index{I2Cdev@{I2Cdev}!readBytes@{readBytes}}
+\index{readBytes@{readBytes}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readBytes()}{readBytes()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_aca9c503da5cffd6ac6f8eff9b195c5f4} 
+int8\+\_\+t I2\+Cdev\+::read\+Bytes (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read multiple bytes from an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & First register reg\+Addr to read from \\
+\hline
+{\em length} & Number of bytes to read \\
+\hline
+{\em data} & Buffer to store read data in \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes read (-\/1 indicates failure) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a545cd48b1e806e7e467b542c9e38e8c8}\index{I2Cdev@{I2Cdev}!readWord@{readWord}}
+\index{readWord@{readWord}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readWord()}{readWord()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a545cd48b1e806e7e467b542c9e38e8c8} 
+int8\+\_\+t I2\+Cdev\+::read\+Word (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read single word from a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to read from \\
+\hline
+{\em data} & Container for word value read from device \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of read operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a1b3d895dc6a00cbb5fb3b0441b2e35de}\index{I2Cdev@{I2Cdev}!readWords@{readWords}}
+\index{readWords@{readWords}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readWords()}{readWords()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a1b3d895dc6a00cbb5fb3b0441b2e35de} 
+int8\+\_\+t I2\+Cdev\+::read\+Words (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{uint16\+\_\+t}]{timeout}{ = {\ttfamily \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Read multiple words from a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & First register reg\+Addr to read from \\
+\hline
+{\em length} & Number of words to read \\
+\hline
+{\em data} & Buffer to store read data in \\
+\hline
+{\em timeout} & Optional read timeout in milliseconds (0 to disable, leave off to use default class value in \doxylink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2\+Cdev\+::read\+Timeout}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of words read (-\/1 indicates failure) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_aa68890af87de5471d32e583ebbd91acb}\index{I2Cdev@{I2Cdev}!writeBit@{writeBit}}
+\index{writeBit@{writeBit}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeBit()}{writeBit()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_aa68890af87de5471d32e583ebbd91acb} 
+bool I2\+Cdev\+::write\+Bit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Num}{, }\item[{uint8\+\_\+t}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+write a single bit in an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to write to \\
+\hline
+{\em bit\+Num} & Bit position to write (0-\/7) \\
+\hline
+{\em value} & New bit value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a913371251b6a41520c080115650e1b59}\index{I2Cdev@{I2Cdev}!writeBits@{writeBits}}
+\index{writeBits@{writeBits}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeBits()}{writeBits()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a913371251b6a41520c080115650e1b59} 
+bool I2\+Cdev\+::write\+Bits (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Start}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint8\+\_\+t}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Write multiple bits in an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to write to \\
+\hline
+{\em bit\+Start} & First bit position to write (0-\/7) \\
+\hline
+{\em length} & Number of bits to write (not more than 8) \\
+\hline
+{\em data} & Right-\/aligned value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a8f8652a1328224cce867eed665a45c4d}\index{I2Cdev@{I2Cdev}!writeBitsW@{writeBitsW}}
+\index{writeBitsW@{writeBitsW}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeBitsW()}{writeBitsW()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a8f8652a1328224cce867eed665a45c4d} 
+bool I2\+Cdev\+::write\+BitsW (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Start}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint16\+\_\+t}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Write multiple bits in a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to write to \\
+\hline
+{\em bit\+Start} & First bit position to write (0-\/15) \\
+\hline
+{\em length} & Number of bits to write (not more than 16) \\
+\hline
+{\em data} & Right-\/aligned value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_a1b5fbedfadec5d429c81ee84d27e658d}\index{I2Cdev@{I2Cdev}!writeBitW@{writeBitW}}
+\index{writeBitW@{writeBitW}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeBitW()}{writeBitW()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a1b5fbedfadec5d429c81ee84d27e658d} 
+bool I2\+Cdev\+::write\+BitW (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{bit\+Num}{, }\item[{uint16\+\_\+t}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+write a single bit in a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register reg\+Addr to write to \\
+\hline
+{\em bit\+Num} & Bit position to write (0-\/15) \\
+\hline
+{\em value} & New bit value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_aeb297637ef985cd562da465ba61b7042}\index{I2Cdev@{I2Cdev}!writeByte@{writeByte}}
+\index{writeByte@{writeByte}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeByte()}{writeByte()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_aeb297637ef985cd562da465ba61b7042} 
+bool I2\+Cdev\+::write\+Byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Write single byte to an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register address to write to \\
+\hline
+{\em data} & New byte value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_aa4e39cac6c0eac5112f9132084bcc93e}\index{I2Cdev@{I2Cdev}!writeBytes@{writeBytes}}
+\index{writeBytes@{writeBytes}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeBytes()}{writeBytes()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_aa4e39cac6c0eac5112f9132084bcc93e} 
+bool I2\+Cdev\+::write\+Bytes (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Write multiple bytes to an 8-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & First register address to write to \\
+\hline
+{\em length} & Number of bytes to write \\
+\hline
+{\em data} & Buffer to copy new data from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_acbe68a802d6a177301736e60bedd1def}\index{I2Cdev@{I2Cdev}!writeWord@{writeWord}}
+\index{writeWord@{writeWord}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeWord()}{writeWord()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_acbe68a802d6a177301736e60bedd1def} 
+bool I2\+Cdev\+::write\+Word (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint16\+\_\+t}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Write single word to a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & Register address to write to \\
+\hline
+{\em data} & New word value to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+\Hypertarget{class_i2_cdev_aae37c0526e4b4730a5b2ffd752fd8b21}\index{I2Cdev@{I2Cdev}!writeWords@{writeWords}}
+\index{writeWords@{writeWords}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{writeWords()}{writeWords()}}
+{\footnotesize\ttfamily \label{class_i2_cdev_aae37c0526e4b4730a5b2ffd752fd8b21} 
+bool I2\+Cdev\+::write\+Words (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t}]{reg\+Addr}{, }\item[{uint8\+\_\+t}]{length}{, }\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Write multiple words to a 16-\/bit device register. 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & I2C slave device address \\
+\hline
+{\em reg\+Addr} & First register address to write to \\
+\hline
+{\em length} & Number of words to write \\
+\hline
+{\em data} & Buffer to copy new data from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of operation (true = success) 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}\index{I2Cdev@{I2Cdev}!readTimeout@{readTimeout}}
+\index{readTimeout@{readTimeout}!I2Cdev@{I2Cdev}}
+\doxysubsubsection{\texorpdfstring{readTimeout}{readTimeout}}
+{\footnotesize\ttfamily \label{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c} 
+static uint16\+\_\+t I2\+Cdev\+::read\+Timeout = I2\+CDEV\+\_\+\+DEFAULT\+\_\+\+READ\+\_\+\+TIMEOUT\hspace{0.3cm}{\ttfamily [static]}}
+
+Default timeout value for read operations. Set this to 0 to disable timeout detection. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+reference material/\+Tumbller\+\_\+\+Code\+\_\+20240301/\+Tumbller/I2\+Cdev.\+h\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Copy Me First/\+I2\+Cdev/I2\+Cdev.\+h\item 
+reference material/\+Tumbller\+\_\+\+Code\+\_\+20240301/\+Tumbller/I2\+Cdev.\+cpp\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Copy Me First/\+I2\+Cdev/I2\+Cdev.\+cpp\end{DoxyCompactItemize}

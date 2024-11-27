@@ -69,72 +69,16 @@ class motion_controller {
      */
     void turnRight(float rotation_speed);
 
+
+    void moveCentimeters(float dist_in_cm);
+
+    void turnDegrees(float degreesCW);
+
+
     /**
      * @brief Stops the robot's movement.
      * 
      * Sets both the forward speed and rotation speed to zero, halting all motion.
      */
     void stop();
-
-  private:
-    float setting_car_speed = 0;            ///< The target forward/backward speed of the robot.
-    float setting_car_rotation_speed = 0;  ///< The target rotation speed of the robot.
 };
-
-/**
- * @brief Moves the robot forward at the specified speed.
- * 
- * Sets the forward speed for the robot while ensuring no rotational motion.
- * 
- * @param speed The forward speed for the robot (positive value).
- */
-inline void motion_controller::moveForward(float speed){
-  setting_car_speed = speed;
-  setting_car_rotation_speed = 0;
-}
-
-/**
- * @brief Moves the robot backward at the specified speed.
- * 
- * Sets the backward speed for the robot while ensuring no rotational motion.
- * 
- * @param speed The backward speed for the robot (positive value).
- */
-inline void motion_controller::moveBack(float speed){
-  setting_car_speed = -speed;
-  setting_car_rotation_speed = 0;
-}
-
-/**
- * @brief Turns the robot to the left at the specified rotation speed.
- * 
- * Stops forward/backward motion and sets the rotation speed for a left turn.
- * 
- * @param rotation_speed The angular speed for left turn (positive value).
- */
-inline void motion_controller::turnLeft(float rotation_speed){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = rotation_speed;
-}
-
-/**
- * @brief Turns the robot to the right at the specified rotation speed.
- * 
- * Stops forward/backward motion and sets the rotation speed for a right turn.
- * 
- * @param rotation_speed The angular speed for right turn (positive value).
- */
-inline void motion_controller::turnRight(float rotation_speed){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = -rotation_speed;
-}
-
-/**
- * @brief Stops the robot's movement.
- * 
- * Sets both the forward/backward and rotation speeds to zero, halting all motion.
- */
-inline void motion_controller::stop(){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = 0;
-}

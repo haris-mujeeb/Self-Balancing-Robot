@@ -1,0 +1,43 @@
+\doxysection{voltage.\+h}
+\hypertarget{voltage_8h_source}{}\label{voltage_8h_source}\index{reference material/Tumbller\_Code\_20240301/Tumbller/voltage.h@{reference material/Tumbller\_Code\_20240301/Tumbller/voltage.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{keywordtype}{int}\ low\_voltage\_flag\ =\ 1;}
+\DoxyCodeLine{00002\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ vol\_measure\_time\ =\ 0;}
+\DoxyCodeLine{00003\ \textcolor{keywordtype}{void}\ voltageInit()}
+\DoxyCodeLine{00004\ \{}
+\DoxyCodeLine{00005\ \ \ analogReference(INTERNAL);}
+\DoxyCodeLine{00006\ \}}
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{void}\ voltageMeasure()\ \textcolor{comment}{//测量电压}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ vol\_measure\_time\ >\ 1000)\ \textcolor{comment}{//每1000毫秒测量一次}}
+\DoxyCodeLine{00010\ \ \ \{}
+\DoxyCodeLine{00011\ \ \ \ \ vol\_measure\_time\ =\ millis();}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{double}\ voltage\ =\ (analogRead(\mbox{\hyperlink{include_2pins_8hpp_aef2c7a3d7c0424345c2106731df482c1}{VOL\_MEASURE\_PIN}})\ *\ 1.1\ /\ 1024)\ *\ ((10\ +\ 1.5)\ /\ 1.5);\ \textcolor{comment}{//读取电压值}}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordflow}{if}\ (voltage\ >\ 7.8)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//电池供电}}
+\DoxyCodeLine{00014\ \ \ \ \ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (low\_voltage\_flag\ ==\ 1)}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ rgb.lightOff();}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ digitalWrite(\mbox{\hyperlink{include_2pins_8hpp_ad177eb2aee67e7dc7e37052ed0f25a70}{STBY\_PIN}},HIGH);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ low\_voltage\_flag\ =\ 0;\ \textcolor{comment}{//满电压标志}}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00023\ \ \ \ \ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (voltage\ <\ 7.0)\ \textcolor{comment}{//The\ battery\ is\ low\ in\ power\ and\ needs\ to\ be\ charged.}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ motion\_mode\ =\ STOP;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ digitalWrite(\mbox{\hyperlink{include_2pins_8hpp_ad177eb2aee67e7dc7e37052ed0f25a70}{STBY\_PIN}},LOW);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{comment}{//待机,停止,自动启动,\ 启动模式}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (motion\_mode\ ==\ STANDBY\ ||\ motion\_mode\ ==\ STOP\ ||\ motion\_mode\ ==\ START)}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ rgb.flashRedColor();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ low\_voltage\_flag\ =\ 1;\ \textcolor{comment}{//低电压标志}}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \}}
+\DoxyCodeLine{00037\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,188 @@
+\doxysection{Adafruit\+\_\+\+Neo\+Pixel.\+h}
+\hypertarget{_tumbller_v1_81_01_function_01_introduction_2_lesson_016_01_bluetooth_01_control_2_bluetooth___cb46e482df68fd1606dd9ebff1ed60ff8_source}{}\label{_tumbller_v1_81_01_function_01_introduction_2_lesson_016_01_bluetooth_01_control_2_bluetooth___cb46e482df68fd1606dd9ebff1ed60ff8_source}\index{reference material/TumbllerV1.1 Function Introduction/Lesson 6 Bluetooth Control/Bluetooth\_Control\_LED/Adafruit\_NeoPixel.h@{reference material/TumbllerV1.1 Function Introduction/Lesson 6 Bluetooth Control/Bluetooth\_Control\_LED/Adafruit\_NeoPixel.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ This\ file\ is\ part\ of\ the\ Adafruit\ NeoPixel\ library.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ NeoPixel\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ it\ under\ the\ terms\ of\ the\ GNU\ Lesser\ General\ Public\ License\ as}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ published\ by\ the\ Free\ Software\ Foundation,\ either\ version\ 3\ of}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *\ \ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ \ NeoPixel\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ *\ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ *\ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ *\ \ GNU\ Lesser\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ \ You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ Lesser\ General\ Public}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ \ License\ along\ with\ NeoPixel.\ \ If\ not,\ see}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ \ <http://www.gnu.org/licenses/>.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ *\ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#ifndef\ ADAFRUIT\_NEOPIXEL\_H}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ ADAFRUIT\_NEOPIXEL\_H}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#if\ (ARDUINO\ >=\ 100)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <WProgram.h>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <pins\_arduino.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ The\ order\ of\ primary\ colors\ in\ the\ NeoPixel\ data\ stream\ can\ vary}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ among\ device\ types,\ manufacturers\ and\ even\ different\ revisions\ of}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ the\ same\ item.\ \ The\ third\ parameter\ to\ the\ Adafruit\_NeoPixel}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ constructor\ encodes\ the\ per-\/pixel\ byte\ offsets\ of\ the\ red,\ green}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ and\ blue\ primaries\ (plus\ white,\ if\ present)\ in\ the\ data\ stream\ -\/-\/}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ the\ following\ \#defines\ provide\ an\ easier-\/to-\/use\ named\ version\ for}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ each\ permutation.\ \ e.g.\ NEO\_GRB\ indicates\ a\ NeoPixel-\/compatible}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ device\ expecting\ three\ bytes\ per\ pixel,\ with\ the\ first\ byte}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ containing\ the\ green\ value,\ second\ containing\ red\ and\ third}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ containing\ blue.\ \ The\ in-\/memory\ representation\ of\ a\ chain\ of}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ NeoPixels\ is\ the\ same\ as\ the\ data-\/stream\ order;\ no\ re-\/ordering\ of}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ bytes\ is\ required\ when\ issuing\ data\ to\ the\ chain.}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ Bits\ 5,4\ of\ this\ value\ are\ the\ offset\ (0-\/3)\ from\ the\ first\ byte\ of}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ a\ pixel\ to\ the\ location\ of\ the\ red\ color\ byte.\ \ Bits\ 3,2\ are\ the}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ green\ offset\ and\ 1,0\ are\ the\ blue\ offset.\ \ If\ it\ is\ an\ RGBW-\/type}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ device\ (supporting\ a\ white\ primary\ in\ addition\ to\ R,G,B),\ bits\ 7,6}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ are\ the\ offset\ to\ the\ white\ byte...otherwise,\ bits\ 7,6\ are\ set\ to}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ the\ same\ value\ as\ 5,4\ (red)\ to\ indicate\ an\ RGB\ (not\ RGBW)\ device.}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ i.e.\ binary\ representation:}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ 0bWWRRGGBB\ for\ RGBW\ devices}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ 0bRRRRGGBB\ for\ RGB}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ RGB\ NeoPixel\ permutations;\ white\ and\ red\ offsets\ are\ always\ same}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ Offset:\ \ \ \ \ \ \ \ \ W\ \ \ \ \ \ \ \ \ \ R\ \ \ \ \ \ \ \ \ \ G\ \ \ \ \ \ \ \ \ \ B}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ NEO\_RGB\ \ \ \ \ ((0\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ NEO\_RBG\ \ \ \ \ ((0\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ NEO\_GRB\ \ \ \ \ ((1\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ NEO\_GBR\ \ \ \ \ ((2\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ NEO\_BRG\ \ \ \ \ ((1\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ NEO\_BGR\ \ \ \ \ ((2\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ RGBW\ NeoPixel\ permutations;\ all\ 4\ offsets\ are\ distinct}}
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ Offset:\ \ \ \ \ \ \ \ \ W\ \ \ \ \ \ \ \ \ \ R\ \ \ \ \ \ \ \ \ \ G\ \ \ \ \ \ \ \ \ \ B}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ NEO\_WRGB\ \ \ \ ((0\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (3))}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ NEO\_WRBG\ \ \ \ ((0\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (3\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ NEO\_WGRB\ \ \ \ ((0\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (3))}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ NEO\_WGBR\ \ \ \ ((0\ <<\ 6)\ |\ (3\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ NEO\_WBRG\ \ \ \ ((0\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (3\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ NEO\_WBGR\ \ \ \ ((0\ <<\ 6)\ |\ (3\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ NEO\_RWGB\ \ \ \ ((1\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (3))}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ NEO\_RWBG\ \ \ \ ((1\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (3\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ NEO\_RGWB\ \ \ \ ((2\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (3))}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ NEO\_RGBW\ \ \ \ ((3\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ NEO\_RBWG\ \ \ \ ((2\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (3\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ NEO\_RBGW\ \ \ \ ((3\ <<\ 6)\ |\ (0\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ NEO\_GWRB\ \ \ \ ((1\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (3))}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ NEO\_GWBR\ \ \ \ ((1\ <<\ 6)\ |\ (3\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ NEO\_GRWB\ \ \ \ ((2\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (3))}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ NEO\_GRBW\ \ \ \ ((3\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (2))}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ NEO\_GBWR\ \ \ \ ((2\ <<\ 6)\ |\ (3\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ NEO\_GBRW\ \ \ \ ((3\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (0\ <<\ 2)\ |\ (1))}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ NEO\_BWRG\ \ \ \ ((1\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (3\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ NEO\_BWGR\ \ \ \ ((1\ <<\ 6)\ |\ (3\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ NEO\_BRWG\ \ \ \ ((2\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (3\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ NEO\_BRGW\ \ \ \ ((3\ <<\ 6)\ |\ (1\ <<\ 4)\ |\ (2\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ NEO\_BGWR\ \ \ \ ((2\ <<\ 6)\ |\ (3\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ NEO\_BGRW\ \ \ \ ((3\ <<\ 6)\ |\ (2\ <<\ 4)\ |\ (1\ <<\ 2)\ |\ (0))}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ Add\ NEO\_KHZ400\ to\ the\ color\ order\ value\ to\ indicate\ a\ 400\ KHz}}
+\DoxyCodeLine{00092\ \textcolor{comment}{//\ device.\ \ All\ but\ the\ earliest\ v1\ NeoPixels\ expect\ an\ 800\ KHz\ data}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ stream,\ this\ is\ the\ default\ if\ unspecified.\ \ Because\ flash\ space}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ is\ very\ limited\ on\ ATtiny\ devices\ (e.g.\ Trinket,\ Gemma),\ v1}}
+\DoxyCodeLine{00095\ \textcolor{comment}{//\ NeoPixels\ aren't\ handled\ by\ default\ on\ those\ chips,\ though\ it\ can}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//\ be\ enabled\ by\ removing\ the\ ifndef/endif\ below\ -\/-\/\ but\ code\ will\ be}}
+\DoxyCodeLine{00097\ \textcolor{comment}{//\ bigger.\ \ Conversely,\ can\ disable\ the\ NEO\_KHZ400\ line\ on\ other\ MCUs}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//\ to\ remove\ v1\ support\ and\ save\ a\ little\ space.}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ NEO\_KHZ800\ \ 0x0000\ \ }\textcolor{comment}{//\ 800\ KHz\ datastream}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#ifndef\ \_\_AVR\_ATtiny85\_\_}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ NEO\_KHZ400\ \ 0x0100\ \ }\textcolor{comment}{//\ 400\ KHz\ datastream}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ If\ 400\ KHz\ support\ is\ enabled,\ the\ third\ parameter\ to\ the\ constructor}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ requires\ a\ 16-\/bit\ value\ (in\ order\ to\ select\ 400\ vs\ 800\ KHz\ speed).}}
+\DoxyCodeLine{00107\ \textcolor{comment}{//\ If\ only\ 800\ KHz\ is\ enabled\ (as\ is\ default\ on\ ATtiny),\ an\ 8-\/bit\ value}}
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ is\ sufficient\ to\ encode\ pixel\ color\ order,\ saving\ some\ space.}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#ifdef\ NEO\_KHZ400}}
+\DoxyCodeLine{00111\ \textcolor{keyword}{typedef}\ uint16\_t\ \ \ \ neoPixelType;}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00113\ \textcolor{keyword}{typedef}\ uint8\_t\ \ \ \ \ neoPixelType;}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\_NeoPixel}}\ \{}
+\DoxyCodeLine{00117\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{comment}{//\ Constructor:\ number\ of\ LEDs,\ pin\ number,\ LED\ type}}
+\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\_NeoPixel}}(uint16\_t\ n,\ uint8\_t\ p\ =\ 6,\ neoPixelType\ t\ =\ NEO\_GRB\ +\ NEO\_KHZ800);}
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\_NeoPixel}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{class_adafruit___neo_pixel}{\string~Adafruit\_NeoPixel}}();}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00125\ \ \ \ \ begin(\textcolor{keywordtype}{void}),}
+\DoxyCodeLine{00126\ \ \ \ \ show(\textcolor{keywordtype}{void}),}
+\DoxyCodeLine{00127\ \ \ \ \ setPin(uint8\_t\ p),}
+\DoxyCodeLine{00128\ \ \ \ \ setPixelColor(uint16\_t\ n,\ uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b),}
+\DoxyCodeLine{00129\ \ \ \ \ setPixelColor(uint16\_t\ n,\ uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b,\ uint8\_t\ w),}
+\DoxyCodeLine{00130\ \ \ \ \ setPixelColor(uint16\_t\ n,\ uint32\_t\ c),}
+\DoxyCodeLine{00131\ \ \ \ \ setBrightness(uint8\_t),}
+\DoxyCodeLine{00132\ \ \ \ \ clear(),}
+\DoxyCodeLine{00133\ \ \ \ \ updateLength(uint16\_t\ n),}
+\DoxyCodeLine{00134\ \ \ \ \ updateType(neoPixelType\ t);}
+\DoxyCodeLine{00135\ \ \ \ \ uint8\_t}
+\DoxyCodeLine{00136\ \ \ \ \ *getPixels(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const},}
+\DoxyCodeLine{00137\ \ \ \ \ getBrightness(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00138\ \ \ \ \ uint16\_t}
+\DoxyCodeLine{00139\ \ \ \ \ numPixels(\textcolor{keywordtype}{void})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keyword}{static}\ uint32\_t}
+\DoxyCodeLine{00141\ \ \ \ \ Color(uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b),}
+\DoxyCodeLine{00142\ \ \ \ \ Color(uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b,\ uint8\_t\ w);}
+\DoxyCodeLine{00143\ \ \ \ \ uint32\_t}
+\DoxyCodeLine{00144\ \ \ \ \ getPixelColor(uint16\_t\ n)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{00147\ \ \ \ \ canShow(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{00148\ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((micros()\ -\/\ endTime)\ >=\ 50L);}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{boolean}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#ifdef\ NEO\_KHZ400\ \ \ \ \ \ \ }\textcolor{comment}{//\ If\ 400\ KHz\ NeoPixel\ support\ enabled...}}
+\DoxyCodeLine{00157\ \ \ \ \ is800KHz,\ \ \ \ \ \ \ \textcolor{comment}{//\ ...true\ if\ 800\ KHz\ pixels}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00159\ \ \ \ \ begun;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ true\ if\ begin()\ previously\ called}}
+\DoxyCodeLine{00160\ \ \ \ \ uint16\_t}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ numLEDs,\ \ \ \ \textcolor{comment}{//\ Number\ of\ RGB\ LEDs\ in\ strip}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ numBytes;\ \ \ \textcolor{comment}{//\ Size\ of\ 'pixels'\ buffer\ below\ (3\ or\ 4\ bytes/pixel)}}
+\DoxyCodeLine{00163\ \ \ \ \ int8\_t}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ pin;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Output\ pin\ number\ (-\/1\ if\ not\ yet\ set)}}
+\DoxyCodeLine{00165\ \ \ \ \ uint8\_t}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ brightness,}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ *pixels,\ \ \ \ \textcolor{comment}{//\ Holds\ LED\ color\ values\ (3\ or\ 4\ bytes\ each)}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ rOffset,\ \ \ \ \textcolor{comment}{//\ Index\ of\ red\ byte\ within\ each\ 3-\/\ or\ 4-\/byte\ pixel}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ gOffset,\ \ \ \ \textcolor{comment}{//\ Index\ of\ green\ byte}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ bOffset,\ \ \ \ \textcolor{comment}{//\ Index\ of\ blue\ byte}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ wOffset;\ \ \ \ \textcolor{comment}{//\ Index\ of\ white\ byte\ (same\ as\ rOffset\ if\ no\ white)}}
+\DoxyCodeLine{00172\ \ \ \ \ uint32\_t}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ endTime;\ \ \ \ \textcolor{comment}{//\ Latch\ timing\ reference}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#ifdef\ \_\_AVR\_\_}}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keyword}{volatile}\ uint8\_t}
+\DoxyCodeLine{00176\ \ \ \ \ *port;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Output\ PORT\ register}}
+\DoxyCodeLine{00177\ \ \ \ \ uint8\_t}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ pinMask;\ \ \ \ \textcolor{comment}{//\ Output\ PORT\ bitmask}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00180\ \};}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ADAFRUIT\_NEOPIXEL\_H}}
+
+\end{DoxyCode}

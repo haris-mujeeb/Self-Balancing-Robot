@@ -1,0 +1,2074 @@
+\doxysection{Enable\+Interrupt.\+h}
+\hypertarget{_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_enable_interrupt-1_81_80_2_enable_interrupt_8h_source}{}\label{_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_enable_interrupt-1_81_80_2_enable_interrupt_8h_source}\index{reference material/TumbllerV1.1 Function Introduction/Copy Me First/EnableInterrupt-\/1.1.0/EnableInterrupt.h@{reference material/TumbllerV1.1 Function Introduction/Copy Me First/EnableInterrupt-\/1.1.0/EnableInterrupt.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ in\ vim,\ :set\ ts=2\ sts=2\ sw=2\ et\ fdm=marker}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ EnableInterrupt,\ a\ library\ by\ GreyGnome.\ \ Copyright\ 2014-\/2015\ by\ Michael\ Anthony\ Schwager.}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ \ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ \ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ \ \ \ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{00009\ \textcolor{comment}{}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ \ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ \ \ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ \ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ \ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ \ limitations\ under\ the\ License.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ Many\ definitions\ in\ /usr/avr/include/avr/io.h}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifndef\ EnableInterrupt\_h}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ EnableInterrupt\_h}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ Function\ Prototypes\ (comment)\ /*\{\{\{*/}}
+\DoxyCodeLine{00026\ \textcolor{comment}{/*\ *************************************************************************************}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ Function\ Prototypes\ *****************************************************************}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ ***\ These\ are\ the\ only\ functions\ the\ end\ user\ (programmer)\ needs\ to\ consider.\ \ \ \ \ ***}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ ***\ This\ means\ you!\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ***}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{00034\ \textcolor{comment}{*/}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Arduino\ Due\ (not\ Duemilanove)\ and\ Zero\ macros.\ Easy-\/peasy.}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ Zero\ uses\ the\ \_\_SAMD21G18A\_\_\ processor\ macro\ (2015-\/10-\/13)\ but\ we\ will\ use\ this\ handy\ macro,\ to}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ avoid\ breaking\ the\ library\ over\ tiny\ changes.}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#if\ defined\ \_\_SAM3U4E\_\_\ ||\ defined\ \_\_SAM3X8E\_\_\ ||\ defined\ \_\_SAM3X8H\_\_\ ||\ defined\ ARDUINO\_SAMD\_ZERO\ ||\ defined\ \_\_SAMD21G18A\_\_\ \ ||\ defined\ \_\_SAMD21J18A\_\_\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#error\ Due\ and\ Zero\ are\ already\ fast;\ the\ NEEDFORSPEED\ definition\ does\ not\ make\ sense\ on\ it.}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ enableInterrupt(pin,userFunc,mode)\ attachInterrupt(pin,\ userFunc,mode)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ disableInterrupt(pin)\ detachInterrupt(pin)}\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ Usage:\ (comment)\ /*\{\{\{*/}}
+\DoxyCodeLine{00048\ \textcolor{comment}{/*\ enableInterrupt-\/\ Sets\ up\ an\ interrupt\ on\ a\ selected\ Arduino\ pin.}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ *\ or}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ enableInterruptFast-\/\ When\ used\ with\ the\ NEEDFORSPEED\ macro,\ sets\ up\ an\ interrupt\ on\ a\ selected\ Arduino\ pin.}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ *\ Usage:}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ *\ enableInterrupt(uint8\_t\ pinNumber,\ void\ (*userFunction)(void),\ uint8\_t\ mode);}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ *\ or}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ *\ enableInterrupt(uint8\_t\ interruptDesignator,\ void\ (*userFunction)(void),\ uint8\_t\ mode);}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ *\ For\ HiSpeed\ mode,}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ *\ enableInterruptFast(uint8\_t\ pinNumber,\ uint8\_t\ mode);}}
+\DoxyCodeLine{00059\ \textcolor{comment}{\ *\ or}}
+\DoxyCodeLine{00060\ \textcolor{comment}{\ *\ enableInterruptFast(uint8\_t\ interruptDesignator,\ uint8\_t\ mode);}}
+\DoxyCodeLine{00061\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00062\ \textcolor{comment}{\ *\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00064\ \textcolor{comment}{\ *\ disableInterrupt-\/\ Disables\ interrupt\ on\ a\ selected\ Arduino\ pin.}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ *\ Usage:}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00068\ \textcolor{comment}{\ *\ disableInterrupt(uint8\_t\ pinNumber);}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ *\ or}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ *\ disableInterrupt(uint8\_t\ interruptDesignator);}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ *\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00073\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00074\ \textcolor{comment}{\ *\ interruptDesignator:\ Essentially\ this\ is\ an\ Arduino\ pin,\ and\ if\ that's\ all\ you\ want\ to\ give}}
+\DoxyCodeLine{00075\ \textcolor{comment}{\ *\ the\ function,\ it\ will\ work\ just\ fine.\ Why\ is\ it\ called\ an\ "{}interruptDesignator"{},\ then?\ Because}}
+\DoxyCodeLine{00076\ \textcolor{comment}{\ *\ there's\ a\ twist:\ You\ can\ perform\ a\ bitwise\ "{}and"{}\ with\ the\ pin\ number\ and\ PINCHANGEINTERRUPT}}
+\DoxyCodeLine{00077\ \textcolor{comment}{\ *\ to\ specify\ that\ you\ want\ to\ use\ a\ Pin\ Change\ Interrupt\ type\ of\ interrupt\ on\ those\ pins\ that}}
+\DoxyCodeLine{00078\ \textcolor{comment}{\ *\ support\ both\ Pin\ Change\ and\ External\ Interrupts.\ Otherwise,\ the\ library\ will\ choose\ whatever}}
+\DoxyCodeLine{00079\ \textcolor{comment}{\ *\ interrupt\ type\ (External,\ or\ Pin\ Change)\ normally\ applies\ to\ that\ pin,\ with\ priority\ to}}
+\DoxyCodeLine{00080\ \textcolor{comment}{\ *\ External\ Interrupt.}}
+\DoxyCodeLine{00081\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00082\ \textcolor{comment}{\ *\ The\ interruptDesignator\ is\ required\ because\ on\ the\ ATmega328\ processor\ pins\ 2\ and\ 3\ support}}
+\DoxyCodeLine{00083\ \textcolor{comment}{\ *\ ''either''\ pin\ change\ or\ *\ external\ interrupts.\ On\ 644/1284-\/based\ systems,\ pin\ change\ interrupts}}
+\DoxyCodeLine{00084\ \textcolor{comment}{\ *\ are\ supported\ on\ all\ pins\ and\ external\ interrupts\ are\ supported\ on\ pins\ 2,\ 10,\ and\ 11.}}
+\DoxyCodeLine{00085\ \textcolor{comment}{\ *\ Otherwise,\ each\ pin\ only\ supports\ a\ single\ type\ of\ interrupt\ and\ the}}
+\DoxyCodeLine{00086\ \textcolor{comment}{\ *\ PINCHANGEINTERRUPT\ scheme\ changes\ nothing.\ This\ means\ you\ can\ ignore\ this\ whole\ discussion}}
+\DoxyCodeLine{00087\ \textcolor{comment}{\ *\ for\ ATmega2560-\/\ or\ ATmega32U4-\/based\ Arduinos.\ You\ can\ probably\ safely\ ignore\ it\ for}}
+\DoxyCodeLine{00088\ \textcolor{comment}{\ *\ ATmega328-\/based\ Arduinos,\ too.}}
+\DoxyCodeLine{00089\ \textcolor{comment}{\ */}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{keywordtype}{void}\ enableInterrupt(uint8\_t\ interruptDesignator,\ \textcolor{keywordtype}{void}\ (*userFunction)(\textcolor{keywordtype}{void}),\ uint8\_t\ mode);}
+\DoxyCodeLine{00092\ \textcolor{keywordtype}{void}\ disableInterrupt(uint8\_t\ interruptDesignator);}
+\DoxyCodeLine{00093\ \textcolor{keywordtype}{void}\ bogusFunctionPlaceholder(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#undef\ enableInterruptFast}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//\ enableInterruptFast(uint8\_t\ interruptDesignator,\ uint8\_t\ mode);}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ enableInterruptFast(x,\ y)\ enableInterrupt(x,\ bogusFunctionPlaceholder,\ y)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{00101\ \textcolor{comment}{//\ End\ Function\ Prototypes\ *************************************************************}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#undef\ PINCHANGEINTERRUPT}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ PINCHANGEINTERRUPT\ 0x80}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#undef\ attachPinChangeInterrupt}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#undef\ detachPinChangeInterrupt}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ detachPinChangeInterrupt(pin)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ disableInterrupt(pin)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ attachPinChangeInterrupt(pin,userFunc,mode)\ \ \ \ \ enableInterrupt(pin,\ userFunc,\ mode)}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#ifdef\ LIBCALL\_ENABLEINTERRUPT\ }\textcolor{comment}{//\ LIBCALL\_ENABLEINTERRUPT\ ****************************************}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{00115\ \textcolor{keyword}{extern}\ \textcolor{keyword}{volatile}\ uint8\_t\ arduinoInterruptedPin;}
+\DoxyCodeLine{00116\ \textcolor{keyword}{extern}\ \textcolor{keyword}{volatile}\ uint8\_t\ arduinoPinState;}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{00122\ \textcolor{keyword}{volatile}\ uint8\_t\ arduinoInterruptedPin=0;}
+\DoxyCodeLine{00123\ \textcolor{keyword}{volatile}\ uint8\_t\ arduinoPinState=0;}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{00128\ \textcolor{keywordtype}{void}\ bogusFunctionPlaceholder(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00129\ \}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_pindefs\_speed.h"{}}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{/*\ Arduino\ pin\ to\ ATmega\ port\ translaton\ is\ found\ doing\ digital\_pin\_to\_port\_PGM[]\ */}}
+\DoxyCodeLine{00134\ \textcolor{comment}{/*\ Arduino\ pin\ to\ PCMSKx\ bitmask\ is\ found\ by\ doing\ digital\_pin\_to\_bit\_mask\_PGM[]\ */}}
+\DoxyCodeLine{00135\ \textcolor{comment}{/*\ ...except\ for\ PortJ,\ which\ is\ shifted\ left\ 1\ bit\ in\ PCI1\ */}}
+\DoxyCodeLine{00136\ \textcolor{keyword}{volatile}\ uint8\_t\ *pcmsk;}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{comment}{//\ Arduino.h\ has\ these,\ but\ the\ block\ is\ surrounded\ by\ \#ifdef\ ARDUINO\_MAIN}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ PA\ 1}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ PB\ 2}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ PC\ 3}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ PD\ 4}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ PE\ 5}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ PF\ 6}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ PG\ 7}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ PH\ 8}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ PJ\ 10}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ PK\ 11}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ PL\ 12}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{typedef}\ void\ (*interruptFunctionType)(void);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ CHIP\ SPECIFIC\ DATA\ STRUCTURES\ =============================================================}}
+\DoxyCodeLine{00155\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \textcolor{comment}{/*\ UNO\ SERIES\ *************************************************************************/}}
+\DoxyCodeLine{00158\ \textcolor{comment}{/*\ UNO\ SERIES\ *************************************************************************/}}
+\DoxyCodeLine{00159\ \textcolor{comment}{/*\ UNO\ SERIES\ *************************************************************************/}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#if\ defined\ \_\_AVR\_ATmega168\_\_\ ||\ defined\ \_\_AVR\_ATmega168A\_\_\ ||\ defined\ \_\_AVR\_ATmega168P\_\_\ ||\ \(\backslash\)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\ \ defined\ \_\_AVR\_ATmega168PA\_\_\ ||\ defined\ \_\_AVR\_ATmega328\_\_\ ||\ defined\ \_\_AVR\_ATmega328P\_\_}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ ARDUINO\_328\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK\ }\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined\ EI\_NOTPINCHANGE}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 8}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 9}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 10}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 11}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 12}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 13}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C0\ 14}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C1\ 15}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C2\ 16}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C3\ 17}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C4\ 18}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C5\ 19}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D0\ 0}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D1\ 1}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D2\ 2}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D3\ 3}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D4\ 4}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D5\ 5}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D6\ 6}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D7\ 7}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{00203\ \ \ 0,\ \textcolor{comment}{//\ 0\ ==\ port\ D,\ 0}}
+\DoxyCodeLine{00204\ \ \ 1,}
+\DoxyCodeLine{00205\ \ \ 2,}
+\DoxyCodeLine{00206\ \ \ 3,}
+\DoxyCodeLine{00207\ \ \ 4,}
+\DoxyCodeLine{00208\ \ \ 5,}
+\DoxyCodeLine{00209\ \ \ 6,}
+\DoxyCodeLine{00210\ \ \ 7,}
+\DoxyCodeLine{00211\ \ \ 0,\ \textcolor{comment}{//\ 8\ ==\ port\ B,\ 0}}
+\DoxyCodeLine{00212\ \ \ 1,}
+\DoxyCodeLine{00213\ \ \ 2,}
+\DoxyCodeLine{00214\ \ \ 3,}
+\DoxyCodeLine{00215\ \ \ 4,}
+\DoxyCodeLine{00216\ \ \ 5,}
+\DoxyCodeLine{00217\ \ \ 0,\ \textcolor{comment}{//\ 14\ ==\ port\ C,\ 0}}
+\DoxyCodeLine{00218\ \ \ 1,}
+\DoxyCodeLine{00219\ \ \ 2,}
+\DoxyCodeLine{00220\ \ \ 3,}
+\DoxyCodeLine{00221\ \ \ 4,}
+\DoxyCodeLine{00222\ \ \ 5}
+\DoxyCodeLine{00223\ \};}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined\ (EI\_NOTINT1)}}
+\DoxyCodeLine{00226\ interruptFunctionType\ functionPointerArrayEXTERNAL[2];}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00230\ \textcolor{comment}{//\ 2\ of\ the\ interrupts\ are\ unsupported\ on\ Arduino\ UNO.}}
+\DoxyCodeLine{00231\ \textcolor{keyword}{struct\ }functionPointersPortB\ \{}
+\DoxyCodeLine{00232\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00233\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00234\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00235\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00236\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00237\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00238\ \};}
+\DoxyCodeLine{00239\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortB\ functionPointersPortB;}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTB}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{00246\ \textcolor{comment}{//\ 1\ of\ the\ interrupts\ are\ used\ as\ RESET\ on\ Arduino\ UNO.}}
+\DoxyCodeLine{00247\ \textcolor{keyword}{struct\ }functionPointersPortC\ \{}
+\DoxyCodeLine{00248\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00249\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00250\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00251\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00252\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00253\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00254\ \};}
+\DoxyCodeLine{00255\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortC\ functionPointersPortC;}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ functionPointersPortC\ portCFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTC}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{00262\ \textcolor{comment}{//\ 1\ of\ the\ interrupts\ are\ used\ as\ RESET\ on\ Arduino\ UNO.}}
+\DoxyCodeLine{00263\ \textcolor{keyword}{struct\ }functionPointersPortD\ \{}
+\DoxyCodeLine{00264\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00265\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00266\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00267\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00268\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00269\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00270\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00271\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{00272\ \};}
+\DoxyCodeLine{00273\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortD\ functionPointersPortD;}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ functionPointersPortD\ portDFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTD}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{00281\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ the\ ports\ were\ defined.}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00283\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{00284\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{00285\ \textcolor{comment}{//\ for\ the\ saved\ state\ of\ the\ ports}}
+\DoxyCodeLine{00286\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{00290\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTC=0;}
+\DoxyCodeLine{00291\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTC=0;}
+\DoxyCodeLine{00292\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotC;}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{00296\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTD=0;}
+\DoxyCodeLine{00297\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTD=0;}
+\DoxyCodeLine{00298\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotD;}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \textcolor{comment}{//\ the\ PCINT?\_vect's\ are\ defined\ in\ the\ avr.h\ files,\ like\ iom328p.h}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT0\_vect}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#define\ PORTC\_VECT\ PCINT1\_vect}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#define\ PORTD\_VECT\ PCINT2\_vect}\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \textcolor{comment}{/*\ MEGA2560/1280/640\ SERIES\ ************************************************************************/}}
+\DoxyCodeLine{00307\ \textcolor{comment}{/*\ MEGA2560/1280/640\ SERIES\ ************************************************************************/}}
+\DoxyCodeLine{00308\ \textcolor{comment}{/*\ MEGA2560/1280/640\ SERIES\ ************************************************************************/}}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATmega640\_\_\ ||\ defined\ \_\_AVR\_ATmega2560\_\_\ ||\ defined\ \_\_AVR\_ATmega1280\_\_}}
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#define\ ARDUINO\_MEGA\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD\ }\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE}\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{00318\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00319\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00321\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTK}}
+\DoxyCodeLine{00323\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK}}
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00325\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00327\ \textcolor{keyword}{volatile}\ uint8\_t\ portJPCMSK=0;\ \textcolor{comment}{//\ This\ is\ a\ shifted\ version\ of\ PCMSK\ for\ PortJ,\ so\ I}}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ don't\ have\ to\ perform\ a\ shift\ in\ the\ IRQ.}}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00331\ \textcolor{comment}{//\ Pin\ change\ interrupts}}
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 53}}
+\DoxyCodeLine{00333\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 52}}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 51}}
+\DoxyCodeLine{00335\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 50}}
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 10}}
+\DoxyCodeLine{00337\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 11}}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B6\ 12}}
+\DoxyCodeLine{00339\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B7\ 13}}
+\DoxyCodeLine{00340\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J0\ 15}}
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J1\ 14}}
+\DoxyCodeLine{00342\ \textcolor{comment}{//\ "{}fake"{}\ pins}}
+\DoxyCodeLine{00343\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J2\ 70}}
+\DoxyCodeLine{00344\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J3\ 71}}
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J4\ 72}}
+\DoxyCodeLine{00346\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J5\ 73}}
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_J6\ 74}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K0\ 62}}
+\DoxyCodeLine{00350\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K1\ 63}}
+\DoxyCodeLine{00351\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K2\ 64}}
+\DoxyCodeLine{00352\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K3\ 65}}
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K4\ 66}}
+\DoxyCodeLine{00354\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K5\ 67}}
+\DoxyCodeLine{00355\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K6\ 68}}
+\DoxyCodeLine{00356\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_K7\ 69}}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D0\ 21}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D1\ 20}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D2\ 19}}
+\DoxyCodeLine{00361\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D3\ 18}}
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_E4\ 2}}
+\DoxyCodeLine{00363\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_E5\ 3}}
+\DoxyCodeLine{00364\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_E6\ 75}}
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_E7\ 76}}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{00368\ \ \ 0,\ \textcolor{comment}{//\ PE0\ \ pin:\ 0}}
+\DoxyCodeLine{00369\ \ \ 1,\ \textcolor{comment}{//\ PE1\ \ pin:\ 1}}
+\DoxyCodeLine{00370\ \ \ 4,\ \textcolor{comment}{//\ PE4\ \ pin:\ 2}}
+\DoxyCodeLine{00371\ \ \ 5,\ \textcolor{comment}{//\ PE5\ \ pin:\ 3}}
+\DoxyCodeLine{00372\ \ \ 5,\ \textcolor{comment}{//\ PG5\ \ pin:\ 4}}
+\DoxyCodeLine{00373\ \ \ 3,\ \textcolor{comment}{//\ PE3\ \ pin:\ 5}}
+\DoxyCodeLine{00374\ \ \ 3,\ \textcolor{comment}{//\ PH3\ \ pin:\ 6}}
+\DoxyCodeLine{00375\ \ \ 4,\ \textcolor{comment}{//\ PH4\ \ pin:\ 7}}
+\DoxyCodeLine{00376\ \ \ 5,\ \textcolor{comment}{//\ PH5\ \ pin:\ 8}}
+\DoxyCodeLine{00377\ \ \ 6,\ \textcolor{comment}{//\ PH6\ \ pin:\ 9}}
+\DoxyCodeLine{00378\ \ \ 4,\ \textcolor{comment}{//\ PB4\ \ pin:\ 10}}
+\DoxyCodeLine{00379\ \ \ 5,\ \textcolor{comment}{//\ PB5\ \ pin:\ 11}}
+\DoxyCodeLine{00380\ \ \ 6,\ \textcolor{comment}{//\ PB6\ \ pin:\ 12}}
+\DoxyCodeLine{00381\ \ \ 7,\ \textcolor{comment}{//\ PB7\ \ pin:\ 13}}
+\DoxyCodeLine{00382\ \ \ 1,\ \textcolor{comment}{//\ PJ1\ \ pin:\ 14}}
+\DoxyCodeLine{00383\ \ \ 0,\ \textcolor{comment}{//\ PJ0\ \ pin:\ 15}}
+\DoxyCodeLine{00384\ \ \ 1,\ \textcolor{comment}{//\ PH1\ \ pin:\ 16}}
+\DoxyCodeLine{00385\ \ \ 0,\ \textcolor{comment}{//\ PH0\ \ pin:\ 17}}
+\DoxyCodeLine{00386\ \ \ 3,\ \textcolor{comment}{//\ PD3\ \ pin:\ 18}}
+\DoxyCodeLine{00387\ \ \ 2,\ \textcolor{comment}{//\ PD2\ \ pin:\ 19}}
+\DoxyCodeLine{00388\ \ \ 1,\ \textcolor{comment}{//\ PD1\ \ pin:\ 20}}
+\DoxyCodeLine{00389\ \ \ 0,\ \textcolor{comment}{//\ PD0\ \ pin:\ 21}}
+\DoxyCodeLine{00390\ \ \ 0,\ \textcolor{comment}{//\ PA0\ \ pin:\ 22}}
+\DoxyCodeLine{00391\ \ \ 1,\ \textcolor{comment}{//\ PA1\ \ pin:\ 23}}
+\DoxyCodeLine{00392\ \ \ 2,\ \textcolor{comment}{//\ PA2\ \ pin:\ 24}}
+\DoxyCodeLine{00393\ \ \ 3,\ \textcolor{comment}{//\ PA3\ \ pin:\ 25}}
+\DoxyCodeLine{00394\ \ \ 4,\ \textcolor{comment}{//\ PA4\ \ pin:\ 26}}
+\DoxyCodeLine{00395\ \ \ 5,\ \textcolor{comment}{//\ PA5\ \ pin:\ 27}}
+\DoxyCodeLine{00396\ \ \ 6,\ \textcolor{comment}{//\ PA6\ \ pin:\ 28}}
+\DoxyCodeLine{00397\ \ \ 7,\ \textcolor{comment}{//\ PA7\ \ pin:\ 29}}
+\DoxyCodeLine{00398\ \ \ 7,\ \textcolor{comment}{//\ PC7\ \ pin:\ 30}}
+\DoxyCodeLine{00399\ \ \ 6,\ \textcolor{comment}{//\ PC6\ \ pin:\ 31}}
+\DoxyCodeLine{00400\ \ \ 5,\ \textcolor{comment}{//\ PC5\ \ pin:\ 32}}
+\DoxyCodeLine{00401\ \ \ 4,\ \textcolor{comment}{//\ PC4\ \ pin:\ 33}}
+\DoxyCodeLine{00402\ \ \ 3,\ \textcolor{comment}{//\ PC3\ \ pin:\ 34}}
+\DoxyCodeLine{00403\ \ \ 2,\ \textcolor{comment}{//\ PC2\ \ pin:\ 35}}
+\DoxyCodeLine{00404\ \ \ 1,\ \textcolor{comment}{//\ PC1\ \ pin:\ 36}}
+\DoxyCodeLine{00405\ \ \ 0,\ \textcolor{comment}{//\ PC0\ \ pin:\ 37}}
+\DoxyCodeLine{00406\ \ \ 7,\ \textcolor{comment}{//\ PD7\ \ pin:\ 38}}
+\DoxyCodeLine{00407\ \ \ 2,\ \textcolor{comment}{//\ PG2\ \ pin:\ 39}}
+\DoxyCodeLine{00408\ \ \ 1,\ \textcolor{comment}{//\ PG1\ \ pin:\ 40}}
+\DoxyCodeLine{00409\ \ \ 0,\ \textcolor{comment}{//\ PG0\ \ pin:\ 41}}
+\DoxyCodeLine{00410\ \ \ 7,\ \textcolor{comment}{//\ PL7\ \ pin:\ 42}}
+\DoxyCodeLine{00411\ \ \ 6,\ \textcolor{comment}{//\ PL6\ \ pin:\ 43}}
+\DoxyCodeLine{00412\ \ \ 5,\ \textcolor{comment}{//\ PL5\ \ pin:\ 44}}
+\DoxyCodeLine{00413\ \ \ 4,\ \textcolor{comment}{//\ PL4\ \ pin:\ 45}}
+\DoxyCodeLine{00414\ \ \ 3,\ \textcolor{comment}{//\ PL3\ \ pin:\ 46}}
+\DoxyCodeLine{00415\ \ \ 2,\ \textcolor{comment}{//\ PL2\ \ pin:\ 47}}
+\DoxyCodeLine{00416\ \ \ 1,\ \textcolor{comment}{//\ PL1\ \ pin:\ 48}}
+\DoxyCodeLine{00417\ \ \ 0,\ \textcolor{comment}{//\ PL0\ \ pin:\ 49}}
+\DoxyCodeLine{00418\ \ \ 3,\ \textcolor{comment}{//\ PB3\ \ pin:\ 50}}
+\DoxyCodeLine{00419\ \ \ 2,\ \textcolor{comment}{//\ PB2\ \ pin:\ 51}}
+\DoxyCodeLine{00420\ \ \ 1,\ \textcolor{comment}{//\ PB1\ \ pin:\ 52}}
+\DoxyCodeLine{00421\ \ \ 0,\ \textcolor{comment}{//\ PB0\ \ pin:\ 53}}
+\DoxyCodeLine{00422\ \ \ 0,\ \textcolor{comment}{//\ PF0\ \ pin:\ 54}}
+\DoxyCodeLine{00423\ \ \ 1,\ \textcolor{comment}{//\ PF1\ \ pin:\ 55}}
+\DoxyCodeLine{00424\ \ \ 2,\ \textcolor{comment}{//\ PF2\ \ pin:\ 56}}
+\DoxyCodeLine{00425\ \ \ 3,\ \textcolor{comment}{//\ PF3\ \ pin:\ 57}}
+\DoxyCodeLine{00426\ \ \ 4,\ \textcolor{comment}{//\ PF4\ \ pin:\ 58}}
+\DoxyCodeLine{00427\ \ \ 5,\ \textcolor{comment}{//\ PF5\ \ pin:\ 59}}
+\DoxyCodeLine{00428\ \ \ 6,\ \textcolor{comment}{//\ PF6\ \ pin:\ 60}}
+\DoxyCodeLine{00429\ \ \ 7,\ \textcolor{comment}{//\ PF7\ \ pin:\ 61}}
+\DoxyCodeLine{00430\ \ \ 0,\ \textcolor{comment}{//\ PK0\ \ pin:\ 62}}
+\DoxyCodeLine{00431\ \ \ 1,\ \textcolor{comment}{//\ PK1\ \ pin:\ 63}}
+\DoxyCodeLine{00432\ \ \ 2,\ \textcolor{comment}{//\ PK2\ \ pin:\ 64}}
+\DoxyCodeLine{00433\ \ \ 3,\ \textcolor{comment}{//\ PK3\ \ pin:\ 65}}
+\DoxyCodeLine{00434\ \ \ 4,\ \textcolor{comment}{//\ PK4\ \ pin:\ 66}}
+\DoxyCodeLine{00435\ \ \ 5,\ \textcolor{comment}{//\ PK5\ \ pin:\ 67}}
+\DoxyCodeLine{00436\ \ \ 6,\ \textcolor{comment}{//\ PK6\ \ pin:\ 68}}
+\DoxyCodeLine{00437\ \ \ 7,\ \textcolor{comment}{//\ PK7\ \ pin:\ 69}}
+\DoxyCodeLine{00438\ \ \ 2,\ \textcolor{comment}{//\ PJ2\ \ pin:\ fake70,\ trick\ to\ allow\ software\ interrupts\ on\ Port\ J.\ PJ2}}
+\DoxyCodeLine{00439\ \ \ 3,\ \textcolor{comment}{//\ PJ3\ \ pin:\ fake71\ PJ3}}
+\DoxyCodeLine{00440\ \ \ 4,\ \textcolor{comment}{//\ PJ4\ \ pin:\ fake72\ PJ4}}
+\DoxyCodeLine{00441\ \ \ 5,\ \textcolor{comment}{//\ PJ5\ \ pin:\ fake73\ PJ5}}
+\DoxyCodeLine{00442\ \ \ 6,\ \textcolor{comment}{//\ PJ6\ \ pin:\ fake74\ PJ6}}
+\DoxyCodeLine{00443\ \ \ 6,\ \textcolor{comment}{//\ PE6\ \ pin:\ fake75\ PE6}}
+\DoxyCodeLine{00444\ \ \ 7\ \ \textcolor{comment}{//\ PE7\ \ pin:\ fake76\ PE7}}
+\DoxyCodeLine{00445\ \};}
+\DoxyCodeLine{00446\ }
+\DoxyCodeLine{00447\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined(EI\_NOTINT1)\ \&\&\ !\ defined(EI\_NOTINT2)\ \&\&\ !\ defined(EI\_NOTINT3)\ \&\&\ !\ defined(EI\_NOTINT4)\ \&\&\ !\ defined(EI\_NOTINT5)\ \&\&\ !\ defined(EI\_NOTINT6)\ \&\&\ !\ defined(EI\_NOTINT7)}}
+\DoxyCodeLine{00448\ interruptFunctionType\ functionPointerArrayEXTERNAL[8];}
+\DoxyCodeLine{00449\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00452\ \textcolor{keyword}{struct\ }functionPointersPortB\ \{}
+\DoxyCodeLine{00453\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00454\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00455\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00456\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00457\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00458\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00459\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00460\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{00461\ \};}
+\DoxyCodeLine{00462\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortB\ functionPointersPortB;}
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00465\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00466\ }
+\DoxyCodeLine{00467\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00468\ \textcolor{comment}{//\ only\ 7\ pins\ total\ of\ port\ J\ are\ supported\ as\ interrupts\ on\ the\ ATmega2560,}}
+\DoxyCodeLine{00469\ \textcolor{comment}{//\ and\ only\ PJ0\ and\ 1\ are\ supported\ on\ the\ Arduino\ MEGA.}}
+\DoxyCodeLine{00470\ \textcolor{comment}{//\ For\ PCI1\ the\ 0th\ bit\ is\ PE0.\ \ \ PJ2-\/6\ are\ not\ exposed\ on\ the\ Arduino\ pins,\ but}}
+\DoxyCodeLine{00471\ \textcolor{comment}{//\ we\ will\ support\ them\ anyway.\ There\ are\ clones\ that\ provide\ them,\ and\ users\ may}}
+\DoxyCodeLine{00472\ \textcolor{comment}{//\ solder\ in\ their\ own\ connections\ (...go,\ Makers!)}}
+\DoxyCodeLine{00473\ \textcolor{keyword}{struct\ }functionPointersPortJ\ \{}
+\DoxyCodeLine{00474\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00475\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00476\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00477\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00478\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00479\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00480\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00481\ \};}
+\DoxyCodeLine{00482\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortJ\ functionPointersPortJ;}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ functionPointersPortJ\ portJFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00486\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTK}}
+\DoxyCodeLine{00489\ \textcolor{keyword}{struct\ }functionPointersPortK\ \{}
+\DoxyCodeLine{00490\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00491\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00492\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00493\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00494\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00495\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00496\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00497\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{00498\ \};}
+\DoxyCodeLine{00499\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortK\ functionPointersPortK;}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ functionPointersPortK\ portKFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00502\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00503\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00504\ }
+\DoxyCodeLine{00505\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{00506\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ we\ were\ defined.}}
+\DoxyCodeLine{00507\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00508\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{00509\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{00510\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{00511\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00512\ }
+\DoxyCodeLine{00513\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00514\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTJ=0;}
+\DoxyCodeLine{00515\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTJ=0;}
+\DoxyCodeLine{00516\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotJ;}
+\DoxyCodeLine{00517\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00518\ }
+\DoxyCodeLine{00519\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTK}}
+\DoxyCodeLine{00520\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTK=0;}
+\DoxyCodeLine{00521\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTK=0;}
+\DoxyCodeLine{00522\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotK;}
+\DoxyCodeLine{00523\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00524\ }
+\DoxyCodeLine{00525\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT0\_vect}}
+\DoxyCodeLine{00526\ \textcolor{preprocessor}{\#define\ PORTJ\_VECT\ PCINT1\_vect}}
+\DoxyCodeLine{00527\ \textcolor{preprocessor}{\#define\ PORTK\_VECT\ PCINT2\_vect}}
+\DoxyCodeLine{00528\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \textcolor{comment}{/*\ MEGA2561/1281\ SERIES\ ************************************************************************/}}
+\DoxyCodeLine{00531\ \textcolor{comment}{/*\ MEGA2561/1281\ SERIES\ ************************************************************************/}}
+\DoxyCodeLine{00532\ \textcolor{comment}{/*\ MEGA2561/1281\ SERIES\ ************************************************************************/}}
+\DoxyCodeLine{00533\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATmega1281\_\_\ ||\ defined\ \_\_AVR\_ATmega2561\_\_}}
+\DoxyCodeLine{00534\ \textcolor{preprocessor}{\#define\ ARDUINO\_MEGA\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00535\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{00536\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{00537\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD}}
+\DoxyCodeLine{00538\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00539\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK\ }\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00540\ }
+\DoxyCodeLine{00541\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE}\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00542\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00543\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{00544\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00545\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00548\ \textcolor{comment}{//\ Pin\ change\ interrupts}}
+\DoxyCodeLine{00549\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 8}}
+\DoxyCodeLine{00550\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 9}}
+\DoxyCodeLine{00551\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 10}}
+\DoxyCodeLine{00552\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 11}}
+\DoxyCodeLine{00553\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 12}}
+\DoxyCodeLine{00554\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 13}}
+\DoxyCodeLine{00555\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B6\ 14}}
+\DoxyCodeLine{00556\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B7\ 15}}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{00559\ \ \ 0,\ \textcolor{comment}{//\ PE0\ \ pin:\ 0}}
+\DoxyCodeLine{00560\ \ \ 1,\ \textcolor{comment}{//\ PE1\ \ pin:\ 1}}
+\DoxyCodeLine{00561\ \ \ 2,\ \textcolor{comment}{//\ PE2\ \ pin:\ 2}}
+\DoxyCodeLine{00562\ \ \ 3,\ \textcolor{comment}{//\ PE3\ \ pin:\ 3}}
+\DoxyCodeLine{00563\ \ \ 4,\ \textcolor{comment}{//\ PE4\ \ pin:\ 4}}
+\DoxyCodeLine{00564\ \ \ 5,\ \textcolor{comment}{//\ PE5\ \ pin:\ 5}}
+\DoxyCodeLine{00565\ \ \ 6,\ \textcolor{comment}{//\ PE6\ \ pin:\ 6}}
+\DoxyCodeLine{00566\ \ \ 7,\ \textcolor{comment}{//\ PE7\ \ pin:\ 7}}
+\DoxyCodeLine{00567\ \ \ 0,\ \textcolor{comment}{//\ PB0\ \ pin:\ 8}}
+\DoxyCodeLine{00568\ \ \ 1,\ \textcolor{comment}{//\ PB1\ \ pin:\ 9}}
+\DoxyCodeLine{00569\ \ \ 2,\ \textcolor{comment}{//\ PB2\ \ pin:\ 10}}
+\DoxyCodeLine{00570\ \ \ 3,\ \textcolor{comment}{//\ PB3\ \ pin:\ 11}}
+\DoxyCodeLine{00571\ \ \ 4,\ \textcolor{comment}{//\ PB4\ \ pin:\ 12}}
+\DoxyCodeLine{00572\ \ \ 5,\ \textcolor{comment}{//\ PB5\ \ pin:\ 13}}
+\DoxyCodeLine{00573\ \ \ 6,\ \textcolor{comment}{//\ PB6\ \ pin:\ 14}}
+\DoxyCodeLine{00574\ \ \ 7,\ \textcolor{comment}{//\ PB7\ \ pin:\ 15}}
+\DoxyCodeLine{00575\ \ \ 3,\ \textcolor{comment}{//\ PG3\ \ pin:\ 16}}
+\DoxyCodeLine{00576\ \ \ 4,\ \textcolor{comment}{//\ PG4\ \ pin:\ 17}}
+\DoxyCodeLine{00577\ \ \ 0,\ \textcolor{comment}{//\ PD0\ \ pin:\ 18}}
+\DoxyCodeLine{00578\ \ \ 1,\ \textcolor{comment}{//\ PD1\ \ pin:\ 19}}
+\DoxyCodeLine{00579\ \ \ 2,\ \textcolor{comment}{//\ PD2\ \ pin:\ 20}}
+\DoxyCodeLine{00580\ \ \ 3,\ \textcolor{comment}{//\ PD3\ \ pin:\ 21}}
+\DoxyCodeLine{00581\ \ \ 4,\ \textcolor{comment}{//\ PD4\ \ pin:\ 22}}
+\DoxyCodeLine{00582\ \ \ 5,\ \textcolor{comment}{//\ PD5\ \ pin:\ 23}}
+\DoxyCodeLine{00583\ \ \ 6,\ \textcolor{comment}{//\ PD6\ \ pin:\ 24}}
+\DoxyCodeLine{00584\ \ \ 7,\ \textcolor{comment}{//\ PD7\ \ pin:\ 25}}
+\DoxyCodeLine{00585\ \ \ 0,\ \textcolor{comment}{//\ PG0\ \ pin:\ 26}}
+\DoxyCodeLine{00586\ \ \ 1,\ \textcolor{comment}{//\ PG1\ \ pin:\ 27}}
+\DoxyCodeLine{00587\ \ \ 0,\ \textcolor{comment}{//\ PC0\ \ pin:\ 28}}
+\DoxyCodeLine{00588\ \ \ 1,\ \textcolor{comment}{//\ PC1\ \ pin:\ 29}}
+\DoxyCodeLine{00589\ \ \ 2,\ \textcolor{comment}{//\ PC2\ \ pin:\ 30}}
+\DoxyCodeLine{00590\ \ \ 3,\ \textcolor{comment}{//\ PC3\ \ pin:\ 31}}
+\DoxyCodeLine{00591\ \ \ 4,\ \textcolor{comment}{//\ PC4\ \ pin:\ 32}}
+\DoxyCodeLine{00592\ \ \ 5,\ \textcolor{comment}{//\ PC5\ \ pin:\ 33}}
+\DoxyCodeLine{00593\ \ \ 6,\ \textcolor{comment}{//\ PC6\ \ pin:\ 34}}
+\DoxyCodeLine{00594\ \ \ 7,\ \textcolor{comment}{//\ PC7\ \ pin:\ 35}}
+\DoxyCodeLine{00595\ \ \ 2,\ \textcolor{comment}{//\ PG2\ \ pin:\ 36}}
+\DoxyCodeLine{00596\ \ \ 7,\ \textcolor{comment}{//\ PA7\ \ pin:\ 37}}
+\DoxyCodeLine{00597\ \ \ 6,\ \textcolor{comment}{//\ PA6\ \ pin:\ 38}}
+\DoxyCodeLine{00598\ \ \ 5,\ \textcolor{comment}{//\ PA5\ \ pin:\ 39}}
+\DoxyCodeLine{00599\ \ \ 4,\ \textcolor{comment}{//\ PA4\ \ pin:\ 40}}
+\DoxyCodeLine{00600\ \ \ 3,\ \textcolor{comment}{//\ PA3\ \ pin:\ 41}}
+\DoxyCodeLine{00601\ \ \ 2,\ \textcolor{comment}{//\ PA2\ \ pin:\ 42}}
+\DoxyCodeLine{00602\ \ \ 1,\ \textcolor{comment}{//\ PA1\ \ pin:\ 43}}
+\DoxyCodeLine{00603\ \ \ 0,\ \textcolor{comment}{//\ PA0\ \ pin:\ 44}}
+\DoxyCodeLine{00604\ \ \ 0,\ \textcolor{comment}{//\ PF0\ \ pin:\ 45}}
+\DoxyCodeLine{00605\ \ \ 1,\ \textcolor{comment}{//\ PF1\ \ pin:\ 46}}
+\DoxyCodeLine{00606\ \ \ 2,\ \textcolor{comment}{//\ PF2\ \ pin:\ 47}}
+\DoxyCodeLine{00607\ \ \ 3,\ \textcolor{comment}{//\ PF3\ \ pin:\ 48}}
+\DoxyCodeLine{00608\ \ \ 4,\ \textcolor{comment}{//\ PF4\ \ pin:\ 49}}
+\DoxyCodeLine{00609\ \ \ 5,\ \textcolor{comment}{//\ PF5\ \ pin:\ 50}}
+\DoxyCodeLine{00610\ \ \ 6,\ \textcolor{comment}{//\ PF6\ \ pin:\ 51}}
+\DoxyCodeLine{00611\ \ \ 7,\ \textcolor{comment}{//\ PF7\ \ pin:\ 52}}
+\DoxyCodeLine{00612\ \ \ 5\ \ \textcolor{comment}{//\ PG5\ \ pin:\ 53}}
+\DoxyCodeLine{00613\ \};}
+\DoxyCodeLine{00614\ }
+\DoxyCodeLine{00615\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined(EI\_NOTINT1)\ \&\&\ !\ defined(EI\_NOTINT2)\ \&\&\ !\ defined(EI\_NOTINT3)\ \&\&\ !\ defined(EI\_NOTINT4)\ \&\&\ !\ defined(EI\_NOTINT5)\ \&\&\ !\ defined(EI\_NOTINT6)\ \&\&\ !\ defined(EI\_NOTINT7)}}
+\DoxyCodeLine{00616\ interruptFunctionType\ functionPointerArrayEXTERNAL[8];}
+\DoxyCodeLine{00617\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00618\ }
+\DoxyCodeLine{00619\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00620\ \textcolor{keyword}{struct\ }functionPointersPortB\ \{}
+\DoxyCodeLine{00621\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00622\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00623\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00624\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00625\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00626\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00627\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00628\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{00629\ \};}
+\DoxyCodeLine{00630\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortB\ functionPointersPortB;}
+\DoxyCodeLine{00631\ }
+\DoxyCodeLine{00632\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00633\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00634\ }
+\DoxyCodeLine{00635\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{00638\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ we\ were\ defined.}}
+\DoxyCodeLine{00639\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00640\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{00641\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{00642\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{00643\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00644\ }
+\DoxyCodeLine{00645\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT0\_vect}}
+\DoxyCodeLine{00646\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \textcolor{comment}{/*\ LEONARDO\ ***************************************************************************/}}
+\DoxyCodeLine{00649\ \textcolor{comment}{/*\ LEONARDO\ ***************************************************************************/}}
+\DoxyCodeLine{00650\ \textcolor{comment}{/*\ LEONARDO\ ***************************************************************************/}}
+\DoxyCodeLine{00651\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATmega32U4\_\_\ ||\ defined\ \_\_AVR\_ATmega16U4\_\_}}
+\DoxyCodeLine{00652\ \textcolor{preprocessor}{\#define\ ARDUINO\_LEONARDO\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00653\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{00654\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{00655\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD}}
+\DoxyCodeLine{00656\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00657\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK}}
+\DoxyCodeLine{00658\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{00659\ }
+\DoxyCodeLine{00660\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE}\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00661\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00662\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{00663\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00664\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00665\ }
+\DoxyCodeLine{00666\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00667\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 17}}
+\DoxyCodeLine{00668\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 15}}
+\DoxyCodeLine{00669\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 16}}
+\DoxyCodeLine{00670\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 14}}
+\DoxyCodeLine{00671\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 8}}
+\DoxyCodeLine{00672\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 9}}
+\DoxyCodeLine{00673\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B6\ 10}}
+\DoxyCodeLine{00674\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B7\ 11}}
+\DoxyCodeLine{00675\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D0\ 3}}
+\DoxyCodeLine{00676\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D1\ 2}}
+\DoxyCodeLine{00677\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D2\ 0}}
+\DoxyCodeLine{00678\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D3\ 1}}
+\DoxyCodeLine{00679\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_E6\ 7}}
+\DoxyCodeLine{00680\ }
+\DoxyCodeLine{00681\ \textcolor{comment}{/*\ To\ derive\ this\ list:}}
+\DoxyCodeLine{00682\ \textcolor{comment}{\ \ \ sed\ -\/n\ -\/e\ '1,/digital\_pin\_to\_port\_PGM/d'\ -\/e\ '/\string^\}/,\$d'\ -\/e\ '/P/p'\ \(\backslash\)}}
+\DoxyCodeLine{00683\ \textcolor{comment}{\ \ \ \ \ \ \ /usr/share/arduino/hardware/arduino/variants/leonardo/pins\_arduino.h\ |\ \(\backslash\)}}
+\DoxyCodeLine{00684\ \textcolor{comment}{\ \ \ \ \ \ \ awk\ '\{print\ "{}\ \ "{},\ \$5\ "{},\ //\ "{}\ \$5\ "{}\ \ pin:\ "{}\ \$3\}'}}
+\DoxyCodeLine{00685\ \textcolor{comment}{\ \ \ ...then\ massage\ the\ output\ as\ necessary\ to\ create\ the\ below:}}
+\DoxyCodeLine{00686\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00687\ }
+\DoxyCodeLine{00688\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{00689\ \ \ 2,\ \textcolor{comment}{//\ PD2\ \ pin:\ D0}}
+\DoxyCodeLine{00690\ \ \ 3,\ \textcolor{comment}{//\ PD3\ \ pin:\ D1}}
+\DoxyCodeLine{00691\ \ \ 1,\ \textcolor{comment}{//\ PD1\ \ pin:\ D2}}
+\DoxyCodeLine{00692\ \ \ 0,\ \textcolor{comment}{//\ PD0\ \ pin:\ D3}}
+\DoxyCodeLine{00693\ \ \ 4,\ \textcolor{comment}{//\ PD4\ \ pin:\ D4}}
+\DoxyCodeLine{00694\ \ \ 6,\ \textcolor{comment}{//\ PC6\ \ pin:\ D5}}
+\DoxyCodeLine{00695\ \ \ 7,\ \textcolor{comment}{//\ PD7\ \ pin:\ D6}}
+\DoxyCodeLine{00696\ \ \ 6,\ \textcolor{comment}{//\ PE6\ \ pin:\ D7}}
+\DoxyCodeLine{00697\ \ \ 4,\ \textcolor{comment}{//\ PB4\ \ pin:\ D8\ \ //\ we\ really\ only\ care\ about\ Port\ B,\ but\ I\ don't\ know\ that}}
+\DoxyCodeLine{00698\ \ \ 5,\ \textcolor{comment}{//\ PB5\ \ pin:\ D9\ \ //\ shortening\ this\ array\ and\ doing\ array\ index\ arithmetic}}
+\DoxyCodeLine{00699\ \ \ 6,\ \textcolor{comment}{//\ PB6\ \ pin:\ D10\ //\ would\ make\ the\ code\ any\ shorter.}}
+\DoxyCodeLine{00700\ \ \ 7,\ \textcolor{comment}{//\ PB7\ \ pin:\ D11}}
+\DoxyCodeLine{00701\ \ \ 6,\ \textcolor{comment}{//\ PD6\ \ pin:\ D12}}
+\DoxyCodeLine{00702\ \ \ 7,\ \textcolor{comment}{//\ PC7\ \ pin:\ D13}}
+\DoxyCodeLine{00703\ \ \ 3,\ \textcolor{comment}{//\ PB3\ \ pin:\ D14\ MISO}}
+\DoxyCodeLine{00704\ \ \ 1,\ \textcolor{comment}{//\ PB1\ \ pin:\ D15\ SCK}}
+\DoxyCodeLine{00705\ \ \ 2,\ \textcolor{comment}{//\ PB2\ \ pin:\ D16\ MOSI}}
+\DoxyCodeLine{00706\ \ \ 0\ \ \textcolor{comment}{//\ PB0\ \ pin:\ D17\ SS\ (RXLED).\ Available\ on\ non-\/Leonardo\ 32u4\ boards,\ at\ least\ (exposed\ on\ the\ Leonardo??)}}
+\DoxyCodeLine{00707\ \textcolor{comment}{//\ There\ are\ no\ ports\ we\ care\ about\ after\ pin\ 17.}}
+\DoxyCodeLine{00708\ \};}
+\DoxyCodeLine{00709\ }
+\DoxyCodeLine{00710\ }
+\DoxyCodeLine{00711\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined(EI\_NOTINT1)\ \&\&\ !\ defined(EI\_NOTINT2)\ \&\&\ !\ defined(EI\_NOTINT3)\ \&\&\ !\ defined(EI\_NOTINT6)}}
+\DoxyCodeLine{00712\ interruptFunctionType\ functionPointerArrayEXTERNAL[5];}
+\DoxyCodeLine{00713\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00714\ }
+\DoxyCodeLine{00715\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00716\ \textcolor{keyword}{struct\ }functionPointersPortB\ \{}
+\DoxyCodeLine{00717\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00718\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00719\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00720\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00721\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00722\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00723\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00724\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{00725\ \};}
+\DoxyCodeLine{00726\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortB\ functionPointersPortB;}
+\DoxyCodeLine{00727\ }
+\DoxyCodeLine{00728\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00729\ }
+\DoxyCodeLine{00730\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00731\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFOR\ SPEED}}
+\DoxyCodeLine{00732\ }
+\DoxyCodeLine{00733\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00734\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{00735\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ we\ were\ defined.}}
+\DoxyCodeLine{00736\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{00737\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{00738\ }
+\DoxyCodeLine{00739\ \textcolor{comment}{//\ for\ the\ saved\ state\ of\ the\ ports}}
+\DoxyCodeLine{00740\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{00741\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00742\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT0\_vect}}
+\DoxyCodeLine{00743\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{00744\ }
+\DoxyCodeLine{00745\ \textcolor{comment}{/*\ 644/1284\ ***************************************************************************/}}
+\DoxyCodeLine{00746\ \textcolor{comment}{/*\ 644/1284\ ***************************************************************************/}}
+\DoxyCodeLine{00747\ \textcolor{comment}{/*\ 644/1284\ ***************************************************************************/}}
+\DoxyCodeLine{00748\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATmega1284P\_\_\ ||\ defined\ \_\_AVR\_ATmega1284\_\_\ ||\ defined(\_\_AVR\_ATmega644P\_\_)\ ||\ defined(\_\_AVR\_ATmega644\_\_)}}
+\DoxyCodeLine{00749\ \textcolor{preprocessor}{\#define\ MIGHTY1284\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00750\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{00751\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK\ }\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00752\ }
+\DoxyCodeLine{00753\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE}\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00754\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{00755\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{00756\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00757\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00758\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{00759\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00760\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{00761\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{00762\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00763\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{00764\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD}}
+\DoxyCodeLine{00765\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00766\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00767\ }
+\DoxyCodeLine{00768\ \textcolor{preprocessor}{\#ifndef\ INPUT\_PULLUP}}
+\DoxyCodeLine{00769\ \textcolor{preprocessor}{\#define\ INPUT\_PULLUP\ 0x2}}
+\DoxyCodeLine{00770\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00771\ }
+\DoxyCodeLine{00772\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00773\ \textcolor{preprocessor}{\#if\ defined\ BOBUINO\_PINOUT}}
+\DoxyCodeLine{00774\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A0\ 21}}
+\DoxyCodeLine{00775\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A1\ 20}}
+\DoxyCodeLine{00776\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A2\ 19}}
+\DoxyCodeLine{00777\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A3\ 18}}
+\DoxyCodeLine{00778\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A4\ 17}}
+\DoxyCodeLine{00779\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A5\ 16}}
+\DoxyCodeLine{00780\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A6\ 15}}
+\DoxyCodeLine{00781\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A7\ 14}}
+\DoxyCodeLine{00782\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 4}}
+\DoxyCodeLine{00783\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 5}}
+\DoxyCodeLine{00784\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 6\ \ }\textcolor{comment}{//\ INT2}}
+\DoxyCodeLine{00785\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 7}}
+\DoxyCodeLine{00786\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 10}}
+\DoxyCodeLine{00787\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 11}}
+\DoxyCodeLine{00788\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B6\ 12}}
+\DoxyCodeLine{00789\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B7\ 13}}
+\DoxyCodeLine{00790\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C0\ 22}}
+\DoxyCodeLine{00791\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C1\ 23}}
+\DoxyCodeLine{00792\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C2\ 24}}
+\DoxyCodeLine{00793\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C3\ 25}}
+\DoxyCodeLine{00794\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C4\ 26}}
+\DoxyCodeLine{00795\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C5\ 27}}
+\DoxyCodeLine{00796\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C6\ 28}}
+\DoxyCodeLine{00797\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C7\ 29}}
+\DoxyCodeLine{00798\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D0\ 0}}
+\DoxyCodeLine{00799\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D1\ 1}}
+\DoxyCodeLine{00800\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D2\ 2\ \ }\textcolor{comment}{//\ INT0}}
+\DoxyCodeLine{00801\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D3\ 3\ \ }\textcolor{comment}{//\ INT1}}
+\DoxyCodeLine{00802\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D4\ 30}}
+\DoxyCodeLine{00803\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D5\ 8}}
+\DoxyCodeLine{00804\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D6\ 9}}
+\DoxyCodeLine{00805\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D7\ 31}}
+\DoxyCodeLine{00806\ }
+\DoxyCodeLine{00807\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{00808\ \ \ 0,\ \textcolor{comment}{//\ PD0}}
+\DoxyCodeLine{00809\ \ \ 1,\ \textcolor{comment}{//\ PD1}}
+\DoxyCodeLine{00810\ \ \ 2,\ \textcolor{comment}{//\ PD2}}
+\DoxyCodeLine{00811\ \ \ 3,\ \textcolor{comment}{//\ PD3}}
+\DoxyCodeLine{00812\ \ \ 0,\ \textcolor{comment}{//\ PB0}}
+\DoxyCodeLine{00813\ \ \ 1,\ \textcolor{comment}{//\ PB1}}
+\DoxyCodeLine{00814\ \ \ 2,\ \textcolor{comment}{//\ PB2}}
+\DoxyCodeLine{00815\ \ \ 3,\ \textcolor{comment}{//\ PB3}}
+\DoxyCodeLine{00816\ \ \ 5,\ \textcolor{comment}{//\ PD5}}
+\DoxyCodeLine{00817\ \ \ 6,\ \textcolor{comment}{//\ PD6}}
+\DoxyCodeLine{00818\ }
+\DoxyCodeLine{00819\ \ \ 4,\ \textcolor{comment}{//\ PB4}}
+\DoxyCodeLine{00820\ \ \ 5,\ \textcolor{comment}{//\ PB5}}
+\DoxyCodeLine{00821\ \ \ 6,\ \textcolor{comment}{//\ PB6}}
+\DoxyCodeLine{00822\ \ \ 7,\ \textcolor{comment}{//\ PB7}}
+\DoxyCodeLine{00823\ \ \ 7,\ \textcolor{comment}{//\ PA7}}
+\DoxyCodeLine{00824\ \ \ 6,\ \textcolor{comment}{//\ PA6}}
+\DoxyCodeLine{00825\ \ \ 5,\ \textcolor{comment}{//\ PA5}}
+\DoxyCodeLine{00826\ \ \ 4,\ \textcolor{comment}{//\ PA4}}
+\DoxyCodeLine{00827\ \ \ 3,\ \textcolor{comment}{//\ PA3}}
+\DoxyCodeLine{00828\ \ \ 2,\ \textcolor{comment}{//\ PA2}}
+\DoxyCodeLine{00829\ }
+\DoxyCodeLine{00830\ \ \ 1,\ \textcolor{comment}{//\ PA1}}
+\DoxyCodeLine{00831\ \ \ 0,\ \textcolor{comment}{//\ PA0}}
+\DoxyCodeLine{00832\ \ \ 0,\ \textcolor{comment}{//\ PC0}}
+\DoxyCodeLine{00833\ \ \ 1,\ \textcolor{comment}{//\ PC1}}
+\DoxyCodeLine{00834\ \ \ 2,\ \textcolor{comment}{//\ PC2}}
+\DoxyCodeLine{00835\ \ \ 3,\ \textcolor{comment}{//\ PC3}}
+\DoxyCodeLine{00836\ \ \ 4,\ \textcolor{comment}{//\ PC4}}
+\DoxyCodeLine{00837\ \ \ 5,\ \textcolor{comment}{//\ PC5}}
+\DoxyCodeLine{00838\ \ \ 6,\ \textcolor{comment}{//\ PC6}}
+\DoxyCodeLine{00839\ \ \ 7,\ \textcolor{comment}{//\ PC7}}
+\DoxyCodeLine{00840\ }
+\DoxyCodeLine{00841\ \ \ 4,\ \textcolor{comment}{//\ PD4}}
+\DoxyCodeLine{00842\ \ \ 7,\ \textcolor{comment}{//\ PD7}}
+\DoxyCodeLine{00843\ \};}
+\DoxyCodeLine{00844\ }
+\DoxyCodeLine{00845\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00846\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A0\ 24}}
+\DoxyCodeLine{00847\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A1\ 25}}
+\DoxyCodeLine{00848\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A2\ 26}}
+\DoxyCodeLine{00849\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A3\ 27}}
+\DoxyCodeLine{00850\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A4\ 28}}
+\DoxyCodeLine{00851\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A5\ 29}}
+\DoxyCodeLine{00852\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A6\ 30}}
+\DoxyCodeLine{00853\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A7\ 31}}
+\DoxyCodeLine{00854\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C0\ 16}}
+\DoxyCodeLine{00855\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C1\ 17}}
+\DoxyCodeLine{00856\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C2\ 18}}
+\DoxyCodeLine{00857\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C3\ 19}}
+\DoxyCodeLine{00858\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C4\ 20}}
+\DoxyCodeLine{00859\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C5\ 21}}
+\DoxyCodeLine{00860\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C6\ 22}}
+\DoxyCodeLine{00861\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_C7\ 23}}
+\DoxyCodeLine{00862\ }
+\DoxyCodeLine{00863\ \textcolor{comment}{//\ For\ boards\ with\ the\ 44\ pin\ options:\ \ vectors\ B\ \&\ D\ are\ reversed}}
+\DoxyCodeLine{00864\ \textcolor{comment}{//\ Thanks\ to\ Sara\ Damiano\ for\ these\ updates!!!}}
+\DoxyCodeLine{00865\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_AVR\_ENVIRODIY\_MAYFLY\ ||\ defined\ ARDUINO\_AVR\_SODAQ\_MBILI}}
+\DoxyCodeLine{00866\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 8}}
+\DoxyCodeLine{00867\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 9}}
+\DoxyCodeLine{00868\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 10\ \ }\textcolor{comment}{//\ INT2}}
+\DoxyCodeLine{00869\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 11}}
+\DoxyCodeLine{00870\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 12}}
+\DoxyCodeLine{00871\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 13}}
+\DoxyCodeLine{00872\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B6\ 14}}
+\DoxyCodeLine{00873\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B7\ 15}}
+\DoxyCodeLine{00874\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D0\ 0}}
+\DoxyCodeLine{00875\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D1\ 1}}
+\DoxyCodeLine{00876\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D2\ 2\ \ }\textcolor{comment}{//\ INT0}}
+\DoxyCodeLine{00877\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D3\ 3\ \ }\textcolor{comment}{//\ INT1}}
+\DoxyCodeLine{00878\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D4\ 4}}
+\DoxyCodeLine{00879\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D5\ 5}}
+\DoxyCodeLine{00880\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D6\ 6}}
+\DoxyCodeLine{00881\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D7\ 7}}
+\DoxyCodeLine{00882\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00883\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 0}}
+\DoxyCodeLine{00884\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 1}}
+\DoxyCodeLine{00885\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 2\ \ }\textcolor{comment}{//\ INT2}}
+\DoxyCodeLine{00886\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 3}}
+\DoxyCodeLine{00887\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 4}}
+\DoxyCodeLine{00888\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 5}}
+\DoxyCodeLine{00889\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B6\ 6}}
+\DoxyCodeLine{00890\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B7\ 7}}
+\DoxyCodeLine{00891\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D0\ 8}}
+\DoxyCodeLine{00892\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D1\ 9}}
+\DoxyCodeLine{00893\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D2\ 10\ \ }\textcolor{comment}{//\ INT0}}
+\DoxyCodeLine{00894\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D3\ 11\ \ }\textcolor{comment}{//\ INT1}}
+\DoxyCodeLine{00895\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D4\ 12}}
+\DoxyCodeLine{00896\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D5\ 13}}
+\DoxyCodeLine{00897\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D6\ 14}}
+\DoxyCodeLine{00898\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_D7\ 15}}
+\DoxyCodeLine{00899\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00900\ }
+\DoxyCodeLine{00901\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{00902\ \ \ 0,\ \textcolor{comment}{//\ 0\ ==\ port\ B,\ 0}}
+\DoxyCodeLine{00903\ \ \ 1,}
+\DoxyCodeLine{00904\ \ \ 2,}
+\DoxyCodeLine{00905\ \ \ 3,}
+\DoxyCodeLine{00906\ \ \ 4,}
+\DoxyCodeLine{00907\ \ \ 5,}
+\DoxyCodeLine{00908\ \ \ 6,}
+\DoxyCodeLine{00909\ \ \ 7,}
+\DoxyCodeLine{00910\ \ \ 0,\ \textcolor{comment}{//\ 8\ ==\ port\ D,\ 0}}
+\DoxyCodeLine{00911\ \ \ 1,}
+\DoxyCodeLine{00912\ \ \ 2,}
+\DoxyCodeLine{00913\ \ \ 3,}
+\DoxyCodeLine{00914\ \ \ 4,}
+\DoxyCodeLine{00915\ \ \ 5,}
+\DoxyCodeLine{00916\ \ \ 6,}
+\DoxyCodeLine{00917\ \ \ 7,}
+\DoxyCodeLine{00918\ \ \ 0,\ \textcolor{comment}{//\ 16\ ==\ port\ C,\ 0}}
+\DoxyCodeLine{00919\ \ \ 1,}
+\DoxyCodeLine{00920\ \ \ 2,}
+\DoxyCodeLine{00921\ \ \ 3,}
+\DoxyCodeLine{00922\ \ \ 4,}
+\DoxyCodeLine{00923\ \ \ 5,}
+\DoxyCodeLine{00924\ \ \ 6,}
+\DoxyCodeLine{00925\ \ \ 7,}
+\DoxyCodeLine{00926\ \ \ 0,\ \textcolor{comment}{//\ 24\ ==\ port\ A,\ 0}}
+\DoxyCodeLine{00927\ \ \ 1,}
+\DoxyCodeLine{00928\ \ \ 2,}
+\DoxyCodeLine{00929\ \ \ 3,}
+\DoxyCodeLine{00930\ \ \ 4,}
+\DoxyCodeLine{00931\ \ \ 5,}
+\DoxyCodeLine{00932\ \ \ 6,}
+\DoxyCodeLine{00933\ \ \ 7}
+\DoxyCodeLine{00934\ \};}
+\DoxyCodeLine{00935\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00936\ }
+\DoxyCodeLine{00937\ }
+\DoxyCodeLine{00938\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined(EI\_NOTINT1)\ \&\&\ !\ defined(EI\_NOTINT2)}}
+\DoxyCodeLine{00939\ interruptFunctionType\ functionPointerArrayEXTERNAL[3];}
+\DoxyCodeLine{00940\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00941\ }
+\DoxyCodeLine{00942\ \textcolor{keyword}{struct\ }functionPointers\ \{}
+\DoxyCodeLine{00943\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{00944\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{00945\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{00946\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{00947\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{00948\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{00949\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{00950\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{00951\ \};}
+\DoxyCodeLine{00952\ }
+\DoxyCodeLine{00953\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{00954\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointers\ functionPointersPortA;}
+\DoxyCodeLine{00955\ functionPointers\ portAFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00956\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00957\ }
+\DoxyCodeLine{00958\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00959\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointers\ functionPointersPortB;}
+\DoxyCodeLine{00960\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00961\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00962\ }
+\DoxyCodeLine{00963\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{00964\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointers\ functionPointersPortC;}
+\DoxyCodeLine{00965\ functionPointersPortC\ portCFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00966\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00967\ }
+\DoxyCodeLine{00968\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{00969\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointers\ functionPointersPortD;}
+\DoxyCodeLine{00970\ functionPointersPortD\ portDFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{00971\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00972\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{00973\ }
+\DoxyCodeLine{00974\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{00975\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTA=0;}
+\DoxyCodeLine{00976\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTA=0;}
+\DoxyCodeLine{00977\ \textcolor{comment}{//\ for\ the\ saved\ state\ of\ the\ ports}}
+\DoxyCodeLine{00978\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotA;}
+\DoxyCodeLine{00979\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00980\ }
+\DoxyCodeLine{00981\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00982\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{00983\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{00984\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{00985\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00986\ }
+\DoxyCodeLine{00987\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{00988\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTC=0;}
+\DoxyCodeLine{00989\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTC=0;}
+\DoxyCodeLine{00990\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotC;}
+\DoxyCodeLine{00991\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00992\ }
+\DoxyCodeLine{00993\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{00994\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTD=0;}
+\DoxyCodeLine{00995\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTD=0;}
+\DoxyCodeLine{00996\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotD;}
+\DoxyCodeLine{00997\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00998\ }
+\DoxyCodeLine{00999\ \textcolor{comment}{//\ the\ vectors\ (eg,\ "{}PCINT0\_vect"{})\ are\ defined\ in\ the\ avr.h\ files,\ like\ iom1284p.h}}
+\DoxyCodeLine{01000\ \textcolor{preprocessor}{\#define\ PORTA\_VECT\ PCINT0\_vect}}
+\DoxyCodeLine{01001\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT1\_vect}}
+\DoxyCodeLine{01002\ \textcolor{preprocessor}{\#define\ PORTC\_VECT\ PCINT2\_vect}}
+\DoxyCodeLine{01003\ \textcolor{preprocessor}{\#define\ PORTD\_VECT\ PCINT3\_vect}}
+\DoxyCodeLine{01004\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01005\ }
+\DoxyCodeLine{01006\ \textcolor{comment}{/*\ 24/44/84\ ***************************************************************************/}}
+\DoxyCodeLine{01007\ \textcolor{comment}{/*\ 24/44/84\ ***************************************************************************/}}
+\DoxyCodeLine{01008\ \textcolor{comment}{/*\ 24/44/84\ ***************************************************************************/}}
+\DoxyCodeLine{01009\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATtiny24\_\_\ \ ||\ defined\ \_\_AVR\_ATtiny24A\_\_\ ||\ defined\ \_\_AVR\_ATtiny44\_\_\ ||\ defined\ \_\_AVR\_ATtiny44A\_\_\ ||\ defined\ \_\_AVR\_ATtiny84\_\_\ ||\ defined\ \ \_\_AVR\_ATtiny84A\_}}
+\DoxyCodeLine{01010\ \textcolor{preprocessor}{\#define\ EI\_ATTINY24\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01011\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{01012\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD}}
+\DoxyCodeLine{01013\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{01014\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK}}
+\DoxyCodeLine{01015\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01016\ }
+\DoxyCodeLine{01017\ \textcolor{preprocessor}{\#define\ EI\_NOTINT1}}
+\DoxyCodeLine{01018\ }
+\DoxyCodeLine{01019\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE}\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01020\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{01021\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{01022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01023\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01024\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{01025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01027\ }
+\DoxyCodeLine{01028\ \textcolor{preprocessor}{\#ifndef\ INPUT\_PULLUP}}
+\DoxyCodeLine{01029\ \textcolor{preprocessor}{\#define\ INPUT\_PULLUP\ 0x2}}
+\DoxyCodeLine{01030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01031\ }
+\DoxyCodeLine{01032\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01033\ }
+\DoxyCodeLine{01034\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 11}}
+\DoxyCodeLine{01035\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 8}}
+\DoxyCodeLine{01036\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 9}}
+\DoxyCodeLine{01037\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 10}}
+\DoxyCodeLine{01038\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A0\ 0}}
+\DoxyCodeLine{01039\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A1\ 1}}
+\DoxyCodeLine{01040\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A2\ 2}}
+\DoxyCodeLine{01041\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A3\ 3}}
+\DoxyCodeLine{01042\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A4\ 4}}
+\DoxyCodeLine{01043\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A5\ 5}}
+\DoxyCodeLine{01044\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A6\ 6}}
+\DoxyCodeLine{01045\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_A7\ 7}}
+\DoxyCodeLine{01046\ }
+\DoxyCodeLine{01047\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{01048\ \ \ 0,\ \textcolor{comment}{//\ pin\ 0\ ==\ port\ A,\ bit\ 0}}
+\DoxyCodeLine{01049\ \ \ 1,}
+\DoxyCodeLine{01050\ \ \ 2,}
+\DoxyCodeLine{01051\ \ \ 3,}
+\DoxyCodeLine{01052\ \ \ 4,}
+\DoxyCodeLine{01053\ \ \ 5,}
+\DoxyCodeLine{01054\ \ \ 6,}
+\DoxyCodeLine{01055\ \ \ 7,}
+\DoxyCodeLine{01056\ \ \ 2,\ \textcolor{comment}{//\ pin\ 8\ =\ port\ B,\ bit\ 2}}
+\DoxyCodeLine{01057\ \ \ 1,}
+\DoxyCodeLine{01058\ \ \ 0,}
+\DoxyCodeLine{01059\ \ \ 3}
+\DoxyCodeLine{01060\ \};}
+\DoxyCodeLine{01061\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)}}
+\DoxyCodeLine{01062\ interruptFunctionType\ externalFunctionPointer=0;}
+\DoxyCodeLine{01063\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01064\ }
+\DoxyCodeLine{01065\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{01066\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ the\ ports\ were\ defined.}}
+\DoxyCodeLine{01067\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{01068\ \textcolor{keyword}{struct\ }functionPointersPortA\ \{}
+\DoxyCodeLine{01069\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{01070\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{01071\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{01072\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{01073\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{01074\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{01075\ \ \ interruptFunctionType\ pinSix;}
+\DoxyCodeLine{01076\ \ \ interruptFunctionType\ pinSeven;}
+\DoxyCodeLine{01077\ \};}
+\DoxyCodeLine{01078\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortA\ functionPointersPortA;}
+\DoxyCodeLine{01079\ }
+\DoxyCodeLine{01080\ functionPointersPortA\ portAFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{01081\ }
+\DoxyCodeLine{01082\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{01083\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01084\ \textcolor{keyword}{struct\ }functionPointersPortB\ \{}
+\DoxyCodeLine{01085\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{01086\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{01087\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{01088\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{01089\ \};}
+\DoxyCodeLine{01090\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortB\ functionPointersPortB;}
+\DoxyCodeLine{01091\ }
+\DoxyCodeLine{01092\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{01093\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01094\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01095\ }
+\DoxyCodeLine{01096\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{01097\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ we\ were\ defined.}}
+\DoxyCodeLine{01098\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{01099\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTA=0;}
+\DoxyCodeLine{01100\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTA=0;}
+\DoxyCodeLine{01101\ \textcolor{comment}{//\ for\ the\ saved\ state\ of\ the\ ports}}
+\DoxyCodeLine{01102\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotA;}
+\DoxyCodeLine{01103\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01104\ }
+\DoxyCodeLine{01105\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01106\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{01107\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{01108\ \textcolor{comment}{//\ for\ the\ saved\ state\ of\ the\ ports}}
+\DoxyCodeLine{01109\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{01110\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01111\ }
+\DoxyCodeLine{01112\ \textcolor{preprocessor}{\#define\ PORTA\_VECT\ PCINT0\_vect}}
+\DoxyCodeLine{01113\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT1\_vect}\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01114\ }
+\DoxyCodeLine{01115\ \textcolor{comment}{/*\ 25/45/85\ ***************************************************************************/}}
+\DoxyCodeLine{01116\ \textcolor{comment}{/*\ 25/45/85\ ***************************************************************************/}}
+\DoxyCodeLine{01117\ \textcolor{comment}{/*\ 25/45/85\ ***************************************************************************/}}
+\DoxyCodeLine{01118\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATtiny25\_\_\ ||\ defined\ \ \_\_AVR\_ATtiny45\_\_\ ||\ defined\ \ \_\_AVR\_ATtiny85\_\_}}
+\DoxyCodeLine{01119\ \textcolor{preprocessor}{\#define\ EI\_ATTINY25\ }\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01120\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTA}}
+\DoxyCodeLine{01121\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTC}}
+\DoxyCodeLine{01122\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTD}}
+\DoxyCodeLine{01123\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTJ}}
+\DoxyCodeLine{01124\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTK}}
+\DoxyCodeLine{01125\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01126\ }
+\DoxyCodeLine{01127\ \textcolor{preprocessor}{\#if\ defined\ EI\_NOTPINCHANGE}\textcolor{comment}{/*\{\{\{*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01128\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01129\ \textcolor{preprocessor}{\#define\ EI\_NOTPORTB}}
+\DoxyCodeLine{01130\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01131\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01132\ }
+\DoxyCodeLine{01133\ \textcolor{preprocessor}{\#ifndef\ INPUT\_PULLUP}}
+\DoxyCodeLine{01134\ \textcolor{preprocessor}{\#define\ INPUT\_PULLUP\ 0x2}}
+\DoxyCodeLine{01135\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01136\ }
+\DoxyCodeLine{01137\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01138\ }
+\DoxyCodeLine{01139\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B0\ 0}}
+\DoxyCodeLine{01140\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B1\ 1}}
+\DoxyCodeLine{01141\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B2\ 2}}
+\DoxyCodeLine{01142\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B3\ 3}}
+\DoxyCodeLine{01143\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B4\ 4}}
+\DoxyCodeLine{01144\ \textcolor{preprocessor}{\#define\ ARDUINO\_PIN\_B5\ 5}}
+\DoxyCodeLine{01145\ }
+\DoxyCodeLine{01146\ \textcolor{keyword}{const}\ uint8\_t\ PROGMEM\ digital\_pin\_to\_port\_bit\_number\_PGM[]\ =\ \{}
+\DoxyCodeLine{01147\ \ \ 0,\ \textcolor{comment}{//\ pin\ 0\ ==\ port\ B,\ bit\ 0}}
+\DoxyCodeLine{01148\ \ \ 1,}
+\DoxyCodeLine{01149\ \ \ 2,}
+\DoxyCodeLine{01150\ \ \ 3,}
+\DoxyCodeLine{01151\ \ \ 4,}
+\DoxyCodeLine{01152\ \ \ 5}
+\DoxyCodeLine{01153\ \};}
+\DoxyCodeLine{01154\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTEXTERNAL)\ \&\&\ !\ defined(EI\_NOTINT0)}}
+\DoxyCodeLine{01155\ interruptFunctionType\ externalFunctionPointer=0;}
+\DoxyCodeLine{01156\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01157\ }
+\DoxyCodeLine{01158\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01159\ \textcolor{keyword}{struct\ }functionPointersPortB\ \{}
+\DoxyCodeLine{01160\ \ \ interruptFunctionType\ pinZero;}
+\DoxyCodeLine{01161\ \ \ interruptFunctionType\ pinOne;}
+\DoxyCodeLine{01162\ \ \ interruptFunctionType\ pinTwo;}
+\DoxyCodeLine{01163\ \ \ interruptFunctionType\ pinThree;}
+\DoxyCodeLine{01164\ \ \ interruptFunctionType\ pinFour;}
+\DoxyCodeLine{01165\ \ \ interruptFunctionType\ pinFive;}
+\DoxyCodeLine{01166\ \};}
+\DoxyCodeLine{01167\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }functionPointersPortB\ functionPointersPortB;}
+\DoxyCodeLine{01168\ }
+\DoxyCodeLine{01169\ functionPointersPortB\ portBFunctions\ =\ \{\ NULL,\ NULL,\ NULL,\ NULL,\ NULL,\ NULL\ \};}
+\DoxyCodeLine{01170\ }
+\DoxyCodeLine{01171\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01172\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01173\ }
+\DoxyCodeLine{01174\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01175\ \textcolor{comment}{//\ the\ vectors\ (eg,\ "{}PCINT0\_vect"{})\ are\ defined\ in\ the\ avr.h\ files,\ like\ iom1284p.h}}
+\DoxyCodeLine{01176\ \textcolor{comment}{//\ For\ Pin\ Change\ Interrupts;\ since\ we're\ duplicating\ FALLING\ and\ RISING\ in\ software,}}
+\DoxyCodeLine{01177\ \textcolor{comment}{//\ we\ have\ to\ know\ how\ the\ ports\ were\ defined.}}
+\DoxyCodeLine{01178\ \textcolor{keyword}{volatile}\ uint8\_t\ risingPinsPORTB=0;}
+\DoxyCodeLine{01179\ \textcolor{keyword}{volatile}\ uint8\_t\ fallingPinsPORTB=0;}
+\DoxyCodeLine{01180\ \textcolor{comment}{//\ for\ the\ saved\ state\ of\ the\ ports}}
+\DoxyCodeLine{01181\ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ uint8\_t\ portSnapshotB;}
+\DoxyCodeLine{01182\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01183\ }
+\DoxyCodeLine{01184\ \textcolor{preprocessor}{\#define\ PORTB\_VECT\ PCINT0\_vect}\textcolor{comment}{/*\}\}\}*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{01185\ }
+\DoxyCodeLine{01186\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#if\ defined\ \_\_AVR\_ATmega168\_\_\ ||\ defined\ \_\_AVR\_ATmega168A\_\_\ ...\ (etc.)\ ...}}
+\DoxyCodeLine{01187\ }
+\DoxyCodeLine{01188\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01189\ \textcolor{comment}{//\ END\ END\ END\ DATA\ STRUCTURES\ ===============================================================}}
+\DoxyCodeLine{01190\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01191\ }
+\DoxyCodeLine{01192\ \textcolor{comment}{//\ From\ /usr/share/arduino/hardware/arduino/cores/robot/Arduino.h}}
+\DoxyCodeLine{01193\ \textcolor{comment}{//\ \#define\ CHANGE\ 1}}
+\DoxyCodeLine{01194\ \textcolor{comment}{//\ \#define\ FALLING\ 2}}
+\DoxyCodeLine{01195\ \textcolor{comment}{//\ \#define\ RISING\ 3}}
+\DoxyCodeLine{01196\ }
+\DoxyCodeLine{01197\ \textcolor{preprocessor}{\#if\ !(defined\ EI\_ATTINY24)\ \&\&\ !(defined\ EI\_ATTINY25)}}
+\DoxyCodeLine{01198\ \textcolor{comment}{//\ Example:\ EI\_printPSTR("{}This\ is\ a\ nice\ long\ string\ that\ takes\ no\ static\ ram"{});}}
+\DoxyCodeLine{01199\ \textcolor{preprocessor}{\#define\ EI\_printPSTR(x)\ EI\_SerialPrint\_P(PSTR(x))}}
+\DoxyCodeLine{01200\ \textcolor{keywordtype}{void}\ EI\_SerialPrint\_P(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str)\ \{}
+\DoxyCodeLine{01201\ \ \ \textcolor{keywordflow}{for}\ (uint8\_t\ c;\ (c\ =\ pgm\_read\_byte(str));\ str++)\ Serial.write(c);}
+\DoxyCodeLine{01202\ \}}
+\DoxyCodeLine{01203\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01204\ }
+\DoxyCodeLine{01205\ }
+\DoxyCodeLine{01206\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01207\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01208\ \textcolor{comment}{//\ enableInterrupt(interrupDesignator,\ userFunction,\ mode);\ ==================================}}
+\DoxyCodeLine{01209\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01210\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01211\ }
+\DoxyCodeLine{01212\ \textcolor{comment}{//\ "{}interruptDesignator"{}\ is\ simply\ the\ Arduino\ pin\ optionally\ OR'ed\ with}}
+\DoxyCodeLine{01213\ \textcolor{comment}{//\ PINCHANGEINTERRUPT\ (==\ 0x80)}}
+\DoxyCodeLine{01214\ \textcolor{keywordtype}{void}\ enableInterrupt(uint8\_t\ interruptDesignator,\ interruptFunctionType\ userFunction,\ uint8\_t\ mode)\ \{}
+\DoxyCodeLine{01215\ \ \ uint8\_t\ arduinoPin;}
+\DoxyCodeLine{01216\ \ \ uint8\_t\ portNumber=0;}
+\DoxyCodeLine{01217\ \ \ uint8\_t\ portMask=0;}
+\DoxyCodeLine{01218\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01219\ \ \ uint8\_t\ portBitNumber;\ \textcolor{comment}{//\ when\ an\ interrupted\ pin\ is\ found,\ this\ will\ be\ used\ to\ choose\ the\ function.}}
+\DoxyCodeLine{01220\ \ \ interruptFunctionType\ *calculatedPointer;}
+\DoxyCodeLine{01221\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01222\ }
+\DoxyCodeLine{01223\ \ \ arduinoPin=interruptDesignator\ \&\ \string~PINCHANGEINTERRUPT;}
+\DoxyCodeLine{01224\ }
+\DoxyCodeLine{01225\ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01226\ \ \ \textcolor{comment}{//\ Pin\ Change\ Interrupts}}
+\DoxyCodeLine{01227\ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01228\ }
+\DoxyCodeLine{01229\ \textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01230\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01231\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||\ (arduinoPin\ !=\ 2\ \&\&\ arduinoPin\ !=\ 3)\ )\ \{}
+\DoxyCodeLine{01232\ \textcolor{preprocessor}{\#elif\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01233\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||}
+\DoxyCodeLine{01234\ \ \ \ \ \ (arduinoPin\ !=\ ARDUINO\_PIN\_B2\ \&\&\ arduinoPin\ !=\ ARDUINO\_PIN\_D2\ \&\&\ arduinoPin\ !=\ ARDUINO\_PIN\_D3)\ )\ \{}
+\DoxyCodeLine{01235\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01236\ \ \ \textcolor{keywordflow}{if}\ (\ (arduinoPin\ >\ 3)\ \&\&\ (arduinoPin\ !=\ 7)\ )\ \{}
+\DoxyCodeLine{01237\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01238\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||\ (arduinoPin\ !=\ 8)\ )\ \{}
+\DoxyCodeLine{01239\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01240\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||\ (arduinoPin\ !=\ 2)\ )\ \{}
+\DoxyCodeLine{01241\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01242\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328\ ||\ defined\ MIGHTY1284\ ||\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01243\ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01244\ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01245\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01246\ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01247\ \ \ \ \ portNumber=PB;}
+\DoxyCodeLine{01248\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01249\ \ \ \ \ \textcolor{comment}{//\ This\ is\ not\ a\ true\ Arduino\ pin...\ it's\ pin\ 4\ on\ the\ chip,\ which\ is\ RESET.}}
+\DoxyCodeLine{01250\ \ \ \ \ \textcolor{comment}{//\ I\ could\ imagine\ that\ one\ would\ want\ to\ use\ that\ pin\ for\ something\ other\ than\ RESET.}}
+\DoxyCodeLine{01251\ \ \ \ \ \textcolor{keywordflow}{if}\ (arduinoPin\ ==\ 11)\ \{}
+\DoxyCodeLine{01252\ \ \ \ \ \ \ portMask=\_BV(3);}
+\DoxyCodeLine{01253\ \ \ \ \ \ \ portNumber=PB;}
+\DoxyCodeLine{01254\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01255\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01256\ \ \ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01257\ \ \ \ \ \}}
+\DoxyCodeLine{01258\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01259\ \textcolor{preprocessor}{\#if\ defined\ \_\_AVR\_ATmega640\_\_\ ||\ defined\ \_\_AVR\_ATmega2560\_\_\ ||\ defined\ \_\_AVR\_ATmega1280\_\_}}
+\DoxyCodeLine{01260\ \ \ \textcolor{comment}{//\ NOTE:\ PJ2-\/6\ and\ PE6\ \&\ 7\ are\ not\ exposed\ on\ the\ Arduino,\ but\ they\ are\ supported\ here}}
+\DoxyCodeLine{01261\ \ \ \textcolor{comment}{//\ for\ software\ interrupts\ and\ support\ of\ non-\/Arduino\ platforms\ which\ expose\ more\ pins.}}
+\DoxyCodeLine{01262\ \ \ \textcolor{comment}{//\ PJ2-\/6\ are\ called\ pins\ 70-\/74,\ PE6\ is\ pin\ 75,\ PE7\ is\ pin\ 76.}}
+\DoxyCodeLine{01263\ \ \ \textcolor{keywordflow}{if}\ (\ (arduinoPin\ !=\ 2\ \&\&\ arduinoPin\ !=\ 3\ \&\&\ arduinoPin\ !=\ 75\ \&\&\ arduinoPin\ !=\ 76}
+\DoxyCodeLine{01264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ (arduinoPin\ <\ 18\ ||\ arduinoPin\ >\ 21))}
+\DoxyCodeLine{01265\ \ \ \ \ \ )\ \{}
+\DoxyCodeLine{01266\ \ \ \ \ \textcolor{keywordflow}{if}\ (arduinoPin\ >\ 69)\ \{\ \textcolor{comment}{//\ Dastardly\ tricks\ to\ support\ PortJ\ 2-\/7}}
+\DoxyCodeLine{01267\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin-\/6]);\ \textcolor{comment}{//\ Steal\ from\ PK}}
+\DoxyCodeLine{01268\ \ \ \ \ \ \ portNumber=PJ;}
+\DoxyCodeLine{01269\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01270\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01271\ \ \ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01272\ \ \ \ \ \}}
+\DoxyCodeLine{01273\ \textcolor{preprocessor}{\#elif\ defined\ \_\_AVR\_ATmega1281\_\_\ ||\ defined\ \_\_AVR\_ATmega2561\_\_}}
+\DoxyCodeLine{01274\ \ \ \textcolor{keywordflow}{if}\ (!(((arduinoPin\ >=\ 4)\ \&\&\ (arduinoPin\ <=\ 7))\ ||\ ((arduinoPin\ >=\ 18)\ \&\&\ (arduinoPin\ <=21))))\ \{}
+\DoxyCodeLine{01275\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01276\ \ \ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01277\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01278\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01279\ \textcolor{preprocessor}{\#error\ Unsupported\ Arduino\ platform}}
+\DoxyCodeLine{01280\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01281\ }
+\DoxyCodeLine{01282\ \ \ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01283\ \ \ \ \ \textcolor{comment}{//\ Store\ the\ rising/falling\ pins}}
+\DoxyCodeLine{01284\ \ \ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01285\ }
+\DoxyCodeLine{01286\ \ \ \ \ \textcolor{keywordflow}{if}\ ((mode\ ==\ RISING)\ ||\ (mode\ ==\ CHANGE))\ \{}
+\DoxyCodeLine{01287\ \textcolor{preprocessor}{\#define\ EI\_SECTION\_RISING}}
+\DoxyCodeLine{01288\ }
+\DoxyCodeLine{01289\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01290\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange1284.h"{}}}
+\DoxyCodeLine{01291\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01292\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange328.h"{}}}
+\DoxyCodeLine{01293\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01294\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange2560.h"{}}}
+\DoxyCodeLine{01295\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01296\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeLeonardo.h"{}}}
+\DoxyCodeLine{01297\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01298\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny24.h"{}}}
+\DoxyCodeLine{01299\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01300\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny25.h"{}}}
+\DoxyCodeLine{01301\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01302\ \textcolor{preprocessor}{\#undef\ EI\_SECTION\_RISING}}
+\DoxyCodeLine{01303\ \ \ \ \ \}}
+\DoxyCodeLine{01304\ }
+\DoxyCodeLine{01305\ \ \ \ \ \textcolor{keywordflow}{if}\ ((mode\ ==\ FALLING)\ ||\ (mode\ ==\ CHANGE))\ \{}
+\DoxyCodeLine{01306\ \textcolor{preprocessor}{\#define\ EI\_SECTION\_FALLING}}
+\DoxyCodeLine{01307\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01308\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange1284.h"{}}}
+\DoxyCodeLine{01309\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01310\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange328.h"{}}}
+\DoxyCodeLine{01311\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01312\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange2560.h"{}}}
+\DoxyCodeLine{01313\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01314\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeLeonardo.h"{}}}
+\DoxyCodeLine{01315\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01316\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny24.h"{}}}
+\DoxyCodeLine{01317\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01318\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny25.h"{}}}
+\DoxyCodeLine{01319\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01320\ \textcolor{preprocessor}{\#undef\ EI\_SECTION\_FALLING}}
+\DoxyCodeLine{01321\ \ \ \ \ \}}
+\DoxyCodeLine{01322\ }
+\DoxyCodeLine{01323\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01324\ \ \ \ \ \textcolor{comment}{//\ When\ an\ interrupted\ pin\ is\ found,\ this\ will\ be\ used\ to\ choose\ the\ function.}}
+\DoxyCodeLine{01325\ \ \ \ \ \textcolor{comment}{//\ This\ is\ used\ in\ the\ utility/<\#included\ files>,\ below.}}
+\DoxyCodeLine{01326\ \ \ \ \ portBitNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_bit\_number\_PGM[arduinoPin]);}
+\DoxyCodeLine{01327\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01328\ }
+\DoxyCodeLine{01329\ \ \ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01330\ \ \ \ \ \textcolor{comment}{//\ assign\ the\ function\ to\ be\ run\ in\ the\ ISR}}
+\DoxyCodeLine{01331\ \ \ \ \ \textcolor{comment}{//\ save\ the\ initial\ value\ of\ the\ port}}
+\DoxyCodeLine{01332\ \ \ \ \ \textcolor{comment}{//\ initialize\ interrupt\ registers\ PCMSKx\ and\ PCICR}}
+\DoxyCodeLine{01333\ \ \ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01334\ }
+\DoxyCodeLine{01335\ \textcolor{preprocessor}{\#define\ EI\_SECTION\_ASSIGNFUNCTIONSREGISTERS}}
+\DoxyCodeLine{01336\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01337\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange1284.h"{}}}
+\DoxyCodeLine{01338\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01339\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange328.h"{}}}
+\DoxyCodeLine{01340\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01341\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange2560.h"{}}}
+\DoxyCodeLine{01342\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01343\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeLeonardo.h"{}}}
+\DoxyCodeLine{01344\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01345\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny24.h"{}}}
+\DoxyCodeLine{01346\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01347\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny25.h"{}}}
+\DoxyCodeLine{01348\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01349\ \textcolor{preprocessor}{\#undef\ EI\_SECTION\_ASSIGNFUNCTIONSREGISTERS}}
+\DoxyCodeLine{01350\ }
+\DoxyCodeLine{01351\ \ \ \ \ *pcmsk\ |=\ portMask;\ \ \textcolor{comment}{//\ appropriate\ PCMSKn\ bit\ is\ set,\ e.g.\ this\ could\ be\ PCMSK1\ |=\ portMask;}}
+\DoxyCodeLine{01352\ }
+\DoxyCodeLine{01353\ \ \ \ \ \textcolor{comment}{//\ With\ the\ exception\ of\ the\ Global\ Interrupt\ Enable\ bit\ in\ SREG,\ interrupts\ on\ the\ arduinoPin}}
+\DoxyCodeLine{01354\ \ \ \ \ \textcolor{comment}{//\ are\ now\ ready.\ GIE\ may\ have\ already\ been\ set\ on\ a\ previous\ enable,\ so\ it's\ important}}
+\DoxyCodeLine{01355\ \ \ \ \ \textcolor{comment}{//\ to\ take\ note\ of\ the\ order\ in\ which\ things\ were\ done,\ above./*\}\}\}*/}}
+\DoxyCodeLine{01356\ }
+\DoxyCodeLine{01357\ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01358\ \ \ \textcolor{comment}{//\ External\ Interrupts}}
+\DoxyCodeLine{01359\ \ \ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01360\ }
+\DoxyCodeLine{01361\ \ \ \}\ \textcolor{keywordflow}{else}\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01362\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTEXTERNAL}}
+\DoxyCodeLine{01363\ \ \ \ \ uint8\_t\ origSREG;\ \textcolor{comment}{//\ to\ save\ for\ interrupts}}
+\DoxyCodeLine{01364\ \ \ \ \ origSREG\ =\ SREG;}
+\DoxyCodeLine{01365\ \ \ \ \ cli();\ \textcolor{comment}{//\ no\ interrupts\ while\ we're\ setting\ up\ an\ interrupt.}}
+\DoxyCodeLine{01366\ }
+\DoxyCodeLine{01367\ \textcolor{preprocessor}{\#define\ EI\_SECTION\_ENABLEEXTERNAL}}
+\DoxyCodeLine{01368\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01369\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_External1284.h"{}}}
+\DoxyCodeLine{01370\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01371\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_External328.h"{}}}
+\DoxyCodeLine{01372\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01373\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_External2560.h"{}}}
+\DoxyCodeLine{01374\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01375\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_ExternalLeonardo.h"{}}}
+\DoxyCodeLine{01376\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01377\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_ExternalTiny24.h"{}}}
+\DoxyCodeLine{01378\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01379\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_ExternalTiny25.h"{}}}
+\DoxyCodeLine{01380\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01381\ \textcolor{preprocessor}{\#undef\ EI\_SECTION\_ENABLEEXTERNAL}}
+\DoxyCodeLine{01382\ }
+\DoxyCodeLine{01383\ \ \ \ \ SREG=origSREG;}
+\DoxyCodeLine{01384\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01385\ \ \ \}}
+\DoxyCodeLine{01386\ \}}
+\DoxyCodeLine{01387\ \textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01388\ }
+\DoxyCodeLine{01389\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01390\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01391\ \textcolor{comment}{//\ disableInterrupt(interrupDesignator);\ =====================================================}}
+\DoxyCodeLine{01392\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01393\ \textcolor{comment}{//\ ===========================================================================================}}
+\DoxyCodeLine{01394\ \textcolor{keywordtype}{void}\ disableInterrupt\ (uint8\_t\ interruptDesignator)\ \{}
+\DoxyCodeLine{01395\ }
+\DoxyCodeLine{01396\ \ \ uint8\_t\ origSREG;\ \textcolor{comment}{//\ to\ save\ for\ interrupts}}
+\DoxyCodeLine{01397\ \ \ uint8\_t\ arduinoPin;}
+\DoxyCodeLine{01398\ \ \ uint8\_t\ portMask=0;}
+\DoxyCodeLine{01399\ \textcolor{preprocessor}{\#if\ !\ (defined\ EI\_ATTINY25)}}
+\DoxyCodeLine{01400\ \ \ uint8\_t\ portNumber=0;}
+\DoxyCodeLine{01401\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01402\ }
+\DoxyCodeLine{01403\ \ \ origSREG\ =\ SREG;}
+\DoxyCodeLine{01404\ \ \ cli();}
+\DoxyCodeLine{01405\ \ \ arduinoPin=interruptDesignator\ \&\ \string~PINCHANGEINTERRUPT;}
+\DoxyCodeLine{01406\ }
+\DoxyCodeLine{01407\ \textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01408\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01409\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||\ (arduinoPin\ !=\ 2\ \&\&\ arduinoPin\ !=\ 3)\ )\ \{}
+\DoxyCodeLine{01410\ \textcolor{preprocessor}{\#elif\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01411\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||}
+\DoxyCodeLine{01412\ \ \ \ (arduinoPin\ !=\ ARDUINO\_PIN\_B2\ \&\&\ arduinoPin\ !=\ ARDUINO\_PIN\_D2\ \&\&\ arduinoPin\ !=\ ARDUINO\_PIN\_D3)\ )\ \{}
+\DoxyCodeLine{01413\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01414\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||\ (arduinoPin\ !=\ 8)\ )\ \{}
+\DoxyCodeLine{01415\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01416\ \ \ \textcolor{keywordflow}{if}\ (\ (interruptDesignator\ \&\ PINCHANGEINTERRUPT)\ ||\ (arduinoPin\ !=\ 2)\ )\ \{}
+\DoxyCodeLine{01417\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01418\ \ \ \textcolor{keywordflow}{if}\ (\ (arduinoPin\ >\ 3)\ \&\&\ (arduinoPin\ !=\ 7)\ )\ \{}
+\DoxyCodeLine{01419\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01420\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328\ ||\ defined\ MIGHTY1284\ ||\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01421\ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01422\ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01423\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01424\ \ \ \ \ \textcolor{comment}{//\ This\ is\ not\ a\ true\ Arduino\ pin...\ it's\ pin\ 4\ on\ the\ chip,\ which\ is\ RESET.}}
+\DoxyCodeLine{01425\ \ \ \ \ \textcolor{comment}{//\ I\ could\ imagine\ that\ one\ would\ want\ to\ use\ that\ pin\ for\ something\ other\ than\ RESET.}}
+\DoxyCodeLine{01426\ \ \ \ \ \textcolor{keywordflow}{if}\ (arduinoPin\ ==\ 11)\ \{}
+\DoxyCodeLine{01427\ \ \ \ \ \ \ portMask=\_BV(3);}
+\DoxyCodeLine{01428\ \ \ \ \ \ \ portNumber=PB;}
+\DoxyCodeLine{01429\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01430\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01431\ \ \ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01432\ \ \ \ \ \}}
+\DoxyCodeLine{01433\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01434\ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01435\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01436\ \ \ \textcolor{comment}{//\ NOTE:\ PJ2-\/6\ and\ PE6\ \&\ 7\ are\ not\ exposed\ on\ the\ Arduino,\ but\ they\ are\ supported\ here}}
+\DoxyCodeLine{01437\ \ \ \textcolor{comment}{//\ for\ software\ interrupts\ and\ support\ of\ non-\/Arduino\ platforms\ which\ expose\ more\ pins.}}
+\DoxyCodeLine{01438\ \ \ \textcolor{comment}{//\ PJ2-\/6\ are\ called\ pins\ 70-\/74,\ PE6\ is\ pin\ 75,\ PE7\ is\ pin\ 76.}}
+\DoxyCodeLine{01439\ \ \ \textcolor{keywordflow}{if}\ (\ (arduinoPin\ !=\ 2\ \&\&\ arduinoPin\ !=\ 3\ \&\&\ arduinoPin\ !=\ 75\ \&\&\ arduinoPin\ !=\ 76}
+\DoxyCodeLine{01440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ (arduinoPin\ <\ 18\ ||\ arduinoPin\ >\ 21))}
+\DoxyCodeLine{01441\ \ \ \ \ \ )\ \{}
+\DoxyCodeLine{01442\ \ \ \ \ \textcolor{keywordflow}{if}\ (arduinoPin\ >\ 69)\ \{\ \textcolor{comment}{//\ Dastardly\ tricks\ to\ support\ PortJ\ 2-\/7}}
+\DoxyCodeLine{01443\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin-\/6]);\ \textcolor{comment}{//\ Steal\ from\ PK}}
+\DoxyCodeLine{01444\ \ \ \ \ \ \ portNumber=PJ;}
+\DoxyCodeLine{01445\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01446\ \ \ \ \ \ \ portMask=pgm\_read\_byte(\&digital\_pin\_to\_bit\_mask\_PGM[arduinoPin]);}
+\DoxyCodeLine{01447\ \ \ \ \ \ \ portNumber=pgm\_read\_byte(\&digital\_pin\_to\_port\_PGM[arduinoPin]);}
+\DoxyCodeLine{01448\ \ \ \ \ \}}
+\DoxyCodeLine{01449\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01450\ \textcolor{preprocessor}{\#error\ Unsupported\ Arduino\ platform}}
+\DoxyCodeLine{01451\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01452\ }
+\DoxyCodeLine{01453\ \textcolor{preprocessor}{\#define\ EI\_SECTION\_DISABLEPINCHANGE}}
+\DoxyCodeLine{01454\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01455\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange1284.h"{}}}
+\DoxyCodeLine{01456\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01457\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange328.h"{}}}
+\DoxyCodeLine{01458\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01459\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChange2560.h"{}}}
+\DoxyCodeLine{01460\ \textcolor{preprocessor}{\#elif\ defined\ LEONARDO}}
+\DoxyCodeLine{01461\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeLeonardo.h"{}}}
+\DoxyCodeLine{01462\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01463\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny24.h"{}}}
+\DoxyCodeLine{01464\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01465\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_PinChangeTiny25.h"{}}}
+\DoxyCodeLine{01466\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01467\ \textcolor{preprocessor}{\#undef\ EI\_SECTION\_DISABLEPINCHANGE}}
+\DoxyCodeLine{01468\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01469\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTEXTERNAL}}
+\DoxyCodeLine{01470\ \textcolor{preprocessor}{\#define\ EI\_SECTION\_DISABLEEXTERNAL}}
+\DoxyCodeLine{01471\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01472\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_External1284.h"{}}}
+\DoxyCodeLine{01473\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01474\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_External328.h"{}}}
+\DoxyCodeLine{01475\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01476\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_External2560.h"{}}}
+\DoxyCodeLine{01477\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01478\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_ExternalLeonardo.h"{}}}
+\DoxyCodeLine{01479\ \textcolor{preprocessor}{\#elif\ defined\ ATTINY24}}
+\DoxyCodeLine{01480\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_ExternalTiny24.h"{}}}
+\DoxyCodeLine{01481\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01482\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_ExternalTiny25.h"{}}}
+\DoxyCodeLine{01483\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01484\ \textcolor{preprocessor}{\#undef\ EI\_SECTION\_DISABLEEXTERNAL}}
+\DoxyCodeLine{01485\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01486\ \ \ \}}
+\DoxyCodeLine{01487\ \ \ SREG\ =\ origSREG;\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01488\ }
+\DoxyCodeLine{01489\ \}}
+\DoxyCodeLine{01490\ }
+\DoxyCodeLine{01496\ }
+\DoxyCodeLine{01497\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01498\ \textcolor{comment}{//\ External\ Interrupts}}
+\DoxyCodeLine{01499\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01500\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTEXTERNAL}}
+\DoxyCodeLine{01501\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT0}}
+\DoxyCodeLine{01502\ ISR(INT0\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01503\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01504\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01505\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01506\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D2;\ arduinoPinState=PIND\ \&\ \_BV(2);}
+\DoxyCodeLine{01507\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01508\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D0;\ arduinoPinState=PIND\ \&\ \_BV(0);}
+\DoxyCodeLine{01509\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01510\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D0;\ arduinoPinState=PIND\ \&\ \_BV(0);}
+\DoxyCodeLine{01511\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01512\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D2;\ arduinoPinState=PIND\ \&\ \_BV(2);}
+\DoxyCodeLine{01513\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01514\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_B2;\ arduinoPinState=PINB\ \&\ \_BV(2);}
+\DoxyCodeLine{01515\ \textcolor{preprocessor}{\#elif\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01516\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_B0;\ arduinoPinState=PINB\ \&\ \_BV(0);}
+\DoxyCodeLine{01517\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01518\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01519\ \textcolor{preprocessor}{\#if\ !\ defined\ EI\_ATTINY25\ \&\&\ !\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01520\ \ \ (*functionPointerArrayEXTERNAL[0])();}
+\DoxyCodeLine{01521\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01522\ \ \ externalFunctionPointer();}
+\DoxyCodeLine{01523\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01524\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01525\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_AVR\_ENVIRODIY\_MAYFLY\ ||\ defined\ ARDUINO\_AVR\_SODAQ\_MBILI}}
+\DoxyCodeLine{01526\ \ \ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{01527\ \textcolor{preprocessor}{\#elif\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01528\ \ \ INTERRUPT\_FLAG\_PIN10++;}
+\DoxyCodeLine{01529\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01530\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01531\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN21}}
+\DoxyCodeLine{01532\ \ \ INTERRUPT\_FLAG\_PIN21++;}
+\DoxyCodeLine{01533\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01534\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01535\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01536\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN3}}
+\DoxyCodeLine{01537\ \ \ INTERRUPT\_FLAG\_PIN3++;}
+\DoxyCodeLine{01538\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01539\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01540\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01541\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN2}}
+\DoxyCodeLine{01542\ \ \ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{01543\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01544\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01545\ }
+\DoxyCodeLine{01546\ \textcolor{preprocessor}{\#if\ defined\ EI\_ATTINY24}}
+\DoxyCodeLine{01547\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN8}}
+\DoxyCodeLine{01548\ \ \ INTERRUPT\_FLAG\_PIN8++;}
+\DoxyCodeLine{01549\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01550\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01551\ \textcolor{preprocessor}{\#if\ defined\ EI\_ATTINY25}}
+\DoxyCodeLine{01552\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN2}}
+\DoxyCodeLine{01553\ \ \ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{01554\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01555\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01556\ }
+\DoxyCodeLine{01557\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01558\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01559\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT0}}
+\DoxyCodeLine{01560\ }
+\DoxyCodeLine{01561\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_ATTINY24)\ \&\&\ !\ defined(EI\_ATTINY25)}}
+\DoxyCodeLine{01562\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT1}}
+\DoxyCodeLine{01563\ ISR(INT1\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01564\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01565\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01566\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01567\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D3;\ arduinoPinState=PIND\ \&\ \_BV(3);}
+\DoxyCodeLine{01568\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01569\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D1;\ arduinoPinState=PIND\ \&\ \_BV(1);}
+\DoxyCodeLine{01570\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01571\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D1;\ arduinoPinState=PIND\ \&\ \_BV(1);}
+\DoxyCodeLine{01572\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01573\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D3;\ arduinoPinState=PIND\ \&\ \_BV(3);}
+\DoxyCodeLine{01574\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01575\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01576\ \ \ (*functionPointerArrayEXTERNAL[1])();}
+\DoxyCodeLine{01577\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01578\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_AVR\_ENVIRODIY\_MAYFLY\ ||\ defined\ ARDUINO\_AVR\_SODAQ\_MBILI}}
+\DoxyCodeLine{01579\ \ \ INTERRUPT\_FLAG\_PIN3++;}
+\DoxyCodeLine{01580\ \textcolor{preprocessor}{\#elif\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01581\ \ \ INTERRUPT\_FLAG\_PIN11++;}
+\DoxyCodeLine{01582\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01583\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01584\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN20}}
+\DoxyCodeLine{01585\ \ \ INTERRUPT\_FLAG\_PIN20++;}
+\DoxyCodeLine{01586\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01587\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01588\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01589\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN2}}
+\DoxyCodeLine{01590\ \ \ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{01591\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01592\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01593\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{01594\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN3}}
+\DoxyCodeLine{01595\ \ \ INTERRUPT\_FLAG\_PIN3++;}
+\DoxyCodeLine{01596\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01597\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01598\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01599\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01600\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT1}}
+\DoxyCodeLine{01601\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01602\ }
+\DoxyCodeLine{01603\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA\ ||\ defined\ ARDUINO\_LEONARDO\ ||\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01604\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT2}}
+\DoxyCodeLine{01605\ ISR(INT2\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01606\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01607\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01608\ \textcolor{preprocessor}{\#if\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01609\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_B2;\ arduinoPinState=PINB\ \&\ \_BV(2);}
+\DoxyCodeLine{01610\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01611\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D2;\ arduinoPinState=PIND\ \&\ \_BV(2);}
+\DoxyCodeLine{01612\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01613\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D2;\ arduinoPinState=PIND\ \&\ \_BV(2);}
+\DoxyCodeLine{01614\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01615\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01616\ \ \ (*functionPointerArrayEXTERNAL[2])();}
+\DoxyCodeLine{01617\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01618\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_AVR\_ENVIRODIY\_MAYFLY\ ||\ defined\ ARDUINO\_AVR\_SODAQ\_MBILI}}
+\DoxyCodeLine{01619\ \ \ INTERRUPT\_FLAG\_PIN10++;}
+\DoxyCodeLine{01620\ \textcolor{preprocessor}{\#elif\ defined\ MIGHTY1284}}
+\DoxyCodeLine{01621\ \ \ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{01622\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01623\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01624\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN19}}
+\DoxyCodeLine{01625\ \ \ INTERRUPT\_FLAG\_PIN19++;}
+\DoxyCodeLine{01626\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01627\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01628\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN0}}
+\DoxyCodeLine{01629\ \ \ INTERRUPT\_FLAG\_PIN0++;}
+\DoxyCodeLine{01630\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01631\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01632\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01633\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01634\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT2}}
+\DoxyCodeLine{01635\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ARDUINO\_MEGA\ ||\ ARDUINO\_LEONARDO\ ||\ MIGHTY1284}}
+\DoxyCodeLine{01636\ }
+\DoxyCodeLine{01637\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA\ ||\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01638\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT3}}
+\DoxyCodeLine{01639\ ISR(INT3\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01640\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01641\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01642\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01643\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D3;\ arduinoPinState=PIND\ \&\ \_BV(3);}
+\DoxyCodeLine{01644\ \textcolor{preprocessor}{\#elif\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01645\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_D3;\ arduinoPinState=PIND\ \&\ \_BV(3);}
+\DoxyCodeLine{01646\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01647\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01648\ \ \ (*functionPointerArrayEXTERNAL[3])();}
+\DoxyCodeLine{01649\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01650\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01651\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN18}}
+\DoxyCodeLine{01652\ \ \ INTERRUPT\_FLAG\_PIN18++;}
+\DoxyCodeLine{01653\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01654\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01655\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN1}}
+\DoxyCodeLine{01656\ \ \ INTERRUPT\_FLAG\_PIN1++;}
+\DoxyCodeLine{01657\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01658\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01659\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01660\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01661\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT3}}
+\DoxyCodeLine{01662\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ARDUINO\_MEGA\ ||\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01663\ }
+\DoxyCodeLine{01664\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01665\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT4}}
+\DoxyCodeLine{01666\ ISR(INT4\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01667\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01668\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01669\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_E4;\ arduinoPinState=PINE\ \&\ \_BV(4);}
+\DoxyCodeLine{01670\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01671\ \ \ (*functionPointerArrayEXTERNAL[4])();}
+\DoxyCodeLine{01672\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01673\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN2}}
+\DoxyCodeLine{01674\ \ \ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{01675\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01676\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01677\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01678\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT4}}
+\DoxyCodeLine{01679\ }
+\DoxyCodeLine{01680\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT5}}
+\DoxyCodeLine{01681\ ISR(INT5\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01682\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01683\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01684\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_E5;\ arduinoPinState=PINE\ \&\ \_BV(5);}
+\DoxyCodeLine{01685\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01686\ \ \ (*functionPointerArrayEXTERNAL[5])();}
+\DoxyCodeLine{01687\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01688\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN3}}
+\DoxyCodeLine{01689\ \ \ INTERRUPT\_FLAG\_PIN3++;}
+\DoxyCodeLine{01690\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01691\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01692\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01693\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT5}}
+\DoxyCodeLine{01694\ }
+\DoxyCodeLine{01695\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT6}}
+\DoxyCodeLine{01696\ ISR(INT6\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01697\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01698\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01699\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_E6;\ arduinoPinState=PINE\ \&\ \_BV(6);}
+\DoxyCodeLine{01700\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01701\ \ \ (*functionPointerArrayEXTERNAL[6])();}
+\DoxyCodeLine{01702\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01703\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN75}}
+\DoxyCodeLine{01704\ \ \ INTERRUPT\_FLAG\_PIN75++;}
+\DoxyCodeLine{01705\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01706\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01707\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01708\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT6}}
+\DoxyCodeLine{01709\ }
+\DoxyCodeLine{01710\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT7}}
+\DoxyCodeLine{01711\ ISR(INT7\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01712\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01713\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01714\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_E7;\ arduinoPinState=PINE\ \&\ \_BV(7);}
+\DoxyCodeLine{01715\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01716\ \ \ (*functionPointerArrayEXTERNAL[7])();}
+\DoxyCodeLine{01717\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01718\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN76}}
+\DoxyCodeLine{01719\ \ \ INTERRUPT\_FLAG\_PIN76++;}
+\DoxyCodeLine{01720\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01721\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01722\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01723\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT7}}
+\DoxyCodeLine{01724\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{01725\ }
+\DoxyCodeLine{01726\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01727\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT6}}
+\DoxyCodeLine{01728\ ISR(INT6\_vect)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01729\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{01730\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01731\ \ \ arduinoInterruptedPin=ARDUINO\_PIN\_E6;\ arduinoPinState=PINE\ \&\ \_BV(6);}
+\DoxyCodeLine{01732\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01733\ \ \ (*functionPointerArrayEXTERNAL[4])();}
+\DoxyCodeLine{01734\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01735\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN7}}
+\DoxyCodeLine{01736\ \ \ INTERRUPT\_FLAG\_PIN7++;}
+\DoxyCodeLine{01737\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01738\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01739\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01740\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTINT6}}
+\DoxyCodeLine{01741\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined\ ARDUINO\_LEONARDO}}
+\DoxyCodeLine{01742\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTEXTERNAL}}
+\DoxyCodeLine{01743\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01744\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01745\ }
+\DoxyCodeLine{01746\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01747\ \textcolor{comment}{//\ Pin\ Change\ Interrupts}}
+\DoxyCodeLine{01748\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{01749\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTA}}
+\DoxyCodeLine{01750\ ISR(PORTA\_VECT)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01751\ \ \ uint8\_t\ current;}
+\DoxyCodeLine{01752\ \ \ uint8\_t\ interruptMask;}
+\DoxyCodeLine{01753\ \ \ uint8\_t\ changedPins;}
+\DoxyCodeLine{01754\ \ \ uint8\_t\ tmp;}
+\DoxyCodeLine{01755\ }
+\DoxyCodeLine{01756\ \ \ current=PINA;}
+\DoxyCodeLine{01757\ \textcolor{comment}{//\ If\ we\ trust\ the\ compiler\ to\ do\ this,\ it\ will\ use\ an\ extra\ register...}}
+\DoxyCodeLine{01758\ \textcolor{comment}{//\ \ changedPins=(portSnapshotA\ \string^\ current)\ \&}}
+\DoxyCodeLine{01759\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((risingPinsPORTA\ \&\ current)\ |\ (fallingPinsPORTA\ \&\ \string~current));}}
+\DoxyCodeLine{01760\ \textcolor{comment}{//\ ...so\ we\ do\ it\ ourselves:}}
+\DoxyCodeLine{01761\ \ \ changedPins\ \ \ =\ portSnapshotA\ \string^\ current;}
+\DoxyCodeLine{01762\ \ \ tmp\ \ \ \ \ \ \ \ \ \ \ =\ risingPinsPORTA\ \&\ current;}
+\DoxyCodeLine{01763\ \ \ interruptMask\ =\ fallingPinsPORTA\ \&\ \string~current;}
+\DoxyCodeLine{01764\ \ \ interruptMask\ =\ interruptMask\ |\ tmp;}
+\DoxyCodeLine{01765\ \ \ interruptMask\ =\ changedPins\ \&\ interruptMask;}
+\DoxyCodeLine{01766\ \ \ interruptMask\ =\ PCMSK0\ \&\ interruptMask;}
+\DoxyCodeLine{01767\ }
+\DoxyCodeLine{01768\ }
+\DoxyCodeLine{01769\ \ \ portSnapshotA\ =\ current;}
+\DoxyCodeLine{01770\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{01771\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_porta\_speed.h"{}}}
+\DoxyCodeLine{01772\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01773\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ ==\ 0)\ \textcolor{keywordflow}{goto}\ exitPORTAISR;\ \textcolor{comment}{//\ get\ out\ quickly\ if\ not\ interested.}}
+\DoxyCodeLine{01774\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01775\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A0;\ arduinoPinState=current\ \&\ \_BV(0);\ portAFunctions.pinZero();\ \}}
+\DoxyCodeLine{01776\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A1;\ arduinoPinState=current\ \&\ \_BV(1);\ portAFunctions.pinOne();\ \}}
+\DoxyCodeLine{01777\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A2;\ arduinoPinState=current\ \&\ \_BV(2);\ portAFunctions.pinTwo();\ \}}
+\DoxyCodeLine{01778\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A3;\ arduinoPinState=current\ \&\ \_BV(3);\ portAFunctions.pinThree();\ \}}
+\DoxyCodeLine{01779\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A4;\ arduinoPinState=current\ \&\ \_BV(4);\ portAFunctions.pinFour();\ \}}
+\DoxyCodeLine{01780\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A5;\ arduinoPinState=current\ \&\ \_BV(5);\ portAFunctions.pinFive();\ \}}
+\DoxyCodeLine{01781\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A6;\ arduinoPinState=current\ \&\ \_BV(6);\ portAFunctions.pinSix();\ \}}
+\DoxyCodeLine{01782\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_A7;\ arduinoPinState=current\ \&\ \_BV(7);\ portAFunctions.pinSeven();\ \}}
+\DoxyCodeLine{01783\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01784\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ portAFunctions.pinZero();}
+\DoxyCodeLine{01785\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ portAFunctions.pinOne();}
+\DoxyCodeLine{01786\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ portAFunctions.pinTwo();}
+\DoxyCodeLine{01787\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ portAFunctions.pinThree();}
+\DoxyCodeLine{01788\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ portAFunctions.pinFour();}
+\DoxyCodeLine{01789\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ portAFunctions.pinFive();}
+\DoxyCodeLine{01790\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ portAFunctions.pinSix();}
+\DoxyCodeLine{01791\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ portAFunctions.pinSeven();}
+\DoxyCodeLine{01792\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01793\ \ \ exitPORTAISR:\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{01794\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01795\ \ \ \textcolor{comment}{//\ FOR\ MEASUREMENT\ ONLY}}
+\DoxyCodeLine{01796\ \ \ \textcolor{comment}{//\ exitPORTBISR:\ PORTC\ \&=\ \string~(1\ <<\ PC5);\ //\ SIGNAL\ THAT\ WE\ ARE\ LEAVING\ THE\ INTERRUPT}}
+\DoxyCodeLine{01797\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01798\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTA}}
+\DoxyCodeLine{01799\ }
+\DoxyCodeLine{01800\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{01801\ ISR(PORTB\_VECT)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01802\ \ \ uint8\_t\ current;}
+\DoxyCodeLine{01803\ \ \ uint8\_t\ interruptMask;}
+\DoxyCodeLine{01804\ \ \ uint8\_t\ changedPins;}
+\DoxyCodeLine{01805\ \ \ uint8\_t\ tmp;}
+\DoxyCodeLine{01806\ }
+\DoxyCodeLine{01807\ \ \ current=PINB;}
+\DoxyCodeLine{01808\ \textcolor{comment}{//\ If\ we\ trust\ the\ compiler\ to\ do\ this,\ it\ will\ use\ an\ extra\ register...}}
+\DoxyCodeLine{01809\ \textcolor{comment}{//\ \ changedPins=(portSnapshotB\ \string^\ current)\ \&}}
+\DoxyCodeLine{01810\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((risingPinsPORTB\ \&\ current)\ |\ (fallingPinsPORTB\ \&\ \string~current));}}
+\DoxyCodeLine{01811\ \textcolor{comment}{//\ ...so\ we\ do\ it\ ourselves:}}
+\DoxyCodeLine{01812\ \ \ changedPins\ \ \ =\ portSnapshotB\ \string^\ current;}
+\DoxyCodeLine{01813\ \ \ tmp\ \ \ \ \ \ \ \ \ \ \ =\ risingPinsPORTB\ \&\ current;}
+\DoxyCodeLine{01814\ \ \ interruptMask\ =\ fallingPinsPORTB\ \&\ \string~current;}
+\DoxyCodeLine{01815\ \ \ interruptMask\ =\ interruptMask\ |\ tmp;}
+\DoxyCodeLine{01816\ \ \ interruptMask\ =\ changedPins\ \&\ interruptMask;}
+\DoxyCodeLine{01817\ \textcolor{preprocessor}{\#if\ (defined\ MIGHTY1284)\ ||\ (defined\ EI\_ATTINY24)}}
+\DoxyCodeLine{01818\ \ \ interruptMask\ =\ PCMSK1\ \&\ interruptMask;}
+\DoxyCodeLine{01819\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01820\ \textcolor{preprocessor}{\#ifdef\ EI\_ATTINY25}}
+\DoxyCodeLine{01821\ \ \ interruptMask\ =\ PCMSK\ \&\ interruptMask;}
+\DoxyCodeLine{01822\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01823\ \ \ interruptMask\ =\ PCMSK0\ \&\ interruptMask;}
+\DoxyCodeLine{01824\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01825\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01826\ }
+\DoxyCodeLine{01827\ \ \ portSnapshotB\ =\ current;}
+\DoxyCodeLine{01828\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{01829\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_portb\_speed.h"{}}}
+\DoxyCodeLine{01830\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01831\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ ==\ 0)\ \textcolor{keywordflow}{goto}\ exitPORTBISR;\ \textcolor{comment}{//\ get\ out\ quickly\ if\ not\ interested.}}
+\DoxyCodeLine{01832\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01833\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B0;\ arduinoPinState=current\ \&\ \_BV(0);\ portBFunctions.pinZero();\ \}}
+\DoxyCodeLine{01834\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B1;\ arduinoPinState=current\ \&\ \_BV(1);\ portBFunctions.pinOne();\ \}}
+\DoxyCodeLine{01835\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B2;\ arduinoPinState=current\ \&\ \_BV(2);\ portBFunctions.pinTwo();\ \}}
+\DoxyCodeLine{01836\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B3;\ arduinoPinState=current\ \&\ \_BV(3);\ portBFunctions.pinThree();\ \}}
+\DoxyCodeLine{01837\ \textcolor{preprocessor}{\#if\ !\ (defined\ EI\_ATTINY24)}}
+\DoxyCodeLine{01838\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B4;\ arduinoPinState=current\ \&\ \_BV(4);\ portBFunctions.pinFour();\ \}}
+\DoxyCodeLine{01839\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B5;\ arduinoPinState=current\ \&\ \_BV(5);\ portBFunctions.pinFive();\ \}}
+\DoxyCodeLine{01840\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01841\ \textcolor{preprocessor}{\#if\ !\ (defined\ ARDUINO\_328)\ \&\&\ !\ (defined\ EI\_ATTINY24)\ \&\&\ !\ (defined\ EI\_ATTINY25)}}
+\DoxyCodeLine{01842\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B6;\ arduinoPinState=current\ \&\ \_BV(6);\ portBFunctions.pinSix();\ \}}
+\DoxyCodeLine{01843\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_B7;\ arduinoPinState=current\ \&\ \_BV(7);\ portBFunctions.pinSeven();\ \}}
+\DoxyCodeLine{01844\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01845\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01846\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ portBFunctions.pinZero();}
+\DoxyCodeLine{01847\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ portBFunctions.pinOne();}
+\DoxyCodeLine{01848\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ portBFunctions.pinTwo();}
+\DoxyCodeLine{01849\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ portBFunctions.pinThree();}
+\DoxyCodeLine{01850\ \textcolor{preprocessor}{\#if\ !\ (defined\ EI\_ATTINY24)}}
+\DoxyCodeLine{01851\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ portBFunctions.pinFour();}
+\DoxyCodeLine{01852\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ portBFunctions.pinFive();}
+\DoxyCodeLine{01853\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01854\ \textcolor{preprocessor}{\#if\ !\ (defined\ ARDUINO\_328)\ \&\&\ !\ (defined\ EI\_ATTINY24)\ \&\&\ !\ (defined\ EI\_ATTINY25)}}
+\DoxyCodeLine{01855\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ portBFunctions.pinSix();}
+\DoxyCodeLine{01856\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ portBFunctions.pinSeven();}
+\DoxyCodeLine{01857\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01858\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01859\ \ \ exitPORTBISR:\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{01860\ \ \ \textcolor{comment}{//\ FOR\ MEASUREMENT\ ONLY}}
+\DoxyCodeLine{01861\ \ \ \textcolor{comment}{//\ exitPORTBISR:\ PORTC\ \&=\ \string~(1\ <<\ PC5);\ //\ SIGNAL\ THAT\ WE\ ARE\ LEAVING\ THE\ INTERRUPT}}
+\DoxyCodeLine{01862\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01863\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01864\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTB}}
+\DoxyCodeLine{01865\ }
+\DoxyCodeLine{01866\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTC}}
+\DoxyCodeLine{01867\ ISR(PORTC\_VECT)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01868\ \ \ uint8\_t\ current;}
+\DoxyCodeLine{01869\ \ \ uint8\_t\ interruptMask;}
+\DoxyCodeLine{01870\ \ \ uint8\_t\ changedPins;}
+\DoxyCodeLine{01871\ \ \ uint8\_t\ tmp;}
+\DoxyCodeLine{01872\ }
+\DoxyCodeLine{01873\ \ \ current=PINC;}
+\DoxyCodeLine{01874\ \textcolor{comment}{//\ If\ we\ trust\ the\ compiler\ to\ do\ this,\ it\ will\ use\ an\ extra\ register...}}
+\DoxyCodeLine{01875\ \textcolor{comment}{//\ \ changedPins=(portSnapshotB\ \string^\ current)\ \&}}
+\DoxyCodeLine{01876\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((risingPinsPORTB\ \&\ current)\ |\ (fallingPinsPORTB\ \&\ \string~current));}}
+\DoxyCodeLine{01877\ \textcolor{comment}{//\ ...so\ we\ do\ it\ ourselves:}}
+\DoxyCodeLine{01878\ \ \ changedPins\ \ \ =\ portSnapshotC\ \string^\ current;}
+\DoxyCodeLine{01879\ \ \ tmp\ \ \ \ \ \ \ \ \ \ \ =\ risingPinsPORTC\ \&\ current;}
+\DoxyCodeLine{01880\ \ \ interruptMask\ =\ fallingPinsPORTC\ \&\ \string~current;}
+\DoxyCodeLine{01881\ \ \ interruptMask\ =\ interruptMask\ |\ tmp;}
+\DoxyCodeLine{01882\ \ \ interruptMask\ =\ changedPins\ \&\ interruptMask;}
+\DoxyCodeLine{01883\ \textcolor{preprocessor}{\#if\ (defined\ MIGHTY1284)}}
+\DoxyCodeLine{01884\ \ \ interruptMask\ =\ PCMSK2\ \&\ interruptMask;}
+\DoxyCodeLine{01885\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01886\ \ \ interruptMask\ =\ PCMSK1\ \&\ interruptMask;}
+\DoxyCodeLine{01887\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01888\ }
+\DoxyCodeLine{01889\ \ \ portSnapshotC\ =\ current;}
+\DoxyCodeLine{01890\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{01891\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_portc\_speed.h"{}}}
+\DoxyCodeLine{01892\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01893\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ ==\ 0)\ \textcolor{keywordflow}{goto}\ exitPORTCISR;\ \textcolor{comment}{//\ get\ out\ quickly\ if\ not\ interested.}}
+\DoxyCodeLine{01894\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01895\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C0;\ arduinoPinState=current\ \&\ \_BV(0);\ portCFunctions.pinZero();\ \}}
+\DoxyCodeLine{01896\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C1;\ arduinoPinState=current\ \&\ \_BV(1);\ portCFunctions.pinOne();\ \}}
+\DoxyCodeLine{01897\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C2;\ arduinoPinState=current\ \&\ \_BV(2);\ portCFunctions.pinTwo();\ \}}
+\DoxyCodeLine{01898\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C3;\ arduinoPinState=current\ \&\ \_BV(3);\ portCFunctions.pinThree();\ \}}
+\DoxyCodeLine{01899\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C4;\ arduinoPinState=current\ \&\ \_BV(4);\ portCFunctions.pinFour();\ \}}
+\DoxyCodeLine{01900\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C5;\ arduinoPinState=current\ \&\ \_BV(5);\ portCFunctions.pinFive();\ \}}
+\DoxyCodeLine{01901\ \textcolor{preprocessor}{\#ifdef\ MIGHTY1284}}
+\DoxyCodeLine{01902\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C6;\ arduinoPinState=current\ \&\ \_BV(6);\ portCFunctions.pinSix();\ \}}
+\DoxyCodeLine{01903\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_C7;\ arduinoPinState=current\ \&\ \_BV(7);\ portCFunctions.pinSeven();\ \}}
+\DoxyCodeLine{01904\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01905\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01906\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ portCFunctions.pinZero();}
+\DoxyCodeLine{01907\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ portCFunctions.pinOne();}
+\DoxyCodeLine{01908\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ portCFunctions.pinTwo();}
+\DoxyCodeLine{01909\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ portCFunctions.pinThree();}
+\DoxyCodeLine{01910\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ portCFunctions.pinFour();}
+\DoxyCodeLine{01911\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ portCFunctions.pinFive();}
+\DoxyCodeLine{01912\ \textcolor{preprocessor}{\#ifdef\ MIGHTY1284}}
+\DoxyCodeLine{01913\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ portCFunctions.pinSix();}
+\DoxyCodeLine{01914\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ portCFunctions.pinSeven();}
+\DoxyCodeLine{01915\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01916\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01917\ \ \ exitPORTCISR:\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{01918\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01919\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01920\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTC}}
+\DoxyCodeLine{01921\ }
+\DoxyCodeLine{01922\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTD}}
+\DoxyCodeLine{01923\ ISR(PORTD\_VECT)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01924\ \ \ uint8\_t\ current;}
+\DoxyCodeLine{01925\ \ \ uint8\_t\ interruptMask;}
+\DoxyCodeLine{01926\ \ \ uint8\_t\ changedPins;}
+\DoxyCodeLine{01927\ \ \ uint8\_t\ tmp;}
+\DoxyCodeLine{01928\ }
+\DoxyCodeLine{01929\ \ \ current=PIND;}
+\DoxyCodeLine{01930\ \textcolor{comment}{//\ If\ we\ trust\ the\ compiler\ to\ do\ this,\ it\ will\ use\ an\ extra\ register...}}
+\DoxyCodeLine{01931\ \textcolor{comment}{//\ \ changedPins=(portSnapshotB\ \string^\ current)\ \&}}
+\DoxyCodeLine{01932\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((risingPinsPORTB\ \&\ current)\ |\ (fallingPinsPORTB\ \&\ \string~current));}}
+\DoxyCodeLine{01933\ \textcolor{comment}{//\ ...so\ we\ do\ it\ ourselves:}}
+\DoxyCodeLine{01934\ \ \ changedPins\ \ \ =\ portSnapshotD\ \string^\ current;}
+\DoxyCodeLine{01935\ \ \ tmp\ \ \ \ \ \ \ \ \ \ \ =\ risingPinsPORTD\ \&\ current;}
+\DoxyCodeLine{01936\ \ \ interruptMask\ =\ fallingPinsPORTD\ \&\ \string~current;}
+\DoxyCodeLine{01937\ \ \ interruptMask\ =\ interruptMask\ |\ tmp;}
+\DoxyCodeLine{01938\ \ \ interruptMask\ =\ changedPins\ \&\ interruptMask;}
+\DoxyCodeLine{01939\ \textcolor{preprocessor}{\#if\ (defined\ MIGHTY1284)}}
+\DoxyCodeLine{01940\ \ \ interruptMask\ =\ PCMSK3\ \&\ interruptMask;}
+\DoxyCodeLine{01941\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01942\ \ \ interruptMask\ =\ PCMSK2\ \&\ interruptMask;}
+\DoxyCodeLine{01943\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{01944\ }
+\DoxyCodeLine{01945\ \ \ portSnapshotD\ =\ current;}
+\DoxyCodeLine{01946\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{01947\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_portd\_speed.h"{}}}
+\DoxyCodeLine{01948\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01949\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ ==\ 0)\ \textcolor{keywordflow}{goto}\ exitPORTDISR;\ \textcolor{comment}{//\ get\ out\ quickly\ if\ not\ interested.}}
+\DoxyCodeLine{01950\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01951\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D0;\ arduinoPinState=current\ \&\ \_BV(0);\ portDFunctions.pinZero();\ \}}
+\DoxyCodeLine{01952\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D1;\ arduinoPinState=current\ \&\ \_BV(1);\ portDFunctions.pinOne();\ \}}
+\DoxyCodeLine{01953\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D2;\ arduinoPinState=current\ \&\ \_BV(2);\ portDFunctions.pinTwo();\ \}}
+\DoxyCodeLine{01954\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D3;\ arduinoPinState=current\ \&\ \_BV(3);\ portDFunctions.pinThree();\ \}}
+\DoxyCodeLine{01955\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D4;\ arduinoPinState=current\ \&\ \_BV(4);\ portDFunctions.pinFour();\ \}}
+\DoxyCodeLine{01956\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D5;\ arduinoPinState=current\ \&\ \_BV(5);\ portDFunctions.pinFive();\ \}}
+\DoxyCodeLine{01957\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D6;\ arduinoPinState=current\ \&\ \_BV(6);\ portDFunctions.pinSix();\ \}}
+\DoxyCodeLine{01958\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_D7;\ arduinoPinState=current\ \&\ \_BV(7);\ portDFunctions.pinSeven();\ \}}
+\DoxyCodeLine{01959\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01960\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ portDFunctions.pinZero();}
+\DoxyCodeLine{01961\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ portDFunctions.pinOne();}
+\DoxyCodeLine{01962\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ portDFunctions.pinTwo();}
+\DoxyCodeLine{01963\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ portDFunctions.pinThree();}
+\DoxyCodeLine{01964\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ portDFunctions.pinFour();}
+\DoxyCodeLine{01965\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ portDFunctions.pinFive();}
+\DoxyCodeLine{01966\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ portDFunctions.pinSix();}
+\DoxyCodeLine{01967\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ portDFunctions.pinSeven();}
+\DoxyCodeLine{01968\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01969\ \ \ exitPORTDISR:\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{01970\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{01971\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{01972\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTD}}
+\DoxyCodeLine{01973\ }
+\DoxyCodeLine{01974\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTJ}}
+\DoxyCodeLine{01975\ ISR(PORTJ\_VECT)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{01976\ \ \ uint8\_t\ current;}
+\DoxyCodeLine{01977\ \ \ uint8\_t\ interruptMask;}
+\DoxyCodeLine{01978\ \ \ uint8\_t\ changedPins;}
+\DoxyCodeLine{01979\ \ \ uint8\_t\ tmp;}
+\DoxyCodeLine{01980\ }
+\DoxyCodeLine{01981\ \ \ current=PINJ;}
+\DoxyCodeLine{01982\ \textcolor{comment}{//\ If\ we\ trust\ the\ compiler\ to\ do\ this,\ it\ will\ use\ an\ extra\ register...}}
+\DoxyCodeLine{01983\ \textcolor{comment}{//\ \ changedPins=(portSnapshotB\ \string^\ current)\ \&}}
+\DoxyCodeLine{01984\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((risingPinsPORTB\ \&\ current)\ |\ (fallingPinsPORTB\ \&\ \string~current));}}
+\DoxyCodeLine{01985\ \textcolor{comment}{//\ ...so\ we\ do\ it\ ourselves:}}
+\DoxyCodeLine{01986\ \ \ changedPins\ \ \ =\ portSnapshotJ\ \string^\ current;}
+\DoxyCodeLine{01987\ \ \ tmp\ \ \ \ \ \ \ \ \ \ \ =\ risingPinsPORTJ\ \&\ current;}
+\DoxyCodeLine{01988\ \ \ interruptMask\ =\ fallingPinsPORTJ\ \&\ \string~current;}
+\DoxyCodeLine{01989\ \ \ interruptMask\ =\ interruptMask\ |\ tmp;}
+\DoxyCodeLine{01990\ \ \ interruptMask\ =\ changedPins\ \&\ interruptMask;}
+\DoxyCodeLine{01991\ \ \ interruptMask\ =\ portJPCMSK\ \&\ interruptMask;\ \textcolor{comment}{//\ because\ PCMSK1\ is\ shifted\ wrt.\ PortJ.}}
+\DoxyCodeLine{01992\ }
+\DoxyCodeLine{01993\ \ \ portSnapshotJ\ =\ current;}
+\DoxyCodeLine{01994\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{01995\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_portj\_speed.h"{}}}
+\DoxyCodeLine{01996\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{01997\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ ==\ 0)\ \textcolor{keywordflow}{goto}\ exitPORTJISR;\ \textcolor{comment}{//\ get\ out\ quickly\ if\ not\ interested.}}
+\DoxyCodeLine{01998\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{01999\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J0;\ arduinoPinState=current\ \&\ \_BV(0);\ portJFunctions.pinZero();\ \}}
+\DoxyCodeLine{02000\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J1;\ arduinoPinState=current\ \&\ \_BV(1);\ portJFunctions.pinOne();\ \}}
+\DoxyCodeLine{02001\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J2;\ arduinoPinState=current\ \&\ \_BV(2);\ portJFunctions.pinTwo();\ \}}
+\DoxyCodeLine{02002\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J3;\ arduinoPinState=current\ \&\ \_BV(3);\ portJFunctions.pinThree();\ \}}
+\DoxyCodeLine{02003\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J4;\ arduinoPinState=current\ \&\ \_BV(4);\ portJFunctions.pinFour();\ \}}
+\DoxyCodeLine{02004\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J5;\ arduinoPinState=current\ \&\ \_BV(5);\ portJFunctions.pinFive();\ \}}
+\DoxyCodeLine{02005\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_J6;\ arduinoPinState=current\ \&\ \_BV(6);\ portJFunctions.pinSix();\ \}}
+\DoxyCodeLine{02006\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{02007\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ portJFunctions.pinZero();}
+\DoxyCodeLine{02008\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ portJFunctions.pinOne();}
+\DoxyCodeLine{02009\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ portJFunctions.pinTwo();}
+\DoxyCodeLine{02010\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ portJFunctions.pinThree();}
+\DoxyCodeLine{02011\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ portJFunctions.pinFour();}
+\DoxyCodeLine{02012\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ portJFunctions.pinFive();}
+\DoxyCodeLine{02013\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ portJFunctions.pinSix();}
+\DoxyCodeLine{02014\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{02015\ \ \ exitPORTJISR:\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{02016\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{02017\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{02018\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTJ}}
+\DoxyCodeLine{02019\ }
+\DoxyCodeLine{02020\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTK}}
+\DoxyCodeLine{02021\ ISR(PORTK\_VECT)\ \{\textcolor{comment}{/*\{\{\{*/}}
+\DoxyCodeLine{02022\ \ \ uint8\_t\ current;}
+\DoxyCodeLine{02023\ \ \ uint8\_t\ interruptMask;}
+\DoxyCodeLine{02024\ \ \ uint8\_t\ changedPins;}
+\DoxyCodeLine{02025\ \ \ uint8\_t\ tmp;}
+\DoxyCodeLine{02026\ }
+\DoxyCodeLine{02027\ \ \ current=PINK;}
+\DoxyCodeLine{02028\ \textcolor{comment}{//\ If\ we\ trust\ the\ compiler\ to\ do\ this,\ it\ will\ use\ an\ extra\ register...}}
+\DoxyCodeLine{02029\ \textcolor{comment}{//\ \ changedPins=(portSnapshotB\ \string^\ current)\ \&}}
+\DoxyCodeLine{02030\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((risingPinsPORTB\ \&\ current)\ |\ (fallingPinsPORTB\ \&\ \string~current));}}
+\DoxyCodeLine{02031\ \textcolor{comment}{//\ ...so\ we\ do\ it\ ourselves:}}
+\DoxyCodeLine{02032\ \ \ changedPins\ \ \ =\ portSnapshotK\ \string^\ current;}
+\DoxyCodeLine{02033\ \ \ tmp\ \ \ \ \ \ \ \ \ \ \ =\ risingPinsPORTK\ \&\ current;}
+\DoxyCodeLine{02034\ \ \ interruptMask\ =\ fallingPinsPORTK\ \&\ \string~current;}
+\DoxyCodeLine{02035\ \ \ interruptMask\ =\ interruptMask\ |\ tmp;}
+\DoxyCodeLine{02036\ \ \ interruptMask\ =\ changedPins\ \&\ interruptMask;}
+\DoxyCodeLine{02037\ \ \ interruptMask\ =\ PCMSK2\ \&\ interruptMask;}
+\DoxyCodeLine{02038\ }
+\DoxyCodeLine{02039\ \ \ portSnapshotK\ =\ current;}
+\DoxyCodeLine{02040\ \textcolor{preprocessor}{\#ifdef\ NEEDFORSPEED}}
+\DoxyCodeLine{02041\ \textcolor{preprocessor}{\#include\ "{}utility/ei\_portk\_speed.h"{}}}
+\DoxyCodeLine{02042\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{02043\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ ==\ 0)\ \textcolor{keywordflow}{goto}\ exitPORTKISR;\ \textcolor{comment}{//\ get\ out\ quickly\ if\ not\ interested.}}
+\DoxyCodeLine{02044\ \textcolor{preprocessor}{\#ifdef\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{02045\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K0;\ arduinoPinState=current\ \&\ \_BV(0);\ portKFunctions.pinZero();\ \}}
+\DoxyCodeLine{02046\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K1;\ arduinoPinState=current\ \&\ \_BV(1);\ portKFunctions.pinOne();\ \}}
+\DoxyCodeLine{02047\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K2;\ arduinoPinState=current\ \&\ \_BV(2);\ portKFunctions.pinTwo();\ \}}
+\DoxyCodeLine{02048\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K3;\ arduinoPinState=current\ \&\ \_BV(3);\ portKFunctions.pinThree();\ \}}
+\DoxyCodeLine{02049\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K4;\ arduinoPinState=current\ \&\ \_BV(4);\ portKFunctions.pinFour();\ \}}
+\DoxyCodeLine{02050\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K5;\ arduinoPinState=current\ \&\ \_BV(5);\ portKFunctions.pinFive();\ \}}
+\DoxyCodeLine{02051\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K6;\ arduinoPinState=current\ \&\ \_BV(6);\ portKFunctions.pinSix();\ \}}
+\DoxyCodeLine{02052\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ \{\ arduinoInterruptedPin=ARDUINO\_PIN\_K7;\ arduinoPinState=current\ \&\ \_BV(7);\ portKFunctions.pinSeven();\ \}}
+\DoxyCodeLine{02053\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{02054\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ portKFunctions.pinZero();}
+\DoxyCodeLine{02055\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ portKFunctions.pinOne();}
+\DoxyCodeLine{02056\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ portKFunctions.pinTwo();}
+\DoxyCodeLine{02057\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ portKFunctions.pinThree();}
+\DoxyCodeLine{02058\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ portKFunctions.pinFour();}
+\DoxyCodeLine{02059\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ portKFunctions.pinFive();}
+\DoxyCodeLine{02060\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ portKFunctions.pinSix();}
+\DoxyCodeLine{02061\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ portKFunctions.pinSeven();}
+\DoxyCodeLine{02062\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_ARDUINO\_INTERRUPTED\_PIN}}
+\DoxyCodeLine{02063\ \ \ exitPORTKISR:\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{02064\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ NEEDFORSPEED}}
+\DoxyCodeLine{02065\ \}\textcolor{comment}{/*\}\}\}*/}}
+\DoxyCodeLine{02066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_NOTPORTK}}
+\DoxyCodeLine{02067\ }
+\DoxyCodeLine{02068\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{02069\ \textcolor{comment}{//\ *************************************************************************************}}
+\DoxyCodeLine{02070\ }
+\DoxyCodeLine{02071\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ LIBCALL\_ENABLEINTERRUPT\ *********************************************************}}
+\DoxyCodeLine{02072\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#if\ defined\ \_\_SAM3U4E\_\_\ ||\ defined\ \_\_SAM3X8E\_\_\ ||\ defined\ \_\_SAM3X8H\_\_}}
+\DoxyCodeLine{02073\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ EnableInterrupt\_h\ ***************************************************************}}
+
+\end{DoxyCode}

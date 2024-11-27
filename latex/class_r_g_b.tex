@@ -1,0 +1,639 @@
+\doxysection{RGB Class Reference}
+\hypertarget{class_r_g_b}{}\label{class_r_g_b}\index{RGB@{RGB}}
+
+
+Inheritance diagram for RGB\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{class_r_g_b__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for RGB\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{class_r_g_b__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_r_g_b_a7d83c61b767cb769dc1bec6985f3f56e}\label{class_r_g_b_a7d83c61b767cb769dc1bec6985f3f56e} 
+bool {\bfseries rgb\+Delay} (unsigned long wait)
+\item 
+\Hypertarget{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e}\label{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e} 
+uint32\+\_\+t {\bfseries Wheel} (byte Wheel\+Pos)
+\item 
+\Hypertarget{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d}\label{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d} 
+uint8\+\_\+t {\bfseries red} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c}\label{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c} 
+uint8\+\_\+t {\bfseries green} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6}\label{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6} 
+uint8\+\_\+t {\bfseries blue} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c}\label{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c} 
+bool {\bfseries pulse\+White} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8}\label{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8} 
+bool {\bfseries theater\+Chase} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22}\label{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22} 
+bool {\bfseries rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab}\label{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab} 
+bool {\bfseries rainbow\+Cycle} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0}\label{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0} 
+bool {\bfseries theater\+Chase\+Rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569}\label{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569} 
+bool {\bfseries rainbow\+Fade2\+White} (uint8\+\_\+t wait, int rainbow\+Loops, int white\+Loops)
+\item 
+\Hypertarget{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c}\label{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c} 
+bool {\bfseries white\+Over\+Rainbow} (uint8\+\_\+t wait, uint8\+\_\+t white\+Speed, uint8\+\_\+t white\+Length)
+\item 
+\Hypertarget{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c}\label{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c} 
+void {\bfseries initialize} ()
+\item 
+\Hypertarget{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76}\label{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76} 
+void {\bfseries set\+Color\+New} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_aebc891a5a697e84efb793851b1cf859a}\label{class_r_g_b_aebc891a5a697e84efb793851b1cf859a} 
+void {\bfseries set\+Color\+Old} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_addbf1ee1a0c20913fdde08234514d542}\label{class_r_g_b_addbf1ee1a0c20913fdde08234514d542} 
+void {\bfseries blink} (unsigned long delay\+\_\+time)
+\item 
+\Hypertarget{class_r_g_b_add630c0a7086e35ba4398a90bb40c588}\label{class_r_g_b_add630c0a7086e35ba4398a90bb40c588} 
+void {\bfseries light\+Off} ()
+\item 
+\Hypertarget{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7}\label{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7} 
+void {\bfseries bright\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9}\label{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9} 
+void {\bfseries flash\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825}\label{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825} 
+void {\bfseries bright\+Blue\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a}\label{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a} 
+void {\bfseries flash\+Blue\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ab6168ecb3af102356e4459504643026b}\label{class_r_g_b_ab6168ecb3af102356e4459504643026b} 
+void {\bfseries flash\+Blue\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ab11cae7b3384316207434236a407b7a3}\label{class_r_g_b_ab11cae7b3384316207434236a407b7a3} 
+void {\bfseries flash\+Blue\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921}\label{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921} 
+void {\bfseries flash\+Blue\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03}\label{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03} 
+void {\bfseries bright\+Yellow\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26}\label{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26} 
+void {\bfseries flash\+Yellow\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501}\label{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501} 
+void {\bfseries flash\+Yellow\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a}\label{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a} 
+void {\bfseries flash\+Yellow\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b}\label{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b} 
+void {\bfseries flash\+Yellow\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b}\label{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b} 
+void {\bfseries bright\+Green\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2}\label{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2} 
+void {\bfseries flash\+Green\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f}\label{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f} 
+void {\bfseries flash\+Green\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_a360e281dd4312737251a8795912a801d}\label{class_r_g_b_a360e281dd4312737251a8795912a801d} 
+void {\bfseries flash\+Green\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9}\label{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9} 
+void {\bfseries flash\+Green\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e}\label{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e} 
+uint32\+\_\+t {\bfseries Wheel} (byte Wheel\+Pos)
+\item 
+\Hypertarget{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d}\label{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d} 
+uint8\+\_\+t {\bfseries red} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c}\label{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c} 
+uint8\+\_\+t {\bfseries green} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6}\label{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6} 
+uint8\+\_\+t {\bfseries blue} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c}\label{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c} 
+bool {\bfseries pulse\+White} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8}\label{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8} 
+bool {\bfseries theater\+Chase} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22}\label{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22} 
+bool {\bfseries rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab}\label{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab} 
+bool {\bfseries rainbow\+Cycle} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0}\label{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0} 
+bool {\bfseries theater\+Chase\+Rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569}\label{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569} 
+bool {\bfseries rainbow\+Fade2\+White} (uint8\+\_\+t wait, int rainbow\+Loops, int white\+Loops)
+\item 
+\Hypertarget{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c}\label{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c} 
+bool {\bfseries white\+Over\+Rainbow} (uint8\+\_\+t wait, uint8\+\_\+t white\+Speed, uint8\+\_\+t white\+Length)
+\item 
+\Hypertarget{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c}\label{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c} 
+void {\bfseries initialize} ()
+\item 
+\Hypertarget{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76}\label{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76} 
+void {\bfseries set\+Color\+New} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_aebc891a5a697e84efb793851b1cf859a}\label{class_r_g_b_aebc891a5a697e84efb793851b1cf859a} 
+void {\bfseries set\+Color\+Old} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_addbf1ee1a0c20913fdde08234514d542}\label{class_r_g_b_addbf1ee1a0c20913fdde08234514d542} 
+void {\bfseries blink} (unsigned long delay\+\_\+time)
+\item 
+\Hypertarget{class_r_g_b_add630c0a7086e35ba4398a90bb40c588}\label{class_r_g_b_add630c0a7086e35ba4398a90bb40c588} 
+void {\bfseries light\+Off} ()
+\item 
+\Hypertarget{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7}\label{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7} 
+void {\bfseries bright\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9}\label{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9} 
+void {\bfseries flash\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825}\label{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825} 
+void {\bfseries bright\+Blue\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a}\label{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a} 
+void {\bfseries flash\+Blue\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ab6168ecb3af102356e4459504643026b}\label{class_r_g_b_ab6168ecb3af102356e4459504643026b} 
+void {\bfseries flash\+Blue\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ab11cae7b3384316207434236a407b7a3}\label{class_r_g_b_ab11cae7b3384316207434236a407b7a3} 
+void {\bfseries flash\+Blue\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921}\label{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921} 
+void {\bfseries flash\+Blue\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03}\label{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03} 
+void {\bfseries bright\+Yellow\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26}\label{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26} 
+void {\bfseries flash\+Yellow\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501}\label{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501} 
+void {\bfseries flash\+Yellow\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a}\label{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a} 
+void {\bfseries flash\+Yellow\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b}\label{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b} 
+void {\bfseries flash\+Yellow\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b}\label{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b} 
+void {\bfseries bright\+Green\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2}\label{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2} 
+void {\bfseries flash\+Green\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f}\label{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f} 
+void {\bfseries flash\+Green\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_a360e281dd4312737251a8795912a801d}\label{class_r_g_b_a360e281dd4312737251a8795912a801d} 
+void {\bfseries flash\+Green\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9}\label{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9} 
+void {\bfseries flash\+Green\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e}\label{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e} 
+uint32\+\_\+t {\bfseries Wheel} (byte Wheel\+Pos)
+\item 
+\Hypertarget{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d}\label{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d} 
+uint8\+\_\+t {\bfseries red} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c}\label{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c} 
+uint8\+\_\+t {\bfseries green} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6}\label{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6} 
+uint8\+\_\+t {\bfseries blue} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c}\label{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c} 
+bool {\bfseries pulse\+White} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8}\label{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8} 
+bool {\bfseries theater\+Chase} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22}\label{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22} 
+bool {\bfseries rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab}\label{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab} 
+bool {\bfseries rainbow\+Cycle} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0}\label{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0} 
+bool {\bfseries theater\+Chase\+Rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569}\label{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569} 
+bool {\bfseries rainbow\+Fade2\+White} (uint8\+\_\+t wait, int rainbow\+Loops, int white\+Loops)
+\item 
+\Hypertarget{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c}\label{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c} 
+bool {\bfseries white\+Over\+Rainbow} (uint8\+\_\+t wait, uint8\+\_\+t white\+Speed, uint8\+\_\+t white\+Length)
+\item 
+\Hypertarget{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c}\label{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c} 
+void {\bfseries initialize} ()
+\item 
+\Hypertarget{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76}\label{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76} 
+void {\bfseries set\+Color\+New} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_aebc891a5a697e84efb793851b1cf859a}\label{class_r_g_b_aebc891a5a697e84efb793851b1cf859a} 
+void {\bfseries set\+Color\+Old} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_addbf1ee1a0c20913fdde08234514d542}\label{class_r_g_b_addbf1ee1a0c20913fdde08234514d542} 
+void {\bfseries blink} (unsigned long delay\+\_\+time)
+\item 
+\Hypertarget{class_r_g_b_add630c0a7086e35ba4398a90bb40c588}\label{class_r_g_b_add630c0a7086e35ba4398a90bb40c588} 
+void {\bfseries light\+Off} ()
+\item 
+\Hypertarget{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7}\label{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7} 
+void {\bfseries bright\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9}\label{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9} 
+void {\bfseries flash\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825}\label{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825} 
+void {\bfseries bright\+Blue\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a}\label{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a} 
+void {\bfseries flash\+Blue\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ab6168ecb3af102356e4459504643026b}\label{class_r_g_b_ab6168ecb3af102356e4459504643026b} 
+void {\bfseries flash\+Blue\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ab11cae7b3384316207434236a407b7a3}\label{class_r_g_b_ab11cae7b3384316207434236a407b7a3} 
+void {\bfseries flash\+Blue\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921}\label{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921} 
+void {\bfseries flash\+Blue\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03}\label{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03} 
+void {\bfseries bright\+Yellow\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26}\label{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26} 
+void {\bfseries flash\+Yellow\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501}\label{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501} 
+void {\bfseries flash\+Yellow\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a}\label{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a} 
+void {\bfseries flash\+Yellow\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b}\label{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b} 
+void {\bfseries flash\+Yellow\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b}\label{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b} 
+void {\bfseries bright\+Green\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2}\label{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2} 
+void {\bfseries flash\+Green\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f}\label{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f} 
+void {\bfseries flash\+Green\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_a360e281dd4312737251a8795912a801d}\label{class_r_g_b_a360e281dd4312737251a8795912a801d} 
+void {\bfseries flash\+Green\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9}\label{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9} 
+void {\bfseries flash\+Green\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_ab25855b2f083d85dd80aa969cce95ca5}\label{class_r_g_b_ab25855b2f083d85dd80aa969cce95ca5} 
+void {\bfseries Bluetooth\+\_\+\+Data\+\_\+\+Processing} ()
+\item 
+\Hypertarget{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e}\label{class_r_g_b_a08969c0178ab54b0ebea876916c3b51e} 
+uint32\+\_\+t {\bfseries Wheel} (byte Wheel\+Pos)
+\item 
+\Hypertarget{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d}\label{class_r_g_b_a992d967cb97fb7c234ce4b8991bc032d} 
+uint8\+\_\+t {\bfseries red} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c}\label{class_r_g_b_a0e730fbebf9c7883454ec44c00c1d82c} 
+uint8\+\_\+t {\bfseries green} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6}\label{class_r_g_b_a92600d11b4b00b7ac20709d46cfe98d6} 
+uint8\+\_\+t {\bfseries blue} (uint32\+\_\+t c)
+\item 
+\Hypertarget{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c}\label{class_r_g_b_a204701d5d4df4d89ba4bf19b2a435e1c} 
+bool {\bfseries pulse\+White} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8}\label{class_r_g_b_a991d5717dc402b99ff0329661bb46cd8} 
+bool {\bfseries theater\+Chase} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22}\label{class_r_g_b_a4b8b43a5f51a4864cdbe4f0cdf007d22} 
+bool {\bfseries rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab}\label{class_r_g_b_a41fb4a4e2fa39891bf28fd174f0159ab} 
+bool {\bfseries rainbow\+Cycle} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0}\label{class_r_g_b_a33bb9f33056758eb81b014053da7ecb0} 
+bool {\bfseries theater\+Chase\+Rainbow} (uint8\+\_\+t wait)
+\item 
+\Hypertarget{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569}\label{class_r_g_b_adc0c5b2c68f15e0933e312c44c8fb569} 
+bool {\bfseries rainbow\+Fade2\+White} (uint8\+\_\+t wait, int rainbow\+Loops, int white\+Loops)
+\item 
+\Hypertarget{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c}\label{class_r_g_b_a4ce87903302b0bd77edc0621b033b69c} 
+bool {\bfseries white\+Over\+Rainbow} (uint8\+\_\+t wait, uint8\+\_\+t white\+Speed, uint8\+\_\+t white\+Length)
+\item 
+\Hypertarget{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c}\label{class_r_g_b_a3eb586c2cd5de327b66ceeb5519e7e9c} 
+void {\bfseries initialize} ()
+\item 
+\Hypertarget{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76}\label{class_r_g_b_a5b91868052cf9e05b8608ca49a2eae76} 
+void {\bfseries set\+Color\+New} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_aebc891a5a697e84efb793851b1cf859a}\label{class_r_g_b_aebc891a5a697e84efb793851b1cf859a} 
+void {\bfseries set\+Color\+Old} (unsigned char r0, unsigned char g0, unsigned char b0, unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3)
+\item 
+\Hypertarget{class_r_g_b_addbf1ee1a0c20913fdde08234514d542}\label{class_r_g_b_addbf1ee1a0c20913fdde08234514d542} 
+void {\bfseries blink} (unsigned long delay\+\_\+time)
+\item 
+\Hypertarget{class_r_g_b_add630c0a7086e35ba4398a90bb40c588}\label{class_r_g_b_add630c0a7086e35ba4398a90bb40c588} 
+void {\bfseries light\+Off} ()
+\item 
+\Hypertarget{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7}\label{class_r_g_b_a6cb1eb1388fecaddd70b3b24daed6eb7} 
+void {\bfseries bright\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9}\label{class_r_g_b_a88a99824e464942ebf6281fe9350d5c9} 
+void {\bfseries flash\+Red\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825}\label{class_r_g_b_ad74cd4ef7d7e2b14397c4b54b388d825} 
+void {\bfseries bright\+Blue\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a}\label{class_r_g_b_ad6c3fe4e3aa53c407d94ab8cf051401a} 
+void {\bfseries flash\+Blue\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ab6168ecb3af102356e4459504643026b}\label{class_r_g_b_ab6168ecb3af102356e4459504643026b} 
+void {\bfseries flash\+Blue\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ab11cae7b3384316207434236a407b7a3}\label{class_r_g_b_ab11cae7b3384316207434236a407b7a3} 
+void {\bfseries flash\+Blue\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921}\label{class_r_g_b_a4b589e89bb75a5c928f595f1ce123921} 
+void {\bfseries flash\+Blue\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03}\label{class_r_g_b_a2913cbc84c42cdc639687b4a9f987a03} 
+void {\bfseries bright\+Yellow\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26}\label{class_r_g_b_a94f5ef98cd44c95c8662e799b7935d26} 
+void {\bfseries flash\+Yellow\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501}\label{class_r_g_b_a2dcf4e742bc697aa59ffe3f7df8aa501} 
+void {\bfseries flash\+Yellow\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a}\label{class_r_g_b_ad433712f44f394bb8a0bef83aa3f6c6a} 
+void {\bfseries flash\+Yellow\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b}\label{class_r_g_b_aeaaa89135c7f4a8fc1d09adaa203f87b} 
+void {\bfseries flash\+Yellow\+Color\+Right} ()
+\item 
+\Hypertarget{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b}\label{class_r_g_b_a733742bad38d9cb6a3b30ba19616557b} 
+void {\bfseries bright\+Green\+Color} ()
+\item 
+\Hypertarget{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2}\label{class_r_g_b_a2fc43ec4cc7bdf4078fb6a8dd48f10f2} 
+void {\bfseries flash\+Green\+Color\+Front} ()
+\item 
+\Hypertarget{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f}\label{class_r_g_b_ac3c1023c61c57b641fa4493d24d9695f} 
+void {\bfseries flash\+Green\+Colorback} ()
+\item 
+\Hypertarget{class_r_g_b_a360e281dd4312737251a8795912a801d}\label{class_r_g_b_a360e281dd4312737251a8795912a801d} 
+void {\bfseries flash\+Green\+Color\+Left} ()
+\item 
+\Hypertarget{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9}\label{class_r_g_b_ada4d51e4e3e0bf9eb67a7fcf33b245d9} 
+void {\bfseries flash\+Green\+Color\+Right} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\+\_\+\+Neo\+Pixel}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Adafruit\+\_\+\+Neo\+Pixel} (uint16\+\_\+t n, uint8\+\_\+t p=6, neo\+Pixel\+Type t=NEO\+\_\+\+GRB+NEO\+\_\+\+KHZ800)
+\item 
+void {\bfseries begin} (void)
+\item 
+void {\bfseries show} (void)
+\item 
+void {\bfseries set\+Pin} (uint8\+\_\+t p)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint32\+\_\+t c)
+\item 
+void {\bfseries set\+Brightness} (uint8\+\_\+t)
+\item 
+void {\bfseries clear} ()
+\item 
+void {\bfseries update\+Length} (uint16\+\_\+t n)
+\item 
+void {\bfseries update\+Type} (neo\+Pixel\+Type t)
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} {\bfseries get\+Pixels} (void) const
+\item 
+uint8\+\_\+t {\bfseries get\+Brightness} (void) const
+\item 
+uint16\+\_\+t {\bfseries num\+Pixels} (void) const
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+uint32\+\_\+t {\bfseries get\+Pixel\+Color} (uint16\+\_\+t n) const
+\item 
+bool {\bfseries can\+Show} (void)
+\item 
+{\bfseries Adafruit\+\_\+\+Neo\+Pixel} (uint16\+\_\+t n, uint8\+\_\+t p=6, neo\+Pixel\+Type t=NEO\+\_\+\+GRB+NEO\+\_\+\+KHZ800)
+\item 
+void {\bfseries begin} (void)
+\item 
+void {\bfseries show} (void)
+\item 
+void {\bfseries set\+Pin} (uint8\+\_\+t p)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint32\+\_\+t c)
+\item 
+void {\bfseries set\+Brightness} (uint8\+\_\+t)
+\item 
+void {\bfseries clear} ()
+\item 
+void {\bfseries update\+Length} (uint16\+\_\+t n)
+\item 
+void {\bfseries update\+Type} (neo\+Pixel\+Type t)
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} {\bfseries get\+Pixels} (void) const
+\item 
+uint8\+\_\+t {\bfseries get\+Brightness} (void) const
+\item 
+uint16\+\_\+t {\bfseries num\+Pixels} (void) const
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+uint32\+\_\+t {\bfseries get\+Pixel\+Color} (uint16\+\_\+t n) const
+\item 
+bool {\bfseries can\+Show} (void)
+\item 
+{\bfseries Adafruit\+\_\+\+Neo\+Pixel} (uint16\+\_\+t n, uint8\+\_\+t p=6, neo\+Pixel\+Type t=NEO\+\_\+\+GRB+NEO\+\_\+\+KHZ800)
+\item 
+void {\bfseries begin} (void)
+\item 
+void {\bfseries show} (void)
+\item 
+void {\bfseries set\+Pin} (uint8\+\_\+t p)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint32\+\_\+t c)
+\item 
+void {\bfseries set\+Brightness} (uint8\+\_\+t)
+\item 
+void {\bfseries clear} ()
+\item 
+void {\bfseries update\+Length} (uint16\+\_\+t n)
+\item 
+void {\bfseries update\+Type} (neo\+Pixel\+Type t)
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} {\bfseries get\+Pixels} (void) const
+\item 
+uint8\+\_\+t {\bfseries get\+Brightness} (void) const
+\item 
+uint16\+\_\+t {\bfseries num\+Pixels} (void) const
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+uint32\+\_\+t {\bfseries get\+Pixel\+Color} (uint16\+\_\+t n) const
+\item 
+bool {\bfseries can\+Show} (void)
+\item 
+{\bfseries Adafruit\+\_\+\+Neo\+Pixel} (uint16\+\_\+t n, uint8\+\_\+t p=6, neo\+Pixel\+Type t=NEO\+\_\+\+GRB+NEO\+\_\+\+KHZ800)
+\item 
+void {\bfseries begin} (void)
+\item 
+void {\bfseries show} (void)
+\item 
+void {\bfseries set\+Pin} (uint8\+\_\+t p)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+void {\bfseries set\+Pixel\+Color} (uint16\+\_\+t n, uint32\+\_\+t c)
+\item 
+void {\bfseries set\+Brightness} (uint8\+\_\+t)
+\item 
+void {\bfseries clear} ()
+\item 
+void {\bfseries update\+Length} (uint16\+\_\+t n)
+\item 
+void {\bfseries update\+Type} (neo\+Pixel\+Type t)
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} {\bfseries get\+Pixels} (void) const
+\item 
+uint8\+\_\+t {\bfseries get\+Brightness} (void) const
+\item 
+uint16\+\_\+t {\bfseries num\+Pixels} (void) const
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b, uint8\+\_\+t w)
+\item 
+uint32\+\_\+t {\bfseries get\+Pixel\+Color} (uint16\+\_\+t n) const
+\item 
+bool {\bfseries can\+Show} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_r_g_b_a398bc022ada72304208b9a038130cf96}{gamma}} \mbox{[}256\mbox{]}
+\item 
+\Hypertarget{class_r_g_b_a298f679ffa196dddd6351efba9d07f35}\label{class_r_g_b_a298f679ffa196dddd6351efba9d07f35} 
+uint32\+\_\+t {\bfseries led\+\_\+rgb\+\_\+new} \mbox{[}NUMPIXELS\mbox{]}
+\item 
+\Hypertarget{class_r_g_b_aa573de364501256e8820daa7a5851f20}\label{class_r_g_b_aa573de364501256e8820daa7a5851f20} 
+uint32\+\_\+t {\bfseries led\+\_\+rgb\+\_\+old} \mbox{[}NUMPIXELS\mbox{]}
+\item 
+\Hypertarget{class_r_g_b_a4608e266585688f66d109f0dac800382}\label{class_r_g_b_a4608e266585688f66d109f0dac800382} 
+int {\bfseries brightness} = 50
+\item 
+\Hypertarget{class_r_g_b_af415600d17662909b59078fe3f068318}\label{class_r_g_b_af415600d17662909b59078fe3f068318} 
+unsigned long {\bfseries rgb\+\_\+delay\+\_\+time} = 0
+\item 
+\Hypertarget{class_r_g_b_ad42f4a6fa32fb366bc86d162d7db08a1}\label{class_r_g_b_ad42f4a6fa32fb366bc86d162d7db08a1} 
+unsigned long {\bfseries dispaly\+\_\+timeout} = 0
+\item 
+\Hypertarget{class_r_g_b_acd84cf732e3fb2df41ac5e2a2c68e341}\label{class_r_g_b_acd84cf732e3fb2df41ac5e2a2c68e341} 
+char {\bfseries flag} = 0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\+\_\+\+Neo\+Pixel}}}
+\begin{DoxyCompactItemize}
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\item 
+static uint32\+\_\+t {\bfseries Color} (uint8\+\_\+t r, uint8\+\_\+t g, uint8\+\_\+t b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_r_g_b_a398bc022ada72304208b9a038130cf96}\index{RGB@{RGB}!gamma@{gamma}}
+\index{gamma@{gamma}!RGB@{RGB}}
+\doxysubsubsection{\texorpdfstring{gamma}{gamma}}
+{\footnotesize\ttfamily \label{class_r_g_b_a398bc022ada72304208b9a038130cf96} 
+uint8\+\_\+t RGB\+::gamma}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 2,\ 2,\ 2,\ 2,\ 2,\ 2,\ 2,}
+\DoxyCodeLine{\ \ \ \ \ \ 2,\ 3,\ 3,\ 3,\ 3,\ 3,\ 3,\ 3,\ 4,\ 4,\ 4,\ 4,\ 4,\ 5,\ 5,\ 5,}
+\DoxyCodeLine{\ \ \ \ \ \ 5,\ 6,\ 6,\ 6,\ 6,\ 7,\ 7,\ 7,\ 7,\ 8,\ 8,\ 8,\ 9,\ 9,\ 9,\ 10,}
+\DoxyCodeLine{\ \ \ \ \ \ 10,\ 10,\ 11,\ 11,\ 11,\ 12,\ 12,\ 13,\ 13,\ 13,\ 14,\ 14,\ 15,\ 15,\ 16,\ 16,}
+\DoxyCodeLine{\ \ \ \ \ \ 17,\ 17,\ 18,\ 18,\ 19,\ 19,\ 20,\ 20,\ 21,\ 21,\ 22,\ 22,\ 23,\ 24,\ 24,\ 25,}
+\DoxyCodeLine{\ \ \ \ \ \ 25,\ 26,\ 27,\ 27,\ 28,\ 29,\ 29,\ 30,\ 31,\ 32,\ 32,\ 33,\ 34,\ 35,\ 35,\ 36,}
+\DoxyCodeLine{\ \ \ \ \ \ 37,\ 38,\ 39,\ 39,\ 40,\ 41,\ 42,\ 43,\ 44,\ 45,\ 46,\ 47,\ 48,\ 49,\ 50,\ 50,}
+\DoxyCodeLine{\ \ \ \ \ \ 51,\ 52,\ 54,\ 55,\ 56,\ 57,\ 58,\ 59,\ 60,\ 61,\ 62,\ 63,\ 64,\ 66,\ 67,\ 68,}
+\DoxyCodeLine{\ \ \ \ \ \ 69,\ 70,\ 72,\ 73,\ 74,\ 75,\ 77,\ 78,\ 79,\ 81,\ 82,\ 83,\ 85,\ 86,\ 87,\ 89,}
+\DoxyCodeLine{\ \ \ \ \ \ 90,\ 92,\ 93,\ 95,\ 96,\ 98,\ 99,\ 101,\ 102,\ 104,\ 105,\ 107,\ 109,\ 110,\ 112,\ 114,}
+\DoxyCodeLine{\ \ \ \ \ \ 115,\ 117,\ 119,\ 120,\ 122,\ 124,\ 126,\ 127,\ 129,\ 131,\ 133,\ 135,\ 137,\ 138,\ 140,\ 142,}
+\DoxyCodeLine{\ \ \ \ \ \ 144,\ 146,\ 148,\ 150,\ 152,\ 154,\ 156,\ 158,\ 160,\ 162,\ 164,\ 167,\ 169,\ 171,\ 173,\ 175,}
+\DoxyCodeLine{\ \ \ \ \ \ 177,\ 180,\ 182,\ 184,\ 186,\ 189,\ 191,\ 193,\ 196,\ 198,\ 200,\ 203,\ 205,\ 208,\ 210,\ 213,}
+\DoxyCodeLine{\ \ \ \ \ \ 215,\ 218,\ 220,\ 223,\ 225,\ 228,\ 231,\ 233,\ 236,\ 239,\ 241,\ 244,\ 247,\ 249,\ 252,\ 255\}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+reference material/\+Tumbller\+\_\+\+Code\+\_\+20240301/\+Tumbller/Rgb.\+h\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Lesson 5 Light Mode/key\+Control\+\_\+\+Light/Rgb.\+h\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Lesson 5 Light Mode/\+Light/Rgb.\+h\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Lesson 6 Bluetooth Control/\+Bluetooth\+\_\+\+Control\+\_\+\+LED/Rgb.\+h\end{DoxyCompactItemize}

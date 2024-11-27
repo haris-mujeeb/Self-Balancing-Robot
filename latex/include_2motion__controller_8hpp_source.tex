@@ -1,0 +1,43 @@
+\doxysection{motion\+\_\+controller.\+hpp}
+\hypertarget{include_2motion__controller_8hpp_source}{}\label{include_2motion__controller_8hpp_source}\index{include/motion\_controller.hpp@{include/motion\_controller.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}HardwareSerial.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}debugConfig.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{include_2pins_8hpp}{pins.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{include_2tb6612fng_8hpp}{tb6612fng.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}mpu6050\_base.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}kalman\_filter.hpp"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}MsTimer2.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <avr/wdt.h>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmotion__controller}{motion\_controller}}\ \{}
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classmotion__controller_a622b6cc46f5b1170865fae35f6ac1ac5}{motion\_controller}}()\{\};}
+\DoxyCodeLine{00028\ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_a1682f18b06a1c4b109ebf965227e15a4}{run}}();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_aa96d7882538c90b6ae1fef4bd67603b0}{balance}}();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_a6503f8dc36d847ad0433d91de4cde03d}{moveForward}}(\textcolor{keywordtype}{float}\ speed);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_a0be57e8c582424534205a8dad2754353}{moveBack}}(\textcolor{keywordtype}{float}\ speed);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_ac287c69f31637b4299329d1397ada79c}{turnLeft}}(\textcolor{keywordtype}{float}\ rotation\_speed);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_ab2a2afdbb82f9b0fa0f830b87b1bad2d}{turnRight}}(\textcolor{keywordtype}{float}\ rotation\_speed);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_a6acb42fd65ac4b8ba25aa9f26d1bb384}{moveCentimeters}}(\textcolor{keywordtype}{float}\ dist\_in\_cm);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_acd61f9ef03577763bc4cdc59715c872f}{turnDegrees}}(\textcolor{keywordtype}{float}\ degreesCW);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classmotion__controller_a49648174a6846f6087750a3f707438ef}{stop}}();}
+\DoxyCodeLine{00084\ \};}
+
+\end{DoxyCode}

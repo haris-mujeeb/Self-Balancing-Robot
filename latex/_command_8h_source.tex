@@ -1,0 +1,93 @@
+\doxysection{Command.\+h}
+\hypertarget{_command_8h_source}{}\label{_command_8h_source}\index{reference material/Tumbller\_Code\_20240301/Tumbller/Command.h@{reference material/Tumbller\_Code\_20240301/Tumbller/Command.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}EnableInterrupt.h"{}}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keywordtype}{char}\ key\_value\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00004\ \textcolor{keywordtype}{char}\ key\_flag\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00005\ \textcolor{keywordtype}{char}\ key\_mode\ =\ 0;}
+\DoxyCodeLine{00006\ \textcolor{keywordtype}{char}\ prev\_key\_mode\ =\ 0;}
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ key\_mode\_time\ =\ 0;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keywordtype}{void}\ keyValue()}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ key\_mode\_time\ >\ 500)}
+\DoxyCodeLine{00012\ \ \ \{}
+\DoxyCodeLine{00013\ \ \ \ \ key\_mode\_time\ =\ millis();}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ key\_mode++;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_mode\ >=\ 5)}
+\DoxyCodeLine{00018\ \ \ \ \ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ key\_mode\ =\ 0;}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ \ \ \}}
+\DoxyCodeLine{00022\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{bool}\ getKeyValue()}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \textcolor{keywordflow}{if}\ (prev\_key\_mode\ !=\ key\_mode)}
+\DoxyCodeLine{00027\ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ prev\_key\_mode\ =\ key\_mode;}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordflow}{switch}\ (key\_mode)}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ key\_value\ =\ \textcolor{charliteral}{'s'};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ function\_mode\ =\ IDLE;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ key\_value\ =\ \textcolor{charliteral}{'1'};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ key\_value\ =\ \textcolor{charliteral}{'2'};}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ key\_value\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ key\_value\ =\ \textcolor{charliteral}{'3'};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00051\ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00053\ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{void}\ keyInit()}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ pinMode(KEY\_MODE,\ INPUT\_PULLUP);}
+\DoxyCodeLine{00058\ \ \ enableInterrupt(KEY\_MODE,\ keyValue,\ FALLING);}
+\DoxyCodeLine{00059\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{bool}\ getBluetoothData()}
+\DoxyCodeLine{00062\ \{}
+\DoxyCodeLine{00063\ \ \ \textcolor{keywordflow}{if}\ (Serial.available())}
+\DoxyCodeLine{00064\ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{char}\ c\ =\ Serial.read();}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ !=\ \textcolor{charliteral}{'\(\backslash\)0'}\ \&\&\ c\ !=\ \textcolor{charliteral}{'\(\backslash\)n'})}
+\DoxyCodeLine{00067\ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ key\_value\ =\ c;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'f'}\ ||\ c\ ==\ \textcolor{charliteral}{'b'}\ ||\ c\ ==\ \textcolor{charliteral}{'l'}\ ||\ c\ ==\ \textcolor{charliteral}{'i'})}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ function\_mode\ =\ BLUETOOTH;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'s'})}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ function\_mode\ =\ IDLE;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_value\ ==\ \textcolor{charliteral}{'f'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'b'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'l'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'i'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'s'}\ ||}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ key\_value\ ==\ \textcolor{charliteral}{'0'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'1'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'2'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'3'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'4'}\ ||}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ key\_value\ ==\ \textcolor{charliteral}{'5'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'6'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'7'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'8'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'9'}\ ||}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ key\_value\ ==\ \textcolor{charliteral}{'*'}\ ||\ key\_value\ ==\ \textcolor{charliteral}{'\#'})}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00087\ \}}
+
+\end{DoxyCode}

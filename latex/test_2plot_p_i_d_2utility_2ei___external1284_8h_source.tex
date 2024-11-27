@@ -1,0 +1,72 @@
+\doxysection{ei\+\_\+\+External1284.\+h}
+\hypertarget{test_2plot_p_i_d_2utility_2ei___external1284_8h_source}{}\label{test_2plot_p_i_d_2utility_2ei___external1284_8h_source}\index{test/plotPID/utility/ei\_External1284.h@{test/plotPID/utility/ei\_External1284.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#if\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined\ (EI\_NOTINT1)\ \&\&\ !\ defined\ (EI\_NOTINT2)}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_ENABLEEXTERNAL}}
+\DoxyCodeLine{00003\ \textcolor{keywordflow}{switch}\ (arduinoPin)\ \{}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT0}}
+\DoxyCodeLine{00005\ \ \ \textcolor{keywordflow}{case}\ ARDUINO\_PIN\_D2\ :\ \textcolor{comment}{//\ INT0\ \ (Either\ 2\ or\ 10)}}
+\DoxyCodeLine{00006\ \ \ \ \ EIMSK\ \&=\ \string~\_BV(0);}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00008\ \ \ \ \ functionPointerArrayEXTERNAL[0]\ =\ userFunction;}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00010\ \ \ \ \ EICRA\ \&=\ (\string~\_BV(0)\ \&\ \string~\_BV(1));\ \textcolor{comment}{//\ reset\ the\ flags\ prior\ to}}
+\DoxyCodeLine{00011\ \ \ \ \ EICRA\ |=\ mode;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ set\ them\ the\ way\ we\ want}}
+\DoxyCodeLine{00012\ \ \ \ \ EIFR\ |=\ \_BV(0);}
+\DoxyCodeLine{00013\ \ \ \ \ EIMSK\ |=\ \_BV(0);}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT1}}
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordflow}{case}\ ARDUINO\_PIN\_D3\ :\ \textcolor{comment}{//\ INT1\ \ (Either\ 3\ or\ 11)}}
+\DoxyCodeLine{00018\ \ \ \ \ EIMSK\ \&=\ \string~\_BV(1);}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00020\ \ \ \ \ functionPointerArrayEXTERNAL[1]\ =\ userFunction;}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00022\ \ \ \ \ EICRA\ \&=\ (\string~\_BV(2)\ \&\ \string~\_BV(3));}
+\DoxyCodeLine{00023\ \ \ \ \ EICRA\ |=\ (mode\ <<\ 2);}
+\DoxyCodeLine{00024\ \ \ \ \ EIFR\ |=\ \_BV(1);}
+\DoxyCodeLine{00025\ \ \ \ \ EIMSK\ |=\ \_BV(1);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT2}}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordflow}{case}\ ARDUINO\_PIN\_B2\ :\ \textcolor{comment}{//\ INT2\ \ (Either\ 10\ or\ 2)}}
+\DoxyCodeLine{00030\ \ \ \ \ EIMSK\ \&=\ \string~\_BV(2);}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00032\ \ \ \ \ functionPointerArrayEXTERNAL[2]\ =\ userFunction;}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ \ \ \ \ EICRA\ \&=\ (\string~\_BV(4)\ \&\ \string~\_BV(5));}
+\DoxyCodeLine{00035\ \ \ \ \ EICRA\ |=\ (mode\ <<\ 4);}
+\DoxyCodeLine{00036\ \ \ \ \ EIFR\ |=\ \_BV(2);}
+\DoxyCodeLine{00037\ \ \ \ \ EIMSK\ |=\ \_BV(2);}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00040\ \}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_ENABLEEXTERNAL}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_DISABLEEXTERNAL}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT0}}
+\DoxyCodeLine{00045\ \textcolor{keywordflow}{if}\ (arduinoPin\ ==\ ARDUINO\_PIN\_D2)\ \{\ \ \textcolor{comment}{//\ INT0\ \ (Either\ 2\ or\ 10)}}
+\DoxyCodeLine{00046\ \ \ EIMSK\ \&=\ \string~\_BV(0);}
+\DoxyCodeLine{00047\ \ \ EICRA\ \&=\ (\string~\_BV(0)\ \&\ \string~\_BV(1));}
+\DoxyCodeLine{00048\ \ \ EIFR\ \ |=\ \_BV(0);\ \textcolor{comment}{//\ using\ a\ clue\ from\ the\ ATmega2560\ datasheet.}}
+\DoxyCodeLine{00049\ \}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT1}}
+\DoxyCodeLine{00052\ \textcolor{keywordflow}{if}\ (arduinoPin\ ==\ ARDUINO\_PIN\_D3)\ \{\ \ \textcolor{comment}{//\ INT1\ \ (Either\ 3\ or\ 11)}}
+\DoxyCodeLine{00053\ \ \ EIMSK\ \&=\ \string~\_BV(1);}
+\DoxyCodeLine{00054\ \ \ EICRA\ \&=\ (\string~\_BV(2)\ \&\ \string~\_BV(3));}
+\DoxyCodeLine{00055\ \ \ EIFR\ \ |=\ \_BV(1);\ \textcolor{comment}{//\ using\ a\ clue\ from\ the\ ATmega2560\ datasheet.}}
+\DoxyCodeLine{00056\ \}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT2}}
+\DoxyCodeLine{00059\ \textcolor{keywordflow}{if}\ (arduinoPin\ ==\ ARDUINO\_PIN\_B2)\ \{\ \ \textcolor{comment}{//\ INT2\ \ (Either\ 10\ or\ 2)}}
+\DoxyCodeLine{00060\ \ \ EIMSK\ \&=\ \string~\_BV(2);}
+\DoxyCodeLine{00061\ \ \ EICRA\ \&=\ (\string~\_BV(4)\ \&\ \string~\_BV(5));}
+\DoxyCodeLine{00062\ \ \ EIFR\ \ |=\ \_BV(2);\ \textcolor{comment}{//\ using\ a\ clue\ from\ the\ ATmega2560\ datasheet.}}
+\DoxyCodeLine{00063\ \}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_DISABLEEXTERNAL}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !\ defined(EI\_NOTINT0)\ \&\&\ !\ defined\ (EI\_NOTINT1)\ \&\&\ !\ defined\ (EI\_NOTINT2)}}
+
+\end{DoxyCode}

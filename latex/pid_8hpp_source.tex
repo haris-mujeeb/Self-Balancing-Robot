@@ -1,0 +1,31 @@
+\doxysection{pid.\+hpp}
+\hypertarget{pid_8hpp_source}{}\label{pid_8hpp_source}\index{test/plotPID/pid.hpp@{test/plotPID/pid.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_p_i_d_controller}{PIDController}}\ \{}
+\DoxyCodeLine{00006\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordtype}{float}\ integrator;}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{float}\ prevError;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\ PID\ coefficients}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ Kp,\ Ki,\ Kd;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ Output\ limits}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{float}\ IntegrationLimMin,\ IntegrationLimMax;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{float}\ Output;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ Constructor\ to\ initialize\ PID\ parameters}}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_p_i_d_controller}{PIDController}}(\textcolor{keywordtype}{float}\ \_Kp,\ \textcolor{keywordtype}{float}\ \_Ki,\ \textcolor{keywordtype}{float}\ \_Kd,\ \textcolor{keywordtype}{float}\ \_IntegrationLimMin,\ \textcolor{keywordtype}{float}\ \_IntegrationLimMax)}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ :\ Kp(\_Kp),\ Ki(\_Ki),\ Kd(\_Kd),\ IntegrationLimMin(\_IntegrationLimMin),\ IntegrationLimMax(\_IntegrationLimMax),}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ integrator(0.0f),\ prevError(0.0f),\ Output(0.0f)\ \{\}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ Method\ to\ update\ the\ controller\ with\ new\ setpoint\ and\ measurement}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ Compute(\textcolor{keywordtype}{float}\ setpoint,\ \textcolor{keywordtype}{float}\ measurement);}
+\DoxyCodeLine{00025\ \};}
+
+\end{DoxyCode}

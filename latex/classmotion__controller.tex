@@ -1,0 +1,269 @@
+\doxysection{motion\+\_\+controller Class Reference}
+\hypertarget{classmotion__controller}{}\label{classmotion__controller}\index{motion\_controller@{motion\_controller}}
+
+
+A class to control the motion of a self-\/balancing robot.  
+
+
+
+
+{\ttfamily \#include $<$motion\+\_\+controller.\+hpp$>$}
+
+
+
+Collaboration diagram for motion\+\_\+controller\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{classmotion__controller__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmotion__controller_a622b6cc46f5b1170865fae35f6ac1ac5}\label{classmotion__controller_a622b6cc46f5b1170865fae35f6ac1ac5} 
+{\bfseries motion\+\_\+controller} ()
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{classmotion__controller}{motion\+\_\+controller} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_a1682f18b06a1c4b109ebf965227e15a4}{run}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the motion controller and its components. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_a6503f8dc36d847ad0433d91de4cde03d}{move\+Forward}} (float speed)
+\begin{DoxyCompactList}\small\item\em Moves the robot forward at the specified speed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_a0be57e8c582424534205a8dad2754353}{move\+Back}} (float speed)
+\begin{DoxyCompactList}\small\item\em Moves the robot backward at the specified speed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_ac287c69f31637b4299329d1397ada79c}{turn\+Left}} (float rotation\+\_\+speed)
+\begin{DoxyCompactList}\small\item\em Turns the robot to the left at the specified rotation speed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_ab2a2afdbb82f9b0fa0f830b87b1bad2d}{turn\+Right}} (float rotation\+\_\+speed)
+\begin{DoxyCompactList}\small\item\em Turns the robot to the right at the specified rotation speed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_a6acb42fd65ac4b8ba25aa9f26d1bb384}{move\+Centimeters}} (float dist\+\_\+in\+\_\+cm)
+\begin{DoxyCompactList}\small\item\em Moves the robot a specified distance in centimeters. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_acd61f9ef03577763bc4cdc59715c872f}{turn\+Degrees}} (float degrees\+CW)
+\begin{DoxyCompactList}\small\item\em Sets the desired yaw angle to turn the robot by a specified number of degrees. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmotion__controller_a49648174a6846f6087750a3f707438ef}{stop}} ()
+\begin{DoxyCompactList}\small\item\em Stops the robot\textquotesingle{}s movement. \end{DoxyCompactList}\item 
+\Hypertarget{classmotion__controller_a1682f18b06a1c4b109ebf965227e15a4}\label{classmotion__controller_a1682f18b06a1c4b109ebf965227e15a4} 
+void {\bfseries run} ()
+\item 
+\Hypertarget{classmotion__controller_a6503f8dc36d847ad0433d91de4cde03d}\label{classmotion__controller_a6503f8dc36d847ad0433d91de4cde03d} 
+void {\bfseries move\+Forward} (float speed)
+\item 
+\Hypertarget{classmotion__controller_a0be57e8c582424534205a8dad2754353}\label{classmotion__controller_a0be57e8c582424534205a8dad2754353} 
+void {\bfseries move\+Back} (float speed)
+\item 
+\Hypertarget{classmotion__controller_ac287c69f31637b4299329d1397ada79c}\label{classmotion__controller_ac287c69f31637b4299329d1397ada79c} 
+void {\bfseries turn\+Left} (float rotation\+\_\+speed)
+\item 
+\Hypertarget{classmotion__controller_ab2a2afdbb82f9b0fa0f830b87b1bad2d}\label{classmotion__controller_ab2a2afdbb82f9b0fa0f830b87b1bad2d} 
+void {\bfseries turn\+Right} (float rotation\+\_\+speed)
+\item 
+\Hypertarget{classmotion__controller_a49648174a6846f6087750a3f707438ef}\label{classmotion__controller_a49648174a6846f6087750a3f707438ef} 
+void {\bfseries stop} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{classmotion__controller_aa96d7882538c90b6ae1fef4bd67603b0}{balance}} ()
+\begin{DoxyCompactList}\small\item\em Balance control loop for the robot. \end{DoxyCompactList}\item 
+\Hypertarget{classmotion__controller_a896e9406fe67d8bf02c1dc169b5cc438}\label{classmotion__controller_a896e9406fe67d8bf02c1dc169b5cc438} 
+static void {\bfseries balance} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmotion__controller_a0b860f47dbe6cd25962cd8cab46f9dd3}\label{classmotion__controller_a0b860f47dbe6cd25962cd8cab46f9dd3} 
+\mbox{\hyperlink{class_t_b6612_f_n_g}{TB6612\+FNG}} {\bfseries motors}
+\item 
+\Hypertarget{classmotion__controller_a737202de917b27911e2f483fd7c8dafd}\label{classmotion__controller_a737202de917b27911e2f483fd7c8dafd} 
+\mbox{\hyperlink{classmpu6050__base}{mpu6050\+\_\+base}} {\bfseries mpu}
+\item 
+\Hypertarget{classmotion__controller_ace9b2d183bdcde8dfb039b7fca786432}\label{classmotion__controller_ace9b2d183bdcde8dfb039b7fca786432} 
+\mbox{\hyperlink{class_kalman_filter}{Kalman\+Filter}} {\bfseries kfilter}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class to control the motion of a self-\/balancing robot. 
+
+This class provides methods to initialize the robot\textquotesingle{}s control system and control its movement, including forward, backward, turning, and stopping. It leverages a Kalman filter for state estimation and uses PID controllers for stable motion. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmotion__controller_aa96d7882538c90b6ae1fef4bd67603b0}\index{motion\_controller@{motion\_controller}!balance@{balance}}
+\index{balance@{balance}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{balance()}{balance()}}
+{\footnotesize\ttfamily \label{classmotion__controller_aa96d7882538c90b6ae1fef4bd67603b0} 
+void motion\+\_\+controller\+::balance (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Balance control loop for the robot. 
+
+Balance control function executed periodically by the timer.
+
+This function is called periodically by a timer to maintain the robot\textquotesingle{}s balance. It calculates control outputs based on sensor data and applies them to the motors.
+
+This function is responsible for maintaining the robot\textquotesingle{}s balance. It checks the voltage level, reads sensor data, computes control outputs for pitch, position, and yaw, and applies appropriate motor speeds. \texorpdfstring{$<$}{<} Print error if voltage is below the minimum threshold
+
+\texorpdfstring{$<$}{<} Stop the motors if voltage is insufficient
+
+\texorpdfstring{$<$}{<} Compute position control output
+
+\texorpdfstring{$<$}{<} Compute yaw control output\Hypertarget{classmotion__controller_a0be57e8c582424534205a8dad2754353}\index{motion\_controller@{motion\_controller}!moveBack@{moveBack}}
+\index{moveBack@{moveBack}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{moveBack()}{moveBack()}}
+{\footnotesize\ttfamily \label{classmotion__controller_a0be57e8c582424534205a8dad2754353} 
+void motion\+\_\+controller\+::move\+Back (\begin{DoxyParamCaption}\item[{float}]{speed}{}\end{DoxyParamCaption})}
+
+
+
+Moves the robot backward at the specified speed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & The backward speed for the robot (positive value).\\
+\hline
+\end{DoxyParams}
+Sets the backward speed for the robot while ensuring no rotational motion.
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & The backward speed for the robot (positive value). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classmotion__controller_a6acb42fd65ac4b8ba25aa9f26d1bb384}\index{motion\_controller@{motion\_controller}!moveCentimeters@{moveCentimeters}}
+\index{moveCentimeters@{moveCentimeters}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{moveCentimeters()}{moveCentimeters()}}
+{\footnotesize\ttfamily \label{classmotion__controller_a6acb42fd65ac4b8ba25aa9f26d1bb384} 
+void motion\+\_\+controller\+::move\+Centimeters (\begin{DoxyParamCaption}\item[{float}]{dist\+\_\+in\+\_\+cm}{}\end{DoxyParamCaption})}
+
+
+
+Moves the robot a specified distance in centimeters. 
+
+This function converts the given distance in centimeters to the corresponding encoder steps and stores it in the final\+\_\+position variable. The conversion uses the constant ENCODER\+\_\+\+STEP\+\_\+\+PER\+\_\+\+CM, which defines the number of encoder steps per centimeter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dist\+\_\+in\+\_\+cm} & The distance to move in centimeters. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classmotion__controller_a6503f8dc36d847ad0433d91de4cde03d}\index{motion\_controller@{motion\_controller}!moveForward@{moveForward}}
+\index{moveForward@{moveForward}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{moveForward()}{moveForward()}}
+{\footnotesize\ttfamily \label{classmotion__controller_a6503f8dc36d847ad0433d91de4cde03d} 
+void motion\+\_\+controller\+::move\+Forward (\begin{DoxyParamCaption}\item[{float}]{speed}{}\end{DoxyParamCaption})}
+
+
+
+Moves the robot forward at the specified speed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & The forward speed for the robot (positive value).\\
+\hline
+\end{DoxyParams}
+Sets the forward speed for the robot while ensuring no rotational motion.
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & The forward speed for the robot (positive value). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classmotion__controller_a1682f18b06a1c4b109ebf965227e15a4}\index{motion\_controller@{motion\_controller}!run@{run}}
+\index{run@{run}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily \label{classmotion__controller_a1682f18b06a1c4b109ebf965227e15a4} 
+void motion\+\_\+controller\+::run (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the motion controller and its components. 
+
+Initializes the motion controller system, setting up sensors and hardware.
+
+Sets up sensors, motor drivers, interrupts, and the timer to manage the robot\textquotesingle{}s balance control loop.
+
+This function performs the necessary setup tasks for the motion controller, including configuring the motors, initializing the MPU sensor, enabling interrupts for encoders, and setting up a timer for the balance control function. \texorpdfstring{$<$}{<} Use internal voltage reference for ADC
+
+\texorpdfstring{$<$}{<} Initialize motor controller
+
+\texorpdfstring{$<$}{<} Initialize MPU sensor\Hypertarget{classmotion__controller_a49648174a6846f6087750a3f707438ef}\index{motion\_controller@{motion\_controller}!stop@{stop}}
+\index{stop@{stop}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily \label{classmotion__controller_a49648174a6846f6087750a3f707438ef} 
+void motion\+\_\+controller\+::stop (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Stops the robot\textquotesingle{}s movement. 
+
+Sets both the forward speed and rotation speed to zero, halting all motion.
+
+Sets both the forward/backward and rotation speeds to zero, halting all motion. \Hypertarget{classmotion__controller_acd61f9ef03577763bc4cdc59715c872f}\index{motion\_controller@{motion\_controller}!turnDegrees@{turnDegrees}}
+\index{turnDegrees@{turnDegrees}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{turnDegrees()}{turnDegrees()}}
+{\footnotesize\ttfamily \label{classmotion__controller_acd61f9ef03577763bc4cdc59715c872f} 
+void motion\+\_\+controller\+::turn\+Degrees (\begin{DoxyParamCaption}\item[{float}]{degrees\+CW}{}\end{DoxyParamCaption})}
+
+
+
+Sets the desired yaw angle to turn the robot by a specified number of degrees. 
+
+This function sets the desired yaw angle for the robot to rotate by the given number of degrees in a clockwise direction. The angle is stored in the desired\+\_\+yaw\+\_\+angle variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em degrees\+CW} & The angle in degrees to turn the robot clockwise. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classmotion__controller_ac287c69f31637b4299329d1397ada79c}\index{motion\_controller@{motion\_controller}!turnLeft@{turnLeft}}
+\index{turnLeft@{turnLeft}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{turnLeft()}{turnLeft()}}
+{\footnotesize\ttfamily \label{classmotion__controller_ac287c69f31637b4299329d1397ada79c} 
+void motion\+\_\+controller\+::turn\+Left (\begin{DoxyParamCaption}\item[{float}]{rotation\+\_\+speed}{}\end{DoxyParamCaption})}
+
+
+
+Turns the robot to the left at the specified rotation speed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rotation\+\_\+speed} & The angular speed for left turn (positive value).\\
+\hline
+\end{DoxyParams}
+Stops forward/backward motion and sets the rotation speed for a left turn.
+
+
+\begin{DoxyParams}{Parameters}
+{\em rotation\+\_\+speed} & The angular speed for left turn (positive value). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classmotion__controller_ab2a2afdbb82f9b0fa0f830b87b1bad2d}\index{motion\_controller@{motion\_controller}!turnRight@{turnRight}}
+\index{turnRight@{turnRight}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{turnRight()}{turnRight()}}
+{\footnotesize\ttfamily \label{classmotion__controller_ab2a2afdbb82f9b0fa0f830b87b1bad2d} 
+void motion\+\_\+controller\+::turn\+Right (\begin{DoxyParamCaption}\item[{float}]{rotation\+\_\+speed}{}\end{DoxyParamCaption})}
+
+
+
+Turns the robot to the right at the specified rotation speed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rotation\+\_\+speed} & The angular speed for right turn (positive value).\\
+\hline
+\end{DoxyParams}
+Stops forward/backward motion and sets the rotation speed for a right turn.
+
+
+\begin{DoxyParams}{Parameters}
+{\em rotation\+\_\+speed} & The angular speed for right turn (positive value). \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/motion\+\_\+controller.\+hpp\item 
+test/plot\+PID/motion\+\_\+controller.\+hpp\item 
+src/motion\+\_\+conroller.\+cpp\item 
+test/plot\+PID/motion\+\_\+conroller.\+cpp\end{DoxyCompactItemize}

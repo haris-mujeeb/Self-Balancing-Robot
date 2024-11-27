@@ -1,0 +1,120 @@
+\chapter{Pinout}
+\hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e}{}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e}\index{Pinout@{Pinout}}
+\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md33}%
+\Hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md33}%
+
+
+\hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md34}{}\doxysection{\texorpdfstring{Motor Drive}{Motor Drive}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md34}
+To save IO pins we use \doxylink{class_t_b6612_f_n_g}{TB6612\+FNG} (H-\/bridge) in conjunction with SN74\+LVC2\+G14 (Two-\/\+Way Schmitt Trigger Reverser) like below  \hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md35}{}\doxysection{\texorpdfstring{Inertial Measuring Unit\+:}{Inertial Measuring Unit\+:}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md35}
+In this project \href{https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf}{\texttt{ MPU6050}} is used as IMU.\hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md36}{}\doxysubsection{\texorpdfstring{Power Managment 1 Config}{Power Managment 1 Config}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md36}
+
+
+(ref\+: from \href{https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf}{\texttt{ datasheet}})
+
+
+\begin{DoxyItemize}
+\item Using PLL with x-\/axis gyroscope reference (e.\+g. CLKSEL = 0x01)
+\item Sleep Mode Disabled (SLEEP = 0x00)
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Start\ communicating\ with\ MPU6050}}
+\DoxyCodeLine{Wire.beginTransmission(mpu6050\_addr);}
+\DoxyCodeLine{Wire.write(0x6B);\ \ \textcolor{comment}{//\ Talk\ to\ the\ Power\ Management\ register\ 0x6B}}
+\DoxyCodeLine{Wire.write(0x01);\ \ \textcolor{comment}{//\ setup\ to\ wake\ up\ the\ register}}
+\DoxyCodeLine{Wire.endTransmission();\ \textcolor{comment}{//end\ the\ transmission}}
+
+\end{DoxyCode}
+\hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md37}{}\doxysubsection{\texorpdfstring{Gyro and Accel Config}{Gyro and Accel Config}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md37}
+
+
+
+
+
+
+
+
+(ref\+: from \href{https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf}{\texttt{ datasheet}})
+
+
+\begin{DoxyItemize}
+\item Full scale range as \$\textbackslash{}pm\$ 250 deg/s for gyro and \$\textbackslash{}pm\$ 2g for accel (e.\+g. GYRO\+\_\+\+CONFIG = 0x00 and ACCEL\+\_\+\+CONFIG = 0x00)
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Configuring\ the\ accelerometer\ (+/-\/\ 8g)}}
+\DoxyCodeLine{Wire.beginTransmission(mpu6050\_addr);}
+\DoxyCodeLine{Wire.write(0x1C);\ \ \textcolor{comment}{//\ talk\ to\ ACCEL\_CONFIG\ register:\ 1C}}
+\DoxyCodeLine{Wire.write(0x00);\ \ \textcolor{comment}{//\ \ (+/-\/\ 2g\ full\ scale\ range)}}
+\DoxyCodeLine{Wire.endTransmission();}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Configuring\ gyroscope\ (500dps\ full\ scale)}}
+\DoxyCodeLine{Wire.beginTransmission(mpu6050\_addr);}
+\DoxyCodeLine{Wire.write(0x1B);\ \ \textcolor{comment}{//\ talk\ to\ GYRO\_CONFIG\ register:\ 1B}}
+\DoxyCodeLine{Wire.write(0x00);\ \ \textcolor{comment}{//\ \ (250deg/s\ full\ scale)}}
+\DoxyCodeLine{Wire.endTransmission();}
+
+\end{DoxyCode}
+\hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md38}{}\doxysubsection{\texorpdfstring{Reading Values}{Reading Values}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md38}
+
+
+
+
+
+
+(ref\+: from \href{https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf}{\texttt{ datasheet}})
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Read\ the\ raw\ gyro\ and\ accelerometer\ data}}
+\DoxyCodeLine{\textcolor{comment}{//\ Start\ communicating\ with\ the\ MPU-\/6050}}
+\DoxyCodeLine{Wire.beginTransmission(mpu6050\_addr);}
+\DoxyCodeLine{Wire.write(0x3B);}
+\DoxyCodeLine{Wire.endTransmission();}
+\DoxyCodeLine{\textcolor{comment}{//\ Request\ 14\ bytes\ from\ the\ MPU\ 6050\ \ to\ get\ data\ from\ ACCEL\_XOUT\_H\ -\/>\ GYRO\_ZOUT\_L\ (check\ register\ sheet\ of\ MPU)}}
+\DoxyCodeLine{Wire.requestFrom(mpu6050\_addr,\ (uint8\_t)14);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Wait\ until\ all\ the\ bytes\ are\ recieved}}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (Wire.available()\ >=\ 14)\ \{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ using\ condition\ to\ store\ the\ data}}
+\DoxyCodeLine{\ \ acc\_x\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();\ \ \textcolor{comment}{//\ first\ condition\ shifts\ the\ high\ bit\ to\ 8\ digits\ and\ second\ condition\ places\ the\ LOW\ bit\ to\ complete\ data}}
+\DoxyCodeLine{\ \ acc\_y\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();}
+\DoxyCodeLine{\ \ acc\_z\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();}
+\DoxyCodeLine{\ \ temp\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();}
+\DoxyCodeLine{\ \ gyro\_x\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();}
+\DoxyCodeLine{\ \ gyro\_y\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();}
+\DoxyCodeLine{\ \ gyro\_z\ =\ Wire.read()\ <<\ 8\ |\ Wire.read();}
+\DoxyCodeLine{\};}
+
+\end{DoxyCode}
+\hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md39}{}\doxysubsection{\texorpdfstring{Gyro drift}{Gyro drift}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md39}
+we can calibrate gyro in order to offset gyro drift.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Read\ the\ raw\ acc\ and\ gyro\ data\ from\ the\ MPU\_6050\ 1000\ times}}
+\DoxyCodeLine{\textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ cal\_int\ =\ 0;\ cal\_int\ <\ 1000;\ cal\_int++)\ \{}
+\DoxyCodeLine{\ \ read\_mpu\_6050\_data();}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ calibrating\ the\ gyro}}
+\DoxyCodeLine{\ \ gyro\_x\_cal\ +=\ gyro\_x;\ \ \ \textcolor{comment}{//add\ the\ gyro\ x\ offset\ to\ the\ gyro\_x\_cal\ variable}}
+\DoxyCodeLine{\ \ gyro\_y\_cal\ +=\ gyro\_y;\ \ \ \textcolor{comment}{//add\ the\ gyro\ y\ offset\ to\ the\ gyro\_y\_cal\ variable}}
+\DoxyCodeLine{\ \ gyro\_z\_cal\ +=\ gyro\_z;\ \ \ \textcolor{comment}{//add\ the\ gyro\ z\ offset\ to\ the\ gyro\_z\_cal\ variable}}
+\DoxyCodeLine{\ \ delay(3);\ \ \textcolor{comment}{//setting\ delay\ 3us\ to\ have\ 250Hz\ for-\/loop}}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Getting\ average\ offset\ by\ dividing\ results\ with\ 1000}}
+\DoxyCodeLine{gyro\_x\_cal\ =\ gyro\_x\_cal\ /\ 1000;}
+\DoxyCodeLine{gyro\_y\_cal\ =\ gyro\_y\_cal\ /\ 1000;}
+\DoxyCodeLine{gyro\_z\_cal\ =\ gyro\_z\_cal\ /\ 1000;}
+
+\end{DoxyCode}
+ \hypertarget{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md40}{}\doxysubsection{\texorpdfstring{Enable Interrupt}{Enable Interrupt}}\label{md_test_2plot_p_i_d_2_r_e_a_d_m_e_autotoc_md40}
+We can measure DC motor relative rotation using embedded hall sensor feedback signals. This can be done enabling interrupt pin on Pin 2 \& 4. Using using \href{https://github.com/GreyGnome/EnableInterrupt}{\texttt{ Enable\+Interrupt.\+h}} library (Author\+: Mike "{}\+Grey\+Gnome"{} Schwager) one can enable interrupt on any arduino pin. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a6893dd821b9f184bbb2508c1e5715aee}{ENCODER\_LEFT\_A\_PIN}}|PINCHANGEINTERRUPT,\ encoderCounterLeftA,\ CHANGE);}
+\DoxyCodeLine{enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_abea8f9f0e9c2d863c6a91ad1f760112e}{ENCODER\_RIGHT\_A\_PIN}},\ encoderCounterRightA,\ CHANGE);}
+
+\end{DoxyCode}
+ 

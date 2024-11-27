@@ -1,0 +1,53 @@
+\doxysection{debug\+Config.\+h}
+\hypertarget{include_2debug_config_8h_source}{}\label{include_2debug_config_8h_source}\index{include/debugConfig.h@{include/debugConfig.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ plot\ mode\ (for\ plotting\ pitch\ angle\ ,\ yaw\ angle\ and\ position\ along\ with\ there\ correspoing\ pid\ output\ values)}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ PLOT\_MODE\ false\ \ \ \ \ \ }}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Global\ debug\ mode\ (set\ to\ false\ to\ disable\ all\ debugging)}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ DEBUG\_MODE\ true\ \ \ \ \ }}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Module-\/specific\ debug\ modes}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DEBUG\_MOTOR\ false\ \ \ \ \ }\textcolor{comment}{//\ Debugging\ for\ Motor\ Control\ module}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ DEBUG\_VOLTAGE\ false\ \ \ }\textcolor{comment}{//\ Debugging\ for\ Communication\ module}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ DEBUG\_IMU\ true\ \ \ \ \ \ \ }\textcolor{comment}{//\ Debugging\ for\ IMU\ module}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ DEBUG\_KALMAN\ false\ \ \ \ }\textcolor{comment}{//\ Debugging\ for\ Communication\ module}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ DEBUG\_CONTROL\ false\ \ \ }\textcolor{comment}{//\ Debugging\ for\ Communication\ module}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ DEBUG\_PID\_PITCH\ false\ }\textcolor{comment}{//\ Debugging\ for\ PID\ control\ for\ Pitch}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ DEBUG\_PID\_YAW\ false\ }\textcolor{comment}{//\ Debugging\ for\ PID\ control\ for\ Pitch}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ DEBUG\_PID\_POSITION\ true\ \ }\textcolor{comment}{//\ Debugging\ for\ PID\ control\ for\ Pitch}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ DEBUG\_ENCODER\ false\ \ }\textcolor{comment}{//\ Debugging\ for\ Motor\ incremental\ encoders}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ DEBUG\_WATCHDOG\ true}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ Macro\ for\ conditional\ debugging}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#if\ DEBUG\_MODE}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \#define\ DEBUG\_PRINT(module,\ x)\ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \ \ if\ (module)\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.print("{}[time:\ "{});\ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.print(String(millis()));\ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.print("{}][Debug]\ "{});\ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.println(x);\ \(\backslash\)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ \ \ \}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \#define\ DEBUG\_PRINT(module,\ x)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#if\ PLOT\_MODE}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\ \ \#define\ SEND\_FOR\_PLOT(x)\ Serial.println(x);}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \#define\ SEND\_FOR\_PLOT(x)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ Macro\ for\ error\ messages\ (always\ active)}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ ERROR\_PRINT(x)\ \(\backslash\)\ }}
+\DoxyCodeLine{00042\ \ \ \textcolor{keywordflow}{do}\ \{\ \(\backslash\)}
+\DoxyCodeLine{00043\ \ \ \ \ Serial.print(\textcolor{stringliteral}{"{}[time:\ "{}});\ \(\backslash\)}
+\DoxyCodeLine{00044\ \ \ \ \ Serial.print(String(millis()));\ \(\backslash\)}
+\DoxyCodeLine{00045\ \ \ \ \ Serial.print(\textcolor{stringliteral}{"{}][ERROR]"{}});\ \(\backslash\)}
+\DoxyCodeLine{00046\ \ \ \ \ Serial.println(x);\ \(\backslash\)}
+\DoxyCodeLine{00047\ \ \ \}\ \textcolor{keywordflow}{while}(0)}
+
+\end{DoxyCode}

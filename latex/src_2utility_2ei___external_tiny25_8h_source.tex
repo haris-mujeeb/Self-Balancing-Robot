@@ -1,0 +1,28 @@
+\doxysection{ei\+\_\+\+External\+Tiny25.\+h}
+\hypertarget{src_2utility_2ei___external_tiny25_8h_source}{}\label{src_2utility_2ei___external_tiny25_8h_source}\index{src/utility/ei\_ExternalTiny25.h@{src/utility/ei\_ExternalTiny25.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Support\ for\ the\ 8-\/pin\ ATtiny25/45/85}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_ENABLEEXTERNAL}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ NO\ switch\ (arduinoPin)\ \{\ //\ ONLY\ 1\ External\ Interrupt\ pin.}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT0}}
+\DoxyCodeLine{00005\ \ \ \ \ GIMSK\ \&=\ \string~\_BV(6);}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00007\ \ \ \ \ externalFunctionPointer\ =\ userFunction;}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00009\ \ \ \ \ MCUCR\ \&=\ (\string~\_BV(0)\ \&\ \string~\_BV(1));\ \textcolor{comment}{//\ reset\ the\ flags\ prior\ to}}
+\DoxyCodeLine{00010\ \ \ \ \ MCUCR\ |=\ mode;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ set\ them\ the\ way\ we\ want}}
+\DoxyCodeLine{00011\ \ \ \ \ GIFR\ |=\ \_BV(6);}
+\DoxyCodeLine{00012\ \ \ \ \ GIMSK\ |=\ \_BV(6);}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !\ defined\ (EI\_NOTINT0)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_ENABLEEXTERNAL}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_DISABLEEXTERNAL}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTINT0}}
+\DoxyCodeLine{00018\ \ \ GIMSK\ \&=\ \string~\_BV(6);}
+\DoxyCodeLine{00019\ \ \ GIFR\ \ |=\ \_BV(6);\ \textcolor{comment}{//\ using\ a\ clue\ from\ the\ ATmega2560\ datasheet.}}
+\DoxyCodeLine{00020\ \ \ MCUCR\ \&=\ (\string~\_BV(0)\ \&\ \string~\_BV(1));}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_DISABLEEXTERNAL}}
+
+\end{DoxyCode}

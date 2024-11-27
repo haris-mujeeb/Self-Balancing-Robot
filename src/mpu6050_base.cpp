@@ -18,8 +18,8 @@ float angle_roll_output = 0;         ///< Filtered roll angle output
 bool set_gyro_angles = false;        ///< Flag indicating whether gyro angles have been initialized
 
 // Zero angle and velocity calibration values
-float angle_zero = 0;                ///< Zero angle for pitch axis
-float angular_velocity_zero = 0;     ///< Zero angular velocity for pitch axis
+// float angle_zero = 0;                ///< Zero angle for pitch axis
+// float angular_velocity_zero = 0;     ///< Zero angular velocity for pitch axis
 
 
 /**
@@ -153,18 +153,63 @@ void mpu6050_base::read_mpu_6050_data() {
     gyro_x = Wire.read() << 8 | Wire.read();  // Combine high and low bytes for X axis gyroscope
     gyro_y = Wire.read() << 8 | Wire.read();  // Combine high and low bytes for Y axis gyroscope
     gyro_z = Wire.read() << 8 | Wire.read();  // Combine high and low bytes for Z axis gyroscope
-    return;
+  }
+  else{
+    ERROR_PRINT("Data cannot be read from MPU6050!");
   }
 
   #ifdef DEBUG_IMU 
     String debugMsg = "[acc_x: " + String(acc_x)  
-        + "] [gyro_x: " + String(gyro_x) + "] [gyro_z: " + String(gyro_z) + "]";  
+        + "] [gyro_x: " + String(gyro_x-gyro_x_cal) + "] [gyro_z: " + String(gyro_z-gyro_z_cal) + "]";  
     DEBUG_PRINT(DEBUG_IMU, debugMsg);
   #endif
-
-  ERROR_PRINT("Data cannot be read from MPU6050!");
+  
+  return;
 }
 
+/**
+ * @brief Gets the X-axis gyroscope value in degrees per second.
+ * 
+ * This function retrieves the X-axis gyroscope value, applies calibration offsets,
+ * and scales the value to the correct unit of degrees per second. The scaling factor 
+ * (131.0) is used to convert the raw sensor data into degrees per second, and 
+ * a constant offset (128.1) is subtracted to adjust for any bias.
+ * 
+ * @return The X-axis gyroscope value in degrees per second.
+ */
+float mpu6050_base::getGyroX(){
+  return (gyro_x -gyro_x_cal - 128.1) / 131.0;
+}
+
+
+/**
+ * @brief Gets the Z-axis gyroscope value in degrees per second.
+ * 
+ * This function retrieves the Z-axis gyroscope value, applies calibration offsets,
+ * and scales the value to degrees per second. The scaling factor (131.0) is used 
+ * to convert the raw sensor data into degrees per second.
+ * The result is negated since the sensor may output a negative value depending on
+ * its orientation.
+ * 
+ * @return The Z-axis gyroscope value in degrees per second.
+ */
+float mpu6050_base::getGyroZ(){
+  return - (gyro_z - gyro_z_cal) / 131.0;
+}
+
+/**
+ * @brief Calculates the pitch angle based on accelerometer data.
+ * 
+ * This function computes the pitch angle of the device by using the accelerometer
+ * values on the Y and Z axes. The pitch angle is calculated using the `atan2` function
+ * to account for both axes' contributions, and the result is converted from radians 
+ * to degrees by multiplying by a factor of 57.3.
+ * 
+ * @return The pitch angle in degrees.
+ */
+float mpu6050_base::getPitchAngle(){
+  return atan2(mpu.acc_y, mpu.acc_z) * 57.3;
+}
 
 /**
  * @brief Calculates the IMU sensor errors for calibration.

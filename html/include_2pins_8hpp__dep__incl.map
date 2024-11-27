@@ -1,0 +1,8 @@
+<map id="include/pins.hpp" name="include/pins.hpp">
+<area shape="rect" id="Node000001" title="Pin definitions for hardware components of the self&#45;balancing robot." alt="" coords="43,5,158,32"/>
+<area shape="rect" id="Node000002" href="$include_2motion__controller_8hpp_source.html" title=" " alt="" coords="5,155,196,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,47,72,81,72,101,76,120,94,153,89,156,71,122,66,101,67,79,82,45"/>
+<area shape="rect" id="Node000003" href="$include_2tb6612fng_8hpp.html" title="Driver class for the TB6612FNG motor driver, supporting multiple motor control configurations." alt="" coords="82,80,231,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,43,149,78,145,81,117,46"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="140,121,112,156,108,153,135,117"/>
+</map>

@@ -1,0 +1,104 @@
+\doxysection{Balanced.\+h}
+\hypertarget{_lesson_013_01_follow_01_mode_2_follow_01_mode_011_2_balanced___car_2_balanced_8h_source}{}\label{_lesson_013_01_follow_01_mode_2_follow_01_mode_011_2_balanced___car_2_balanced_8h_source}\index{reference material/TumbllerV1.1 Function Introduction/Lesson 3 Follow Mode/Follow Mode 1/Balanced\_Car/Balanced.h@{reference material/TumbllerV1.1 Function Introduction/Lesson 3 Follow Mode/Follow Mode 1/Balanced\_Car/Balanced.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_BALANCED\_h}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_BALANCED\_h}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}MsTimer2.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}KalmanFilter.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum}\ Direction}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ FORWARD,}
+\DoxyCodeLine{00010\ \ \ BACK,}
+\DoxyCodeLine{00011\ \ \ LEFT,}
+\DoxyCodeLine{00012\ \ \ RIGHT,}
+\DoxyCodeLine{00013\ \ \ STOP,}
+\DoxyCodeLine{00014\ \};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_balanced}{Balanced}}}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_balanced}{Balanced}}();}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Get\_EncoderSpeed();}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ PD\_VerticalRing();}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ PI\_SpeedRing();}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ PI\_SteeringRing();}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Total\_Control();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Motion\_Control(Direction\ direction);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Stop();}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Forward(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Back(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Left(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Right(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00032\ \ \ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/*Speed\ value*/}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ pwm\_left;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ pwm\_right;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ encoder\_left\_pulse\_num\_speed;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ encoder\_right\_pulse\_num\_speed;}
+\DoxyCodeLine{00038\ \textcolor{comment}{/*Cnt*/}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ interrupt\_cnt;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{comment}{/*PID\ parameter*/}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*PD\_VerticalRing*/}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ kp\_balance,\ kd\_balance;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*PI\_SpeedRing*/}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ kp\_speed,\ ki\_speed;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*PI\_SteeringRing*/}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ kp\_turn,\ kd\_turn;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ speed\_filter;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ speed\_filter\_old;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ car\_speed\_integeral;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ balance\_control\_output;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ speed\_control\_output;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ rotation\_control\_output;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ setting\_turn\_speed;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ setting\_car\_speed;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \#define\ ANGLE\_MIN\ -\/100}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \#define\ ANGLE\_MAX\ 40}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \#define\ EXCESSIVE\_ANGLE\_TILT\ (kalmanfilter.angle\ <\ ANGLE\_MIN\ ||\ ANGLE\_MAX\ <\ kalmanfilter.angle)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \#define\ PICKED\_UP\ (kalmanfilter.angle6\ <\ -\/10\ ||\ 22\ <\ kalmanfilter.angle6)}}
+\DoxyCodeLine{00063\ \};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_timer2}{Timer2}}}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keywordtype}{int}\ time);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ interrupt();}
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{private}:\ \ \ \ \ \ \ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ TIMER\ 5}}
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_mpu6050}{Mpu6050}}}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ DataProcessing();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_mpu6050}{Mpu6050}}();}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ax,\ ay,\ az,\ gx,\ gy,\ gz;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ dt,\ Q\_angle,\ Q\_gyro,\ R\_angle,\ C\_0,\ K1;}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

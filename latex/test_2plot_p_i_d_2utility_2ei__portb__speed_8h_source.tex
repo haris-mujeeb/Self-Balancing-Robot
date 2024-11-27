@@ -1,0 +1,132 @@
+\doxysection{ei\+\_\+portb\+\_\+speed.\+h}
+\hypertarget{test_2plot_p_i_d_2utility_2ei__portb__speed_8h_source}{}\label{test_2plot_p_i_d_2utility_2ei__portb__speed_8h_source}\index{test/plotPID/utility/ei\_portb\_speed.h@{test/plotPID/utility/ei\_portb\_speed.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_AVR\_ENVIRODIY\_MAYFLY\ ||\ defined\ ARDUINO\_AVR\_SODAQ\_MBILI}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN8}}
+\DoxyCodeLine{00003\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ INTERRUPT\_FLAG\_PIN8++;}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN9}}
+\DoxyCodeLine{00006\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ INTERRUPT\_FLAG\_PIN9++;}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN10}}
+\DoxyCodeLine{00009\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ INTERRUPT\_FLAG\_PIN10++;}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN11}}
+\DoxyCodeLine{00012\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ INTERRUPT\_FLAG\_PIN11++;}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN12}}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ INTERRUPT\_FLAG\_PIN12++;}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN13}}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ INTERRUPT\_FLAG\_PIN13++;}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN14}}
+\DoxyCodeLine{00021\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ INTERRUPT\_FLAG\_PIN14++;}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#if\ defined\ INTERRUPT\_FLAG\_PIN15}}
+\DoxyCodeLine{00024\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ INTERRUPT\_FLAG\_PIN15++;}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#elif\ defined\ MIGHTY1284}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN0}}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ INTERRUPT\_FLAG\_PIN0++;}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN1}}
+\DoxyCodeLine{00031\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ INTERRUPT\_FLAG\_PIN1++;}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN2}}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ INTERRUPT\_FLAG\_PIN2++;}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN3}}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ INTERRUPT\_FLAG\_PIN3++;}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN4}}
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ INTERRUPT\_FLAG\_PIN4++;}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN5}}
+\DoxyCodeLine{00043\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ INTERRUPT\_FLAG\_PIN5++;}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN6}}
+\DoxyCodeLine{00046\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ INTERRUPT\_FLAG\_PIN6++;}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN7}}
+\DoxyCodeLine{00049\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ INTERRUPT\_FLAG\_PIN7++;}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#if\ defined\ LEONARDO}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINSS}}
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ INTERRUPT\_FLAG\_PINSS++;}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINSCK}}
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ INTERRUPT\_FLAG\_PINSCK++;}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINMOSI}}
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ INTERRUPT\_FLAG\_PINMOSI++;}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINMISO}}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ INTERRUPT\_FLAG\_PINMISO++;}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN8}}
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ INTERRUPT\_FLAG\_PIN8++;}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN9}}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ INTERRUPT\_FLAG\_PIN9++;}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN10}}
+\DoxyCodeLine{00073\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ INTERRUPT\_FLAG\_PIN10++;}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN11}}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ INTERRUPT\_FLAG\_PIN11++;}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_328}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN8}}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ INTERRUPT\_FLAG\_PIN8++;}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN9}}
+\DoxyCodeLine{00085\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ INTERRUPT\_FLAG\_PIN9++;}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN10}}
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ INTERRUPT\_FLAG\_PIN10++;}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN11}}
+\DoxyCodeLine{00091\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ INTERRUPT\_FLAG\_PIN11++;}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN12}}
+\DoxyCodeLine{00094\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ INTERRUPT\_FLAG\_PIN12++;}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN13}}
+\DoxyCodeLine{00097\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ INTERRUPT\_FLAG\_PIN13++;}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#if\ defined\ ARDUINO\_MEGA}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINSS}}
+\DoxyCodeLine{00103\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(0))\ INTERRUPT\_FLAG\_PINSS++;}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINSCK}}
+\DoxyCodeLine{00106\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(1))\ INTERRUPT\_FLAG\_PINSCK++;}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINMOSI}}
+\DoxyCodeLine{00109\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(2))\ INTERRUPT\_FLAG\_PINMOSI++;}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PINMISO}}
+\DoxyCodeLine{00112\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(3))\ INTERRUPT\_FLAG\_PINMISO++;}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN10}}
+\DoxyCodeLine{00115\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(4))\ INTERRUPT\_FLAG\_PIN10++;}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN11}}
+\DoxyCodeLine{00118\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(5))\ INTERRUPT\_FLAG\_PIN11++;}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN12}}
+\DoxyCodeLine{00121\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(6))\ INTERRUPT\_FLAG\_PIN12++;}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#ifdef\ INTERRUPT\_FLAG\_PIN13}}
+\DoxyCodeLine{00124\ \ \ \textcolor{keywordflow}{if}\ (interruptMask\ \&\ \_BV(7))\ INTERRUPT\_FLAG\_PIN13++;}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

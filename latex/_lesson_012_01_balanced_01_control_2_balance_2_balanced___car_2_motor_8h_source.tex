@@ -1,0 +1,53 @@
+\doxysection{Motor.\+h}
+\hypertarget{_lesson_012_01_balanced_01_control_2_balance_2_balanced___car_2_motor_8h_source}{}\label{_lesson_012_01_balanced_01_control_2_balance_2_balanced___car_2_motor_8h_source}\index{reference material/TumbllerV1.1 Function Introduction/Lesson 2 Balanced Control/Balance/Balanced\_Car/Motor.h@{reference material/TumbllerV1.1 Function Introduction/Lesson 2 Balanced Control/Balance/Balanced\_Car/Motor.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_MOTOR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_MOTOR\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_motor}{Motor}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_motor}{Motor}}();}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Pin\_init();}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Measuring\_speed*/}}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Encoder\_init();}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ void\ (Motor::*MOVE[4])(int\ speed);\ }}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Control(\textcolor{keywordtype}{int}\ AIN1\_value,\textcolor{keywordtype}{int}\ BIN1\_value,\textcolor{keywordtype}{int}\ PWM\_pin,\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Stop();}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Forward(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Back(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Left(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Right(\textcolor{keywordtype}{int}\ speed);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ encoder\_count\_right\_a;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ encoder\_count\_left\_a;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Motor\ pin*/}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ AIN1\ 7}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ PWMA\_LEFT\ 5}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ BIN1\ 12}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ PWMB\_RIGHT\ 6}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ STBY\_PIN\ 8}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Encoder\ measuring\ speed\ \ pin*/}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ ENCODER\_LEFT\_A\_PIN\ 2}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \#define\ ENCODER\_RIGHT\_A\_PIN\ 4}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

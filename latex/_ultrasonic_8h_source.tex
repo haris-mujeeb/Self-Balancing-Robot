@@ -1,0 +1,458 @@
+\doxysection{Ultrasonic.\+h}
+\hypertarget{_ultrasonic_8h_source}{}\label{_ultrasonic_8h_source}\index{reference material/Tumbller\_Code\_20240301/Tumbller/Ultrasonic.h@{reference material/Tumbller\_Code\_20240301/Tumbller/Ultrasonic.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ @Description:\ In\ User\ Settings\ Edit}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ @Author:\ your\ name}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ @Date:\ 2019-\/10-\/08\ 09:35:07}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ @LastEditTime:\ 2019-\/10-\/10\ 14:24:57}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ @LastEditors:\ Please\ set\ LastEditors}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}EnableInterrupt.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keywordtype}{bool}\ left\_flag[10]\ =\ \{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00012\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ left\_count\_flag\ =\ 0;}
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ left\_index\ =\ 0;}
+\DoxyCodeLine{00014\ \textcolor{keywordtype}{bool}\ right\_flag[10]\ =\ \{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ right\_count\_flag\ =\ 0;}
+\DoxyCodeLine{00016\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ right\_index\ =\ 0;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{char}\ measure\_flag\ =\ 0;}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{double}\ distance\_value\ =\ 0;}
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ measure\_prev\_time\ =\ 0;}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ get\_distance\_prev\_time\ =\ 0;}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{char}\ obstacle\_avoidance\_flag\ =\ 0;}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ obstacle\_avoidance\_prev\_time\ =\ 0;}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ follow\_flag\ =\ 0;}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ follow\_prev\_time\ =\ 0;}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ turn\_count\ =\ 0;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ ir\_send\_time\ =\ 0;}
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ left\_receive\_flag\ =\ 0;}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ left\_count\ =\ 0;}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ left\_count\_time\ =\ 0;}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{bool}\ left\_test\_flag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{bool}\ left\_is\_obstacle\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ right\_receive\_flag\ =\ 0;}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ right\_count\ =\ 0;}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ right\_count\_time\ =\ 0;}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{bool}\ right\_test\_flag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{bool}\ right\_is\_obstacle\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ rightFilter(\textcolor{keywordtype}{bool}\ value)}
+\DoxyCodeLine{00042\ \{}
+\DoxyCodeLine{00043\ \ \ \textcolor{keywordflow}{if}\ (right\_flag[right\_index])}
+\DoxyCodeLine{00044\ \ \ \ \ right\_count\_flag-\/-\/;}
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{if}\ (value)}
+\DoxyCodeLine{00046\ \ \ \ \ right\_count\_flag++;}
+\DoxyCodeLine{00047\ \ \ right\_flag[right\_index]\ =\ value;}
+\DoxyCodeLine{00048\ \ \ right\_index++;}
+\DoxyCodeLine{00049\ \ \ \textcolor{keywordflow}{if}\ (right\_index\ >=\ 10)}
+\DoxyCodeLine{00050\ \ \ \ \ right\_index\ =\ 0;}
+\DoxyCodeLine{00051\ \}}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ leftFilter(\textcolor{keywordtype}{bool}\ value)}
+\DoxyCodeLine{00053\ \{}
+\DoxyCodeLine{00054\ \ \ \textcolor{keywordflow}{if}\ (left\_flag[left\_index])}
+\DoxyCodeLine{00055\ \ \ \ \ left\_count\_flag-\/-\/;}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordflow}{if}\ (value)}
+\DoxyCodeLine{00057\ \ \ \ \ left\_count\_flag++;}
+\DoxyCodeLine{00058\ \ \ left\_flag[left\_index]\ =\ value;}
+\DoxyCodeLine{00059\ \ \ left\_index++;}
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordflow}{if}\ (left\_index\ >=\ 10)}
+\DoxyCodeLine{00061\ \ \ \ \ left\_index\ =\ 0;}
+\DoxyCodeLine{00062\ \}}
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ send38K(\textcolor{keywordtype}{int}\ pin)}
+\DoxyCodeLine{00069\ \{}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 39;\ i++)}
+\DoxyCodeLine{00071\ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ digitalWrite(pin,\ LOW);}
+\DoxyCodeLine{00073\ \ \ \ \ delayMicroseconds(9);}
+\DoxyCodeLine{00074\ \ \ \ \ digitalWrite(pin,\ HIGH);}
+\DoxyCodeLine{00075\ \ \ \ \ delayMicroseconds(9);}
+\DoxyCodeLine{00076\ \ \ \}}
+\DoxyCodeLine{00077\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ leftReceive()}
+\DoxyCodeLine{00084\ \{}
+\DoxyCodeLine{00085\ \ \ \textcolor{keywordflow}{if}\ (left\_receive\_flag\ ==\ 0)}
+\DoxyCodeLine{00086\ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ left\_receive\_flag\ =\ 1;}
+\DoxyCodeLine{00088\ \ \ \ \ enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a61ca842a4137c5f265d2e4bc7d7ce4bd}{LEFT\_RECEIVE\_PIN}},\ leftReceive,\ RISING);}
+\DoxyCodeLine{00089\ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (left\_receive\_flag\ ==\ 1)}
+\DoxyCodeLine{00091\ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ left\_count++;}
+\DoxyCodeLine{00093\ \ \ \ \ left\_receive\_flag\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a61ca842a4137c5f265d2e4bc7d7ce4bd}{LEFT\_RECEIVE\_PIN}},\ leftReceive,\ FALLING);}
+\DoxyCodeLine{00095\ \ \ \}}
+\DoxyCodeLine{00096\ \}}
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{void}\ rightReceive()}
+\DoxyCodeLine{00098\ \{}
+\DoxyCodeLine{00099\ \ \ \textcolor{keywordflow}{if}\ (right\_receive\_flag\ ==\ 0)}
+\DoxyCodeLine{00100\ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ right\_receive\_flag\ =\ 1;}
+\DoxyCodeLine{00102\ \ \ \ \ enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a0f547f22fb492831891d2c51fe9a24bb}{RIGHT\_RECEIVE\_PIN}},\ rightReceive,\ RISING);}
+\DoxyCodeLine{00103\ \ \ \}}
+\DoxyCodeLine{00104\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (right\_receive\_flag\ ==\ 1)}
+\DoxyCodeLine{00105\ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ right\_count++;}
+\DoxyCodeLine{00107\ \ \ \ \ right\_receive\_flag\ =\ 0;}
+\DoxyCodeLine{00108\ \ \ \ \ enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a0f547f22fb492831891d2c51fe9a24bb}{RIGHT\_RECEIVE\_PIN}},\ rightReceive,\ FALLING);}
+\DoxyCodeLine{00109\ \ \ \}}
+\DoxyCodeLine{00110\ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{void}\ ultrasonicInit()}
+\DoxyCodeLine{00113\ \{}
+\DoxyCodeLine{00114\ \ \ pinMode(\mbox{\hyperlink{include_2pins_8hpp_acea96cea4a13b6cb38e57a86788adf90}{ECHO\_PIN}},\ INPUT);}
+\DoxyCodeLine{00115\ \ \ pinMode(\mbox{\hyperlink{include_2pins_8hpp_a8eab89acd7dcb0e77e7b00d1749022a6}{TRIG\_PIN}},\ OUTPUT);}
+\DoxyCodeLine{00116\ \ \ pinMode(\mbox{\hyperlink{include_2pins_8hpp_a4cb394b3b749f9302940902fb05bd920}{IR\_SEND\_PIN}},\ OUTPUT);}
+\DoxyCodeLine{00117\ \ \ pinMode(\mbox{\hyperlink{include_2pins_8hpp_a61ca842a4137c5f265d2e4bc7d7ce4bd}{LEFT\_RECEIVE\_PIN}},\ INPUT\_PULLUP);}
+\DoxyCodeLine{00118\ \ \ pinMode(\mbox{\hyperlink{include_2pins_8hpp_a0f547f22fb492831891d2c51fe9a24bb}{RIGHT\_RECEIVE\_PIN}},\ INPUT\_PULLUP);}
+\DoxyCodeLine{00119\ \ \ enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a61ca842a4137c5f265d2e4bc7d7ce4bd}{LEFT\_RECEIVE\_PIN}},\ leftReceive,\ FALLING);}
+\DoxyCodeLine{00120\ \ \ enableInterrupt(\mbox{\hyperlink{include_2pins_8hpp_a0f547f22fb492831891d2c51fe9a24bb}{RIGHT\_RECEIVE\_PIN}},\ rightReceive,\ FALLING);}
+\DoxyCodeLine{00121\ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \textcolor{keywordtype}{void}\ checkObstacle()}
+\DoxyCodeLine{00124\ \{}
+\DoxyCodeLine{00125\ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ ir\_send\_time\ >\ 15)}
+\DoxyCodeLine{00126\ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ send38K(\mbox{\hyperlink{include_2pins_8hpp_a4cb394b3b749f9302940902fb05bd920}{IR\_SEND\_PIN}});}
+\DoxyCodeLine{00128\ \ \ \ \ ir\_send\_time\ =\ millis();}
+\DoxyCodeLine{00129\ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ left\_count\_time\ >\ 50)}
+\DoxyCodeLine{00132\ \ \ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{comment}{//\ Serial.print(left\_count);}}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_count\ >=\ 3)}
+\DoxyCodeLine{00135\ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \textcolor{comment}{//\ Serial.print("{}\(\backslash\)tLeft"{});}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ left\_is\_obstacle\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ leftFilter(\textcolor{keyword}{true});}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00141\ \ \ \ \ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ left\_is\_obstacle\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ leftFilter(\textcolor{keyword}{false});}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{comment}{//\ Serial.print(left\_count\_flag);}}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_count\_flag\ >=\ 5)}
+\DoxyCodeLine{00148\ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \textcolor{comment}{//\ Serial.print("{}\(\backslash\)tLeft"{});}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ left\_is\_obstacle\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00151\ \ \ \ \ \}}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00153\ \ \ \ \ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ left\_is\_obstacle\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{comment}{//\ Serial.println();}}
+\DoxyCodeLine{00158\ \ \ \ \ left\_count\ =\ 0;}
+\DoxyCodeLine{00159\ \ \ \ \ left\_count\_time\ =\ millis();}
+\DoxyCodeLine{00160\ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ right\_count\_time\ >\ 50)}
+\DoxyCodeLine{00163\ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{comment}{//\ Serial.print("{}\(\backslash\)t\(\backslash\)t\(\backslash\)t"{});}}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{comment}{//\ Serial.print(right\_count);}}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordflow}{if}\ (right\_count\ >=\ 3)}
+\DoxyCodeLine{00167\ \ \ \ \ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \textcolor{comment}{//\ Serial.print("{}\(\backslash\)tRight"{});}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ rightFilter(\textcolor{keyword}{true});}
+\DoxyCodeLine{00170\ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00172\ \ \ \ \ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ rightFilter(\textcolor{keyword}{false});}
+\DoxyCodeLine{00174\ \ \ \ \ \}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{comment}{//\ Serial.print("{}\(\backslash\)t\(\backslash\)t\(\backslash\)t"{});}}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{comment}{//\ Serial.print(right\_count\_flag);}}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordflow}{if}\ (right\_count\_flag\ >=\ 5)}
+\DoxyCodeLine{00179\ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \textcolor{comment}{//\ Serial.print("{}\(\backslash\)tRight"{});}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ right\_is\_obstacle\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00184\ \ \ \ \ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ right\_is\_obstacle\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00186\ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{comment}{//\ Serial.println();}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ right\_count\ =\ 0;}
+\DoxyCodeLine{00190\ \ \ \ \ right\_count\_time\ =\ millis();}
+\DoxyCodeLine{00191\ \ \ \}}
+\DoxyCodeLine{00192\ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{keywordtype}{void}\ obstacleAvoidanceMode()}
+\DoxyCodeLine{00195\ \{}
+\DoxyCodeLine{00196\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ super\_min\ =\ 3;}
+\DoxyCodeLine{00197\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\_min\ =\ 10;}
+\DoxyCodeLine{00198\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\_max\ =\ 45;}
+\DoxyCodeLine{00199\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ super\_max\ =\ 400;}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ \&\&\ right\_is\_obstacle)}
+\DoxyCodeLine{00202\ \ \ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ >=\ distance\_min\ \&\&\ distance\_value\ <=\ distance\_max)}
+\DoxyCodeLine{00204\ \ \ \ \ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (turn\_count\ >=\ 0)}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ motion\_mode\ =\ TURNRIGHT;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ rgb.flashYellowColorRight();}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ turn\_count++;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ motion\_mode\ =\ TURNLEFT;}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ rgb.flashYellowColorLeft();}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ turn\_count-\/-\/;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00219\ \ \ \ \ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ motion\_mode\ =\ BACKWARD;}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ rgb.flashYellowColorback();}
+\DoxyCodeLine{00222\ \ \ \ \ \}}
+\DoxyCodeLine{00223\ \ \ \}}
+\DoxyCodeLine{00224\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ \&\&\ !right\_is\_obstacle)}
+\DoxyCodeLine{00225\ \ \ \{}
+\DoxyCodeLine{00226\ \ \ \ \ motion\_mode\ =\ TURNRIGHT;}
+\DoxyCodeLine{00227\ \ \ \ \ rgb.flashYellowColorRight();}
+\DoxyCodeLine{00228\ \ \ \ \ turn\_count++;}
+\DoxyCodeLine{00229\ \ \ \}}
+\DoxyCodeLine{00230\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!left\_is\_obstacle\ \&\&\ right\_is\_obstacle)}
+\DoxyCodeLine{00231\ \ \ \{}
+\DoxyCodeLine{00232\ \ \ \ \ motion\_mode\ =\ TURNLEFT;}
+\DoxyCodeLine{00233\ \ \ \ \ rgb.flashYellowColorLeft();}
+\DoxyCodeLine{00234\ \ \ \ \ turn\_count-\/-\/;}
+\DoxyCodeLine{00235\ \ \ \}}
+\DoxyCodeLine{00236\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00237\ \ \ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordflow}{switch}\ (obstacle\_avoidance\_flag)}
+\DoxyCodeLine{00239\ \ \ \ \ \{}
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ <\ distance\_max\ ||\ distance\_value\ >\ super\_max)}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ obstacle\_avoidance\_flag\ =\ 1;}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ rgb.brightYellowColor();}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ motion\_mode\ =\ FORWARD;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ rgb.flashYellowColorFront();}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ >=\ distance\_max\ \&\&\ distance\_value\ <=\ super\_max)}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ obstacle\_avoidance\_flag\ =\ 0;}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ motion\_mode\ =\ FORWARD;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ rgb.flashYellowColorFront();}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (distance\_value\ >=\ super\_min\ \&\&\ distance\_value\ <=\ distance\_min)}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ motion\_mode\ =\ BACKWARD;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ rgb.flashYellowColorback();}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (turn\_count\ >=\ 0)}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ motion\_mode\ =\ TURNRIGHT;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ rgb.flashYellowColorRight();}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ turn\_count++;}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ motion\_mode\ =\ TURNLEFT;}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ rgb.flashYellowColorLeft();}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ turn\_count-\/-\/;}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00283\ \ \ \ \ \}}
+\DoxyCodeLine{00284\ \ \ \}}
+\DoxyCodeLine{00285\ \}}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \textcolor{keywordtype}{void}\ followMode()}
+\DoxyCodeLine{00288\ \{}
+\DoxyCodeLine{00289\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\_min\ =\ 3;}
+\DoxyCodeLine{00290\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\_max\ =\ 35;}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \textcolor{keywordflow}{switch}\ (follow\_flag)}
+\DoxyCodeLine{00293\ \ \ \{}
+\DoxyCodeLine{00294\ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ follow\_prev\_time\ <\ 500)}
+\DoxyCodeLine{00296\ \ \ \ \ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ rgb.brightGreenColor();}
+\DoxyCodeLine{00299\ \ \ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (millis()\ -\/\ follow\_prev\_time\ >=\ 500)}
+\DoxyCodeLine{00301\ \ \ \ \ \{}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ ||\ right\_is\_obstacle)}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ follow\_flag\ =\ 1;}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ >\ distance\_min\ \&\&\ distance\_value\ <\ distance\_max)}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ follow\_flag\ =\ 2;}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ follow\_prev\_time\ =\ millis();}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00317\ \ \ \ \ \}}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00319\ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ \&\&\ !right\_is\_obstacle)}
+\DoxyCodeLine{00321\ \ \ \ \ \{}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ rgb.flashGreenColorLeft();}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ motion\_mode\ =\ TURNLEFT;}
+\DoxyCodeLine{00324\ \ \ \ \ \}}
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!left\_is\_obstacle\ \&\&\ right\_is\_obstacle)}
+\DoxyCodeLine{00326\ \ \ \ \ \{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ rgb.flashGreenColorRight();}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ motion\_mode\ =\ TURNRIGHT;}
+\DoxyCodeLine{00329\ \ \ \ \ \}}
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ \&\&\ right\_is\_obstacle)}
+\DoxyCodeLine{00331\ \ \ \ \ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ rgb.flashGreenColorFront();}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ motion\_mode\ =\ FORWARD;}
+\DoxyCodeLine{00334\ \ \ \ \ \}}
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00336\ \ \ \ \ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ follow\_flag\ =\ 0;}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ rgb.brightGreenColor();}
+\DoxyCodeLine{00340\ \ \ \ \ \}}
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00342\ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ >\ distance\_min\ \&\&\ distance\_value\ <\ distance\_max)}
+\DoxyCodeLine{00344\ \ \ \ \ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ rgb.flashGreenColorFront();}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ motion\_mode\ =\ FORWARD;}
+\DoxyCodeLine{00347\ \ \ \ \ \}}
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00349\ \ \ \ \ \{}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ follow\_flag\ =\ 0;}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ rgb.brightGreenColor();}
+\DoxyCodeLine{00353\ \ \ \ \ \}}
+\DoxyCodeLine{00354\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00355\ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00357\ \ \ \}}
+\DoxyCodeLine{00358\ \}}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \textcolor{keywordtype}{void}\ followMode2()}
+\DoxyCodeLine{00361\ \{}
+\DoxyCodeLine{00362\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\_min\ =\ 5;}
+\DoxyCodeLine{00363\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\_max\ =\ 35;}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \textcolor{keywordflow}{switch}\ (follow\_flag)}
+\DoxyCodeLine{00366\ \ \ \{}
+\DoxyCodeLine{00367\ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ follow\_prev\_time\ <\ 500)}
+\DoxyCodeLine{00369\ \ \ \ \ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ rgb.brightGreenColor();}
+\DoxyCodeLine{00372\ \ \ \ \ \}}
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (millis()\ -\/\ follow\_prev\_time\ >=\ 500)}
+\DoxyCodeLine{00374\ \ \ \ \ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ ||\ right\_is\_obstacle)}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ follow\_flag\ =\ 1;}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ >\ distance\_min\ \&\&\ distance\_value\ <\ distance\_max)}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ follow\_flag\ =\ 2;}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ follow\_prev\_time\ =\ millis();}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00392\ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ \&\&\ !right\_is\_obstacle)}
+\DoxyCodeLine{00394\ \ \ \ \ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ rgb.flashGreenColorLeft();}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ motion\_mode\ =\ TURNLEFT;}
+\DoxyCodeLine{00397\ \ \ \ \ \}}
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!left\_is\_obstacle\ \&\&\ right\_is\_obstacle)}
+\DoxyCodeLine{00399\ \ \ \ \ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ rgb.flashGreenColorRight();}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ motion\_mode\ =\ TURNRIGHT;}
+\DoxyCodeLine{00402\ \ \ \ \ \}}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (left\_is\_obstacle\ \&\&\ right\_is\_obstacle)}
+\DoxyCodeLine{00404\ \ \ \ \ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ rgb.flashGreenColorFront();}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ motion\_mode\ =\ BACKWARD;}
+\DoxyCodeLine{00407\ \ \ \ \ \}}
+\DoxyCodeLine{00408\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00409\ \ \ \ \ \{}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ follow\_flag\ =\ 0;}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ rgb.brightGreenColor();}
+\DoxyCodeLine{00413\ \ \ \ \ \}}
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00415\ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_value\ >\ distance\_min\ \&\&\ distance\_value\ <\ distance\_max)}
+\DoxyCodeLine{00417\ \ \ \ \ \{}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ rgb.flashGreenColorFront();}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ motion\_mode\ =\ BACKWARD;}
+\DoxyCodeLine{00420\ \ \ \ \ \}}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00422\ \ \ \ \ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ follow\_flag\ =\ 0;}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ rgb.brightGreenColor();}
+\DoxyCodeLine{00426\ \ \ \ \ \}}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00428\ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00430\ \ \ \}}
+\DoxyCodeLine{00431\ \}}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \textcolor{keywordtype}{void}\ measureDistance()}
+\DoxyCodeLine{00434\ \{}
+\DoxyCodeLine{00435\ \ \ \textcolor{keywordflow}{if}\ (measure\_flag\ ==\ 0)}
+\DoxyCodeLine{00436\ \ \ \{}
+\DoxyCodeLine{00437\ \ \ \ \ measure\_prev\_time\ =\ micros();}
+\DoxyCodeLine{00438\ \ \ \ \ attachPinChangeInterrupt(\mbox{\hyperlink{include_2pins_8hpp_acea96cea4a13b6cb38e57a86788adf90}{ECHO\_PIN}},\ measureDistance,\ FALLING);}
+\DoxyCodeLine{00439\ \ \ \ \ measure\_flag\ =\ 1;}
+\DoxyCodeLine{00440\ \ \ \}}
+\DoxyCodeLine{00441\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (measure\_flag\ ==\ 1)}
+\DoxyCodeLine{00442\ \ \ \{}
+\DoxyCodeLine{00443\ \ \ \ \ distance\_value\ =\ (micros()\ -\/\ measure\_prev\_time)\ *\ 0.017;\ \textcolor{comment}{//340.29\ m/s\ /\ 2\ -\/>\ (340.29*100\ cm)\ /(1000*1000\ us)\ /\ 2\ =\ 0.0170145}}
+\DoxyCodeLine{00444\ \ \ \ \ measure\_flag\ =\ 2;}
+\DoxyCodeLine{00445\ \ \ \}}
+\DoxyCodeLine{00446\ \}}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \textcolor{keywordtype}{void}\ getDistance()}
+\DoxyCodeLine{00449\ \{}
+\DoxyCodeLine{00450\ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ get\_distance\_prev\_time\ >\ 50)}
+\DoxyCodeLine{00451\ \ \ \{}
+\DoxyCodeLine{00452\ \ \ \ \ get\_distance\_prev\_time\ =\ millis();}
+\DoxyCodeLine{00453\ \ \ \ \ measure\_flag\ =\ 0;}
+\DoxyCodeLine{00454\ \ \ \ \ attachPinChangeInterrupt(\mbox{\hyperlink{include_2pins_8hpp_acea96cea4a13b6cb38e57a86788adf90}{ECHO\_PIN}},\ measureDistance,\ RISING);}
+\DoxyCodeLine{00455\ \ \ \ \ digitalWrite(\mbox{\hyperlink{include_2pins_8hpp_a8eab89acd7dcb0e77e7b00d1749022a6}{TRIG\_PIN}},\ LOW);}
+\DoxyCodeLine{00456\ \ \ \ \ delayMicroseconds(2);}
+\DoxyCodeLine{00457\ \ \ \ \ digitalWrite(\mbox{\hyperlink{include_2pins_8hpp_a8eab89acd7dcb0e77e7b00d1749022a6}{TRIG\_PIN}},\ HIGH);}
+\DoxyCodeLine{00458\ \ \ \ \ delayMicroseconds(10);}
+\DoxyCodeLine{00459\ \ \ \ \ digitalWrite(\mbox{\hyperlink{include_2pins_8hpp_a8eab89acd7dcb0e77e7b00d1749022a6}{TRIG\_PIN}},\ LOW);}
+\DoxyCodeLine{00460\ \ \ \}}
+\DoxyCodeLine{00461\ \}}
+
+\end{DoxyCode}

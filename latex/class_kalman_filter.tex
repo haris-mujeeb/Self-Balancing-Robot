@@ -1,0 +1,133 @@
+\doxysection{Kalman\+Filter Class Reference}
+\hypertarget{class_kalman_filter}{}\label{class_kalman_filter}\index{KalmanFilter@{KalmanFilter}}
+
+
+A class that implements the Kalman filter for sensor fusion.  
+
+
+
+
+{\ttfamily \#include $<$kalman\+\_\+filter.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_kalman_filter_af88364716f3319b46f23c758e8c03cc6}{Kalman\+Filter}} (float dt, float Q\+\_\+angle, float Q\+\_\+gyro, float R\+\_\+angle, float C\+\_\+0)
+\begin{DoxyCompactList}\small\item\em Constructor to initialize the Kalman filter with specific parameters. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_kalman_filter_aae7af6b610a2f652a12f3372e5f0eced}{get\+Angle}} (float measured\+\_\+angle, float measured\+\_\+gyro)
+\begin{DoxyCompactList}\small\item\em Updates the Kalman filter with new sensor measurements and returns the estimated angle. \end{DoxyCompactList}\item 
+\Hypertarget{class_kalman_filter_a14ee7a23cbe90ef72f371f38188496f6}\label{class_kalman_filter_a14ee7a23cbe90ef72f371f38188496f6} 
+void {\bfseries Yiorderfilter} (float angle\+\_\+m, float gyro\+\_\+m, float dt, float K1)
+\item 
+\Hypertarget{class_kalman_filter_aa235c7aa04ec8a56d53c1574e768ddeb}\label{class_kalman_filter_aa235c7aa04ec8a56d53c1574e768ddeb} 
+void {\bfseries Kalman\+\_\+\+Filter} (double angle\+\_\+m, double gyro\+\_\+m, float dt, float Q\+\_\+angle, float Q\+\_\+gyro, float R\+\_\+angle, float C\+\_\+0)
+\item 
+\Hypertarget{class_kalman_filter_a34fa5ecd48a9c9147214074aa4463d2d}\label{class_kalman_filter_a34fa5ecd48a9c9147214074aa4463d2d} 
+void {\bfseries Angle} (int16\+\_\+t ax, int16\+\_\+t ay, int16\+\_\+t az, int16\+\_\+t gx, int16\+\_\+t gy, int16\+\_\+t gz, float dt, float Q\+\_\+angle, float Q\+\_\+gyro, float R\+\_\+angle, float C\+\_\+0, float K1)
+\item 
+\Hypertarget{class_kalman_filter_a14ee7a23cbe90ef72f371f38188496f6}\label{class_kalman_filter_a14ee7a23cbe90ef72f371f38188496f6} 
+void {\bfseries Yiorderfilter} (float angle\+\_\+m, float gyro\+\_\+m, float dt, float K1)
+\item 
+\Hypertarget{class_kalman_filter_aa235c7aa04ec8a56d53c1574e768ddeb}\label{class_kalman_filter_aa235c7aa04ec8a56d53c1574e768ddeb} 
+void {\bfseries Kalman\+\_\+\+Filter} (double angle\+\_\+m, double gyro\+\_\+m, float dt, float Q\+\_\+angle, float Q\+\_\+gyro, float R\+\_\+angle, float C\+\_\+0)
+\item 
+\Hypertarget{class_kalman_filter_a247a8de3ebd7211864c01238ca950c94}\label{class_kalman_filter_a247a8de3ebd7211864c01238ca950c94} 
+void {\bfseries Angletest} (int16\+\_\+t ax, int16\+\_\+t ay, int16\+\_\+t az, int16\+\_\+t gx, int16\+\_\+t gy, int16\+\_\+t gz, float dt, float Q\+\_\+angle, float Q\+\_\+gyro, float R\+\_\+angle, float C\+\_\+0, float K1)
+\item 
+\Hypertarget{class_kalman_filter_af88364716f3319b46f23c758e8c03cc6}\label{class_kalman_filter_af88364716f3319b46f23c758e8c03cc6} 
+{\bfseries Kalman\+Filter} (float dt, float Q\+\_\+angle, float Q\+\_\+gyro, float R\+\_\+angle, float C\+\_\+0)
+\item 
+\Hypertarget{class_kalman_filter_a259f211b22e66985ea8ce7294b588123}\label{class_kalman_filter_a259f211b22e66985ea8ce7294b588123} 
+double {\bfseries get\+Angle} (double measured\+\_\+angle, double measured\+\_\+gyro)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_kalman_filter_ab2e32d30feacab30979a8a357207532e}\label{class_kalman_filter_ab2e32d30feacab30979a8a357207532e} 
+float {\bfseries angle}
+\begin{DoxyCompactList}\small\item\em Estimated angle of the system (e.\+g., robot tilt) \end{DoxyCompactList}\item 
+\Hypertarget{class_kalman_filter_a5e14b7eeb7ad08415b6bd1738576389d}\label{class_kalman_filter_a5e14b7eeb7ad08415b6bd1738576389d} 
+float {\bfseries Gyro\+\_\+x}
+\item 
+\Hypertarget{class_kalman_filter_abbe30d60e4854043801cc63eb83961e7}\label{class_kalman_filter_abbe30d60e4854043801cc63eb83961e7} 
+float {\bfseries Gyro\+\_\+y}
+\item 
+\Hypertarget{class_kalman_filter_ad0e53b228b4ca527cd5badf5bfa7b51e}\label{class_kalman_filter_ad0e53b228b4ca527cd5badf5bfa7b51e} 
+float {\bfseries Gyro\+\_\+z}
+\item 
+\Hypertarget{class_kalman_filter_aecae66f96dde0fc25b983d0635c7d1f6}\label{class_kalman_filter_aecae66f96dde0fc25b983d0635c7d1f6} 
+float {\bfseries accelz} = 0
+\item 
+\Hypertarget{class_kalman_filter_a3556bdf5cccd081967e9efc920168951}\label{class_kalman_filter_a3556bdf5cccd081967e9efc920168951} 
+float {\bfseries angle6}
+\item 
+\Hypertarget{class_kalman_filter_a871c00eb806edecb4f40838ba21f8ac2}\label{class_kalman_filter_a871c00eb806edecb4f40838ba21f8ac2} 
+double {\bfseries angle}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class that implements the Kalman filter for sensor fusion. 
+
+The Kalman filter is used to estimate the true state of the system (e.\+g., angle, angular velocity) based on noisy sensor measurements. It fuses the accelerometer and gyroscope readings to provide more accurate and stable estimates for applications like robot balance control. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_kalman_filter_af88364716f3319b46f23c758e8c03cc6}\index{KalmanFilter@{KalmanFilter}!KalmanFilter@{KalmanFilter}}
+\index{KalmanFilter@{KalmanFilter}!KalmanFilter@{KalmanFilter}}
+\doxysubsubsection{\texorpdfstring{KalmanFilter()}{KalmanFilter()}}
+{\footnotesize\ttfamily \label{class_kalman_filter_af88364716f3319b46f23c758e8c03cc6} 
+Kalman\+Filter\+::\+Kalman\+Filter (\begin{DoxyParamCaption}\item[{float}]{dt}{, }\item[{float}]{Q\+\_\+angle}{, }\item[{float}]{Q\+\_\+gyro}{, }\item[{float}]{R\+\_\+angle}{, }\item[{float}]{C\+\_\+0}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor to initialize the Kalman filter with specific parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & The time step (seconds) for the filter update. \\
+\hline
+{\em Q\+\_\+angle} & The process noise covariance for the angle. \\
+\hline
+{\em Q\+\_\+gyro} & The process noise covariance for the gyroscope. \\
+\hline
+{\em R\+\_\+angle} & The measurement noise covariance for the angle. \\
+\hline
+{\em C\+\_\+0} & The constant used in the complementary filter. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_kalman_filter_aae7af6b610a2f652a12f3372e5f0eced}\index{KalmanFilter@{KalmanFilter}!getAngle@{getAngle}}
+\index{getAngle@{getAngle}!KalmanFilter@{KalmanFilter}}
+\doxysubsubsection{\texorpdfstring{getAngle()}{getAngle()}}
+{\footnotesize\ttfamily \label{class_kalman_filter_aae7af6b610a2f652a12f3372e5f0eced} 
+float Kalman\+Filter\+::get\+Angle (\begin{DoxyParamCaption}\item[{float}]{measured\+\_\+angle}{, }\item[{float}]{measured\+\_\+gyro}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Updates the Kalman filter with new sensor measurements and returns the estimated angle. 
+
+This method performs both the time update (prediction) and the measurement update (correction) based on the sensor readings (measured angle and measured gyro).
+
+
+\begin{DoxyParams}{Parameters}
+{\em measured\+\_\+angle} & The measured angle from the accelerometer. \\
+\hline
+{\em measured\+\_\+gyro} & The measured angular velocity from the gyroscope. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The filtered angle estimate. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/kalman\+\_\+filter.\+hpp\item 
+reference material/\+Tumbller\+\_\+\+Code\+\_\+20240301/\+Tumbller/Kalman\+Filter.\+h\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Copy Me First/\+Kalman\+Filter/Kalman\+Filter.\+h\item 
+test/plot\+PID/kalman\+\_\+filter.\+hpp\item 
+reference material/\+Tumbller\+\_\+\+Code\+\_\+20240301/\+Tumbller/Kalman\+Filter.\+cpp\item 
+reference material/\+Tumbller\+V1.\+1 Function Introduction/\+Copy Me First/\+Kalman\+Filter/Kalman\+Filter.\+cpp\item 
+test/plot\+PID/kalman\+\_\+filter.\+cpp\end{DoxyCompactItemize}

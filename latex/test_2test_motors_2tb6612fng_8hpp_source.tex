@@ -1,0 +1,64 @@
+\doxysection{tb6612fng.\+hpp}
+\hypertarget{test_2test_motors_2tb6612fng_8hpp_source}{}\label{test_2test_motors_2tb6612fng_8hpp_source}\index{test/testMotors/tb6612fng.hpp@{test/testMotors/tb6612fng.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{enum}\ TB6612FNGMode\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ TWO\_PINS\_SINGLE\_MOTOR\ =\ 1,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ INVERTED\_PINS\_TWO\_MOTORS\ =\ 2,\ }
+\DoxyCodeLine{00025\ \ \ \ \ FOUR\_PINS\_TWO\_MOTORS\ =\ 4\ \ \ \ }
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_t_b6612_f_n_g}{TB6612FNG}}\ \{}
+\DoxyCodeLine{00036\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00037\ \ \ \ \ TB6612FNGMode\ mode;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ uint16\_t\ stbyPin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ uint16\_t\ pwmaPin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ uint16\_t\ pwmbPin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ uint16\_t\ ain1Pin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ uint16\_t\ ain2Pin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ uint16\_t\ bin1Pin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ uint16\_t\ bin2Pin;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ad992abc39f283257fb85e1e7884e7b6a}{TB6612FNG}}();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ad992abc39f283257fb85e1e7884e7b6a}{TB6612FNG}}(uint16\_t\ stby,\ uint16\_t\ ain1,\ uint16\_t\ ain2,\ uint16\_t\ pwma);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_aec6d80113ecb062870b55bb79c6e0e9a}{TB6612FNG}}(uint16\_t\ stby,\ uint16\_t\ ain1,\ uint16\_t\ bin1,\ uint16\_t\ pwma,\ uint16\_t\ pwmb);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{class_t_b6612_f_n_g_ad992abc39f283257fb85e1e7884e7b6a}{TB6612FNG}}(uint16\_t\ stby,\ uint16\_t\ ain1,\ uint16\_t\ ain2,\ uint16\_t\ bin1,\ uint16\_t\ bin2,\ uint16\_t\ pwma,\ uint16\_t\ pwmb);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a0079f87445ae8cd84d9d2635501cb03e}{init}}();}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00100\ \ \ \ \ TB6612FNGMode\ \mbox{\hyperlink{class_t_b6612_f_n_g_a848098919a38e6efb42380bb86e2b236}{getMode}}();}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//\ Motor\ control\ functions}}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a14998e916692c4402343bf5e7291d629}{standBy}}();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_ae3d7b26b114008f87c219e9c2a6f9fc4}{motorA}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed,\ \textcolor{keywordtype}{bool}\ clokcwise);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a9b03eea41b9a92efd53663f519fba7e4}{motorB}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed,\ \textcolor{keywordtype}{bool}\ clokcwise);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a17d2f95be759b5a4e18ed9231aaece0d}{move}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed,\ \textcolor{keywordtype}{bool}\ clokcwise);}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a0a04bdf5eebe7093b6ed29236eacde74}{shortBrake}}();}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_a8d4a32e564870e2449f8c666bd7d24a8}{moveCCW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed);}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_ad68431f02a277c8ac3e8d19e3c040905}{moveCW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_abeaa1065ca7f5e0d294a63903095ed78}{moveForw}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed);}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_ab130295184abc9c35dc2976485262f59}{moveBack}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ speed);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_t_b6612_f_n_g_ab4591356984459671d43426e6835ce97}{stop}}();}
+\DoxyCodeLine{00174\ \};}
+
+\end{DoxyCode}

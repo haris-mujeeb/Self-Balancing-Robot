@@ -1,0 +1,97 @@
+\doxysection{Obstacle.\+h}
+\hypertarget{_obstacle_8h_source}{}\label{_obstacle_8h_source}\index{reference material/TumbllerV1.1 Function Introduction/Lesson 4 Obstacle Mode/Balanced\_Car/Obstacle.h@{reference material/TumbllerV1.1 Function Introduction/Lesson 4 Obstacle Mode/Balanced\_Car/Obstacle.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_OBSTACLE\_H\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_OBSTACLE\_H\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Balanced.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_ultrasonic}{Ultrasonic}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{void}\ Pin\_init();}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ Get\_Distance();}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ Check();}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Distance\_Measure();}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ measure\_flag;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ measure\_prev\_time;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ get\_distance\_prev\_time;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ distance\_value;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ ir\_send\_time;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ ECHO\_PIN\ 17}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ TRIG\_PIN\ 11}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ Distance\_MIN\ 3}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ Distance\_MAX\ 35}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ Obstacle\_MIN\ 40}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ DISTANCE\_JUDAGEMENT\ (distance\_value\ >\ Distance\_MIN\ \&\&\ distance\_value\ <\ Distance\_MAX)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ OBSTACLE\_JUDAGEMENT\ (Ultrasonic.distance\_value\ <\ Obstacle\_MIN)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ OBSTACLE\_JUDAGEMENT2\ (Ultrasonic.distance\_value\ <\ 10)}}
+\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_function}{Function}}}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ Obstacle\_Mode();}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{int}\ follow\_flag;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ follow\_prev\_time;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ Turning\_Time;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ Obstacle\_time;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ Back\_time;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ turn\_flag\ =\ 1;}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_r}{IR}}}
+\DoxyCodeLine{00051\ \{}
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ Pin\_init();}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ Check();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ Send();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ Filter();}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Left\_Receive();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Right\_Receive();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ left\_receive\_flag;}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ left\_count;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ right\_receive\_flag;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ right\_count;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ left\_count\_time\ =\ 0;}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ left\_is\_obstacle;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ right\_is\_obstacle;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ RECV\_PIN\ 9}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ IR\_SEND\_PIN\ 9}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ LEFT\_RECEIVE\_PIN\ A0}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ RIGHT\_RECEIVE\_PIN\ A1}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ If\_IR\_TRIGGERED\ (IR.left\_is\_obstacle\ ||\ IR.right\_is\_obstacle)}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{enum}\ FOLLW\_MOTION}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \ \ Meet\_OBSTACLE,}
+\DoxyCodeLine{00084\ \ \ FOLLOW\_RIGHT,}
+\DoxyCodeLine{00085\ \ \ FOLLOW\_LEFT,}
+\DoxyCodeLine{00086\ \ \ FOLLOW\_BACK,}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

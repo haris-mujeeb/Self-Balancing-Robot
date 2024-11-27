@@ -1,0 +1,9 @@
+<map id="motion_controller" name="motion_controller">
+<area shape="rect" id="Node000001" title="A class to control the motion of a self&#45;balancing robot." alt="" coords="118,96,238,123"/>
+<area shape="rect" id="Node000002" href="$class_t_b6612_f_n_g.html" title="Class for controlling TB6612FNG motor driver." alt="" coords="5,5,100,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,39,161,93,158,98,81,43"/>
+<area shape="rect" id="Node000003" href="$classmpu6050__base.html" title="Base class for handling MPU6050 sensor data." alt="" coords="123,5,232,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,48,180,95,175,95,175,48"/>
+<area shape="rect" id="Node000004" href="$class_kalman_filter.html" title="A class that implements the Kalman filter for sensor fusion." alt="" coords="256,5,350,32"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="274,43,197,98,194,93,271,39"/>
+</map>

@@ -16,7 +16,7 @@
 #define MPU6050_READINGS 200        ///< Number of readings for error calculation
 #define MPU6050_ACCEL_SCALE 16384.0 ///< Accelerometer scale (±2g)
 #define MPU6050_GYRO_SCALE 131.0    ///< Gyroscope scale (±250deg/s)
-#define CALIBRATION_SAMPLES 10    ///< Number of samples used for calibration
+#define CALIBRATION_SAMPLES 100    ///< Number of samples used for calibration
 
 /**
  * @struct IMUErrorData
@@ -83,6 +83,36 @@ public:
    * accelerometer and gyroscope data from the sensor's registers.
    */
   void read_mpu_6050_data();
+
+/**
+ * @brief Gets the X-axis gyroscope value in degrees per second.
+ * 
+ * This function retrieves the X-axis gyroscope value, applies calibration offsets,
+ * and scales the value to the correct unit of degrees per second.
+ * 
+ * @return The X-axis gyroscope value in degrees per second.
+ */
+float getGyroX();
+
+/**
+ * @brief Gets the Z-axis gyroscope value in degrees per second.
+ * 
+ * This function retrieves the Z-axis gyroscope value, applies calibration offsets,
+ * and scales the value to degrees per second.
+ * 
+ * @return The Z-axis gyroscope value in degrees per second.
+ */
+float getGyroZ();
+
+/**
+ * @brief Calculates the pitch angle based on accelerometer data.
+ * 
+ * This function computes the pitch angle of the device using the accelerometer's 
+ * Y and Z axis values and returns the result in degrees.
+ * 
+ * @return The pitch angle in degrees.
+ */
+float getPitchAngle();
 
   /**
    * @brief Calculates pitch and roll angles from sensor data.

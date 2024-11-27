@@ -1,0 +1,485 @@
+\doxysection{Rgb.\+h}
+\hypertarget{_tumbller___code__20240301_2_tumbller_2_rgb_8h_source}{}\label{_tumbller___code__20240301_2_tumbller_2_rgb_8h_source}\index{reference material/Tumbller\_Code\_20240301/Tumbller/Rgb.h@{reference material/Tumbller\_Code\_20240301/Tumbller/Rgb.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ @Description:\ In\ User\ Settings\ Edit}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ @Author:\ your\ name}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ @Date:\ 2019-\/10-\/08\ 09:35:07}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ @LastEditTime:\ 2019-\/10-\/10\ 15:57:17}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ @LastEditors:\ Please\ set\ LastEditors}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Adafruit\_NeoPixel.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_r_g_b}{RGB}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\_NeoPixel}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{class_r_g_b}{RGB}}()\ :\ \mbox{\hyperlink{class_adafruit___neo_pixel}{Adafruit\_NeoPixel}}(\mbox{\hyperlink{include_2pins_8hpp_a733f7d5b0fd44b87044a3fc9d4594ceb}{NUMPIXELS}},\ \mbox{\hyperlink{include_2pins_8hpp_aaa73d13caaf79ae7fe6f932c81455221}{RGB\_PIN}},\ NEO\_GRB\ +\ NEO\_KHZ800)\ \{\}}
+\DoxyCodeLine{00014\ \ \ uint8\_t\ gamma[256]\ =\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 2,\ 2,\ 2,\ 2,\ 2,\ 2,\ 2,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ 2,\ 3,\ 3,\ 3,\ 3,\ 3,\ 3,\ 3,\ 4,\ 4,\ 4,\ 4,\ 4,\ 5,\ 5,\ 5,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ 5,\ 6,\ 6,\ 6,\ 6,\ 7,\ 7,\ 7,\ 7,\ 8,\ 8,\ 8,\ 9,\ 9,\ 9,\ 10,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ 10,\ 10,\ 11,\ 11,\ 11,\ 12,\ 12,\ 13,\ 13,\ 13,\ 14,\ 14,\ 15,\ 15,\ 16,\ 16,}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ 17,\ 17,\ 18,\ 18,\ 19,\ 19,\ 20,\ 20,\ 21,\ 21,\ 22,\ 22,\ 23,\ 24,\ 24,\ 25,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ 25,\ 26,\ 27,\ 27,\ 28,\ 29,\ 29,\ 30,\ 31,\ 32,\ 32,\ 33,\ 34,\ 35,\ 35,\ 36,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ 37,\ 38,\ 39,\ 39,\ 40,\ 41,\ 42,\ 43,\ 44,\ 45,\ 46,\ 47,\ 48,\ 49,\ 50,\ 50,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ 51,\ 52,\ 54,\ 55,\ 56,\ 57,\ 58,\ 59,\ 60,\ 61,\ 62,\ 63,\ 64,\ 66,\ 67,\ 68,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ 69,\ 70,\ 72,\ 73,\ 74,\ 75,\ 77,\ 78,\ 79,\ 81,\ 82,\ 83,\ 85,\ 86,\ 87,\ 89,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ 90,\ 92,\ 93,\ 95,\ 96,\ 98,\ 99,\ 101,\ 102,\ 104,\ 105,\ 107,\ 109,\ 110,\ 112,\ 114,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ 115,\ 117,\ 119,\ 120,\ 122,\ 124,\ 126,\ 127,\ 129,\ 131,\ 133,\ 135,\ 137,\ 138,\ 140,\ 142,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ 144,\ 146,\ 148,\ 150,\ 152,\ 154,\ 156,\ 158,\ 160,\ 162,\ 164,\ 167,\ 169,\ 171,\ 173,\ 175,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ 177,\ 180,\ 182,\ 184,\ 186,\ 189,\ 191,\ 193,\ 196,\ 198,\ 200,\ 203,\ 205,\ 208,\ 210,\ 213,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ 215,\ 218,\ 220,\ 223,\ 225,\ 228,\ 231,\ 233,\ 236,\ 239,\ 241,\ 244,\ 247,\ 249,\ 252,\ 255\};}
+\DoxyCodeLine{00031\ \ \ uint32\_t\ led\_rgb\_new[\mbox{\hyperlink{include_2pins_8hpp_a733f7d5b0fd44b87044a3fc9d4594ceb}{NUMPIXELS}}];}
+\DoxyCodeLine{00032\ \ \ uint32\_t\ led\_rgb\_old[\mbox{\hyperlink{include_2pins_8hpp_a733f7d5b0fd44b87044a3fc9d4594ceb}{NUMPIXELS}}];}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{int}\ brightness\ =\ 50;}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ rgb\_delay\_time\ =\ 0;}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ dispaly\_timeout\ =\ 0;}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{char}\ flag\ =\ 0;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \textcolor{keywordtype}{bool}\ rgbDelay(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ wait)}
+\DoxyCodeLine{00039\ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ rgb\_delay\_time\ =\ millis();}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{while}\ (millis()\ -\/\ rgb\_delay\_time\ <\ wait)}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (getBluetoothData()\ ||\ getKeyValue())}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (motion\_mode\ ==\ STOP\ \&\&\ balance\_angle\_min\ <=\ kalmanfilter\_angle\ \&\&\ kalmanfilter\_angle\ <=\ balance\_angle\_max)}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ motion\_mode\ =\ STANDBY;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ lightOff();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ function\_mode\ =\ IDLE;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00056\ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ uint32\_t\ Wheel(\textcolor{keywordtype}{byte}\ WheelPos)}
+\DoxyCodeLine{00059\ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ WheelPos\ =\ 255\ -\/\ WheelPos;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{if}\ (WheelPos\ <\ 85)}
+\DoxyCodeLine{00062\ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Color(255\ -\/\ WheelPos\ *\ 3,\ 0,\ WheelPos\ *\ 3);}
+\DoxyCodeLine{00064\ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{if}\ (WheelPos\ <\ 170)}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ WheelPos\ -\/=\ 85;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Color(0,\ WheelPos\ *\ 3,\ 255\ -\/\ WheelPos\ *\ 3);}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ WheelPos\ -\/=\ 170;}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{return}\ Color(WheelPos\ *\ 3,\ 255\ -\/\ WheelPos\ *\ 3,\ 0);}
+\DoxyCodeLine{00072\ \ \ \}}
+\DoxyCodeLine{00073\ \ \ uint8\_t\ red(uint32\_t\ c)}
+\DoxyCodeLine{00074\ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ >>\ 8);}
+\DoxyCodeLine{00076\ \ \ \}}
+\DoxyCodeLine{00077\ \ \ uint8\_t\ green(uint32\_t\ c)}
+\DoxyCodeLine{00078\ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{return}\ (c\ >>\ 16);}
+\DoxyCodeLine{00080\ \ \ \}}
+\DoxyCodeLine{00081\ \ \ uint8\_t\ blue(uint32\_t\ c)}
+\DoxyCodeLine{00082\ \ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{return}\ (c);}
+\DoxyCodeLine{00084\ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \textcolor{keywordtype}{bool}\ pulseWhite(uint8\_t\ wait)}
+\DoxyCodeLine{00086\ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 256;\ j++)}
+\DoxyCodeLine{00088\ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ setPixelColor(i,\ Color(0,\ 0,\ 0,\ gamma[j]));}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 255;\ j\ >=\ 0;\ j-\/-\/)}
+\DoxyCodeLine{00100\ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ setPixelColor(i,\ Color(0,\ 0,\ 0,\ gamma[j]));}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00112\ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \textcolor{keywordtype}{bool}\ theaterChase(uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b,\ uint8\_t\ wait)}
+\DoxyCodeLine{00115\ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 200;\ j++)}
+\DoxyCodeLine{00117\ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ 3;\ q++)}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i\ =\ i\ +\ 3)}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ setPixelColor(i\ +\ q,\ Color(r,\ g,\ b));}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i\ =\ i\ +\ 3)}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ setPixelColor(i\ +\ q,\ 0);}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00136\ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordtype}{bool}\ rainbow(uint8\_t\ wait)}
+\DoxyCodeLine{00139\ \ \ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ k\ =\ 0;\ k\ <=\ 100;\ k++)}
+\DoxyCodeLine{00141\ \ \ \ \ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ j\ =\ 0;\ j\ <\ 256;\ j++)}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ setPixelColor(i,\ Wheel((i\ +\ j)\ \&\ 255));}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00156\ \ \ \}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \textcolor{keywordtype}{bool}\ rainbowCycle(uint8\_t\ wait)}
+\DoxyCodeLine{00159\ \ \ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ j\ =\ 0;\ j\ <\ 256\ *\ 100;\ j++)}
+\DoxyCodeLine{00161\ \ \ \ \ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ setPixelColor(i,\ Wheel(((i\ *\ 256\ /\ numPixels())\ +\ j)\ \&\ 255));}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00173\ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \textcolor{keywordtype}{bool}\ theaterChaseRainbow(uint8\_t\ wait)}
+\DoxyCodeLine{00176\ \ \ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ k\ =\ 0;\ k\ <\ 30;\ k++)}
+\DoxyCodeLine{00178\ \ \ \ \ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 256;\ j++)}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ 3;\ q++)}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i\ =\ i\ +\ 3)}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ setPixelColor(i\ +\ q,\ Wheel((i\ +\ j)\ \%\ 255));}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i\ =\ i\ +\ 3)}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ setPixelColor(i\ +\ q,\ 0);}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00198\ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00200\ \ \ \}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \textcolor{keywordtype}{bool}\ rainbowFade2White(uint8\_t\ wait,\ \textcolor{keywordtype}{int}\ rainbowLoops,\ \textcolor{keywordtype}{int}\ whiteLoops)}
+\DoxyCodeLine{00203\ \ \ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordtype}{float}\ fadeMax\ =\ 100.0;}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{int}\ fadeVal\ =\ 0;}
+\DoxyCodeLine{00206\ \ \ \ \ uint32\_t\ wheelVal;}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{int}\ redVal,\ greenVal,\ blueVal;}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ k\ =\ 0;\ k\ <\ rainbowLoops;\ k++)}
+\DoxyCodeLine{00209\ \ \ \ \ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 256;\ j++)}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ wheelVal\ =\ Wheel(((i\ *\ 256\ /\ numPixels())\ +\ j)\ \&\ 255);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ redVal\ =\ red(wheelVal)\ *\ float(fadeVal\ /\ fadeMax);}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ greenVal\ =\ green(wheelVal)\ *\ float(fadeVal\ /\ fadeMax);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ blueVal\ =\ blue(wheelVal)\ *\ float(fadeVal\ /\ fadeMax);}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ setPixelColor(i,\ Color(redVal,\ greenVal,\ blueVal));}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (k\ ==\ 0\ \&\&\ fadeVal\ <\ fadeMax\ -\/\ 1)}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ fadeVal++;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (k\ ==\ rainbowLoops\ -\/\ 1\ \&\&\ j\ >\ 255\ -\/\ fadeMax)}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ fadeVal-\/-\/;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(500))}
+\DoxyCodeLine{00237\ \ \ \ \ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ k\ =\ 0;\ k\ <\ whiteLoops;\ k++)}
+\DoxyCodeLine{00242\ \ \ \ \ \{}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 256;\ j++)}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ setPixelColor(i,\ Color(0,\ 0,\ 0,\ gamma[j]));}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(2000))}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 255;\ j\ >=\ 0;\ j-\/-\/)}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ setPixelColor(i,\ Color(0,\ 0,\ 0,\ gamma[j]));}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00266\ \ \ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(500))}
+\DoxyCodeLine{00269\ \ \ \ \ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00274\ \ \ \}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ \textcolor{keywordtype}{bool}\ whiteOverRainbow(uint8\_t\ wait,\ uint8\_t\ whiteSpeed,\ uint8\_t\ whiteLength)}
+\DoxyCodeLine{00277\ \ \ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{if}\ (whiteLength\ >=\ numPixels())}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ whiteLength\ =\ numPixels()\ -\/\ 1;}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ head\ =\ whiteLength\ -\/\ 1;}
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ tail\ =\ 0;}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{int}\ loops\ =\ 100;}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{int}\ loopNum\ =\ 0;}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ lastTime\ =\ 0;}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{00290\ \ \ \ \ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 256;\ j++)}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint16\_t\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((i\ >=\ tail\ \&\&\ i\ <=\ head)\ ||\ (tail\ >\ head\ \&\&\ i\ >=\ tail)\ ||\ (tail\ >\ head\ \&\&\ i\ <=\ head))}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ setPixelColor(i,\ Color(0,\ 0,\ 0,\ 255));}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ setPixelColor(i,\ Wheel(((i\ *\ 256\ /\ numPixels())\ +\ j)\ \&\ 255));}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (millis()\ -\/\ lastTime\ >\ whiteSpeed)}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ head++;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ tail++;}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (head\ ==\ numPixels())}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ loopNum++;}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ lastTime\ =\ millis();}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (loopNum\ ==\ loops)}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ head\ \%=\ numPixels();}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ tail\ \%=\ numPixels();}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rgbDelay(wait))}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00327\ \ \ \ \ \}}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00329\ \ \ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \textcolor{keywordtype}{void}\ initialize()}
+\DoxyCodeLine{00332\ \ \ \{}
+\DoxyCodeLine{00333\ \ \ \ \ begin();}
+\DoxyCodeLine{00334\ \ \ \ \ setBrightness(brightness);}
+\DoxyCodeLine{00335\ \ \ \ \ show();}
+\DoxyCodeLine{00336\ \ \ \}}
+\DoxyCodeLine{00337\ \ \ \textcolor{comment}{//闪烁颜色设置}}
+\DoxyCodeLine{00338\ \ \ \textcolor{keywordtype}{void}\ setColorNew(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r0,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g0,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b0,}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r1,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g1,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b1,}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r2,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g2,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b2,}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r3,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g3,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b3)}
+\DoxyCodeLine{00342\ \ \ \{}
+\DoxyCodeLine{00343\ \ \ \ \ led\_rgb\_new[0]\ =\ Color(r0,\ g0,\ b0);}
+\DoxyCodeLine{00344\ \ \ \ \ led\_rgb\_new[1]\ =\ Color(r1,\ g1,\ b1);}
+\DoxyCodeLine{00345\ \ \ \ \ led\_rgb\_new[2]\ =\ Color(r2,\ g2,\ b2);}
+\DoxyCodeLine{00346\ \ \ \ \ led\_rgb\_new[3]\ =\ Color(r3,\ g3,\ b3);}
+\DoxyCodeLine{00347\ \ \ \}}
+\DoxyCodeLine{00348\ \ \ \textcolor{comment}{//闪烁颜色设置}}
+\DoxyCodeLine{00349\ \ \ \textcolor{keywordtype}{void}\ setColorOld(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r0,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g0,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b0,}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r1,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g1,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b1,}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r2,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g2,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b2,}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r3,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ g3,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ b3)}
+\DoxyCodeLine{00353\ \ \ \{}
+\DoxyCodeLine{00354\ \ \ \ \ led\_rgb\_old[0]\ =\ Color(r0,\ g0,\ b0);}
+\DoxyCodeLine{00355\ \ \ \ \ led\_rgb\_old[1]\ =\ Color(r1,\ g1,\ b1);}
+\DoxyCodeLine{00356\ \ \ \ \ led\_rgb\_old[2]\ =\ Color(r2,\ g2,\ b2);}
+\DoxyCodeLine{00357\ \ \ \ \ led\_rgb\_old[3]\ =\ Color(r3,\ g3,\ b3);}
+\DoxyCodeLine{00358\ \ \ \}}
+\DoxyCodeLine{00359\ \ \ \textcolor{keywordtype}{void}\ blink(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ delay\_time)\ \textcolor{comment}{//灯光闪烁}}
+\DoxyCodeLine{00360\ \ \ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordflow}{if}\ ((millis()\ -\/\ previous\_millis\ <\ delay\_time)\ \&\&\ (delay\_flag\ ==\ 0))}
+\DoxyCodeLine{00362\ \ \ \ \ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ delay\_flag\ =\ 1;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ setPixelColor(i,\ led\_rgb\_new[i]);}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00369\ \ \ \ \ \}}
+\DoxyCodeLine{00370\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ ((millis()\ -\/\ previous\_millis\ <\ delay\_time\ *\ 2)\ \&\&\ (millis()\ -\/\ previous\_millis\ >\ delay\_time)\ \&\&\ (delay\_flag\ ==\ 1))}
+\DoxyCodeLine{00371\ \ \ \ \ \{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ delay\_flag\ =\ 2;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numPixels();\ i++)}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ setPixelColor(i,\ led\_rgb\_old[i]);}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ show();}
+\DoxyCodeLine{00378\ \ \ \ \ \}}
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (millis()\ -\/\ previous\_millis\ >=\ delay\_time\ *\ 2)}
+\DoxyCodeLine{00380\ \ \ \ \ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ delay\_flag\ =\ 0;}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ previous\_millis\ =\ millis();}
+\DoxyCodeLine{00383\ \ \ \ \ \}}
+\DoxyCodeLine{00384\ \ \ \}}
+\DoxyCodeLine{00385\ \ \ \textcolor{keywordtype}{void}\ lightOff()\ \textcolor{comment}{//关闭灯光}}
+\DoxyCodeLine{00386\ \ \ \{}
+\DoxyCodeLine{00387\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00388\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00389\ \ \ \}}
+\DoxyCodeLine{00390\ \ \ \textcolor{keywordtype}{void}\ brightRedColor()\ \textcolor{comment}{//亮红灯}}
+\DoxyCodeLine{00391\ \ \ \{}
+\DoxyCodeLine{00392\ \ \ \ \ setColorNew(255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0);}
+\DoxyCodeLine{00393\ \ \ \ \ setColorOld(255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0);}
+\DoxyCodeLine{00394\ \ \ \}}
+\DoxyCodeLine{00395\ \ \ \textcolor{keywordtype}{void}\ flashRedColor()\ \textcolor{comment}{//闪红灯}}
+\DoxyCodeLine{00396\ \ \ \{}
+\DoxyCodeLine{00397\ \ \ \ \ setColorNew(255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0);}
+\DoxyCodeLine{00398\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00399\ \ \ \}}
+\DoxyCodeLine{00400\ \ \ \textcolor{keywordtype}{void}\ brightBlueColor()\ \textcolor{comment}{//亮蓝灯}}
+\DoxyCodeLine{00401\ \ \ \{}
+\DoxyCodeLine{00402\ \ \ \ \ setColorNew(0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00403\ \ \ \ \ setColorOld(0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00404\ \ \ \}}
+\DoxyCodeLine{00405\ \ \ \textcolor{keywordtype}{void}\ flashBlueColorFront()\ \textcolor{comment}{//前面闪蓝灯}}
+\DoxyCodeLine{00406\ \ \ \{}
+\DoxyCodeLine{00407\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00408\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00409\ \ \ \}}
+\DoxyCodeLine{00410\ \ \ \textcolor{keywordtype}{void}\ flashBlueColorback()\ \textcolor{comment}{//后面闪蓝灯}}
+\DoxyCodeLine{00411\ \ \ \{}
+\DoxyCodeLine{00412\ \ \ \ \ setColorNew(0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00413\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00414\ \ \ \}}
+\DoxyCodeLine{00415\ \ \ \textcolor{keywordtype}{void}\ flashBlueColorLeft()\ \textcolor{comment}{//左侧闪蓝灯}}
+\DoxyCodeLine{00416\ \ \ \{}
+\DoxyCodeLine{00417\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00418\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00419\ \ \ \}}
+\DoxyCodeLine{00420\ \ \ \textcolor{keywordtype}{void}\ flashBlueColorRight()\ \textcolor{comment}{//右侧闪蓝灯}}
+\DoxyCodeLine{00421\ \ \ \{}
+\DoxyCodeLine{00422\ \ \ \ \ setColorNew(0,\ 0,\ 255,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 255);}
+\DoxyCodeLine{00423\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00424\ \ \ \}}
+\DoxyCodeLine{00425\ \ \ \textcolor{keywordtype}{void}\ brightYellowColor()\ \textcolor{comment}{//亮黄灯}}
+\DoxyCodeLine{00426\ \ \ \{}
+\DoxyCodeLine{00427\ \ \ \ \ setColorNew(255,\ 255,\ 0,\ 255,\ 255,\ 0,\ 255,\ 255,\ 0,\ 255,\ 255,\ 0);}
+\DoxyCodeLine{00428\ \ \ \ \ setColorOld(255,\ 255,\ 0,\ 255,\ 255,\ 0,\ 255,\ 255,\ 0,\ 255,\ 255,\ 0);}
+\DoxyCodeLine{00429\ \ \ \}}
+\DoxyCodeLine{00430\ \ \ \textcolor{keywordtype}{void}\ flashYellowColorFront()\ \textcolor{comment}{//前面闪黄灯}}
+\DoxyCodeLine{00431\ \ \ \{}
+\DoxyCodeLine{00432\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 255,\ 255,\ 0,\ 255,\ 255,\ 0);}
+\DoxyCodeLine{00433\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00434\ \ \ \}}
+\DoxyCodeLine{00435\ \ \ \textcolor{keywordtype}{void}\ flashYellowColorback()\ \textcolor{comment}{//后面闪黄灯}}
+\DoxyCodeLine{00436\ \ \ \{}
+\DoxyCodeLine{00437\ \ \ \ \ setColorNew(255,\ 255,\ 0,\ 255,\ 255,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00438\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00439\ \ \ \}}
+\DoxyCodeLine{00440\ \ \ \textcolor{keywordtype}{void}\ flashYellowColorLeft()\ \textcolor{comment}{//左侧闪黄灯}}
+\DoxyCodeLine{00441\ \ \ \{}
+\DoxyCodeLine{00442\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 255,\ 255,\ 0,\ 255,\ 255,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00443\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00444\ \ \ \}}
+\DoxyCodeLine{00445\ \ \ \textcolor{keywordtype}{void}\ flashYellowColorRight()\ \textcolor{comment}{//右侧闪黄灯}}
+\DoxyCodeLine{00446\ \ \ \{}
+\DoxyCodeLine{00447\ \ \ \ \ setColorNew(255,\ 255,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 255,\ 255,\ 0);}
+\DoxyCodeLine{00448\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00449\ \ \ \}}
+\DoxyCodeLine{00450\ \ \ \textcolor{keywordtype}{void}\ brightGreenColor()\ \textcolor{comment}{//亮绿灯}}
+\DoxyCodeLine{00451\ \ \ \{}
+\DoxyCodeLine{00452\ \ \ \ \ setColorNew(0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0);}
+\DoxyCodeLine{00453\ \ \ \ \ setColorOld(0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0);}
+\DoxyCodeLine{00454\ \ \ \}}
+\DoxyCodeLine{00455\ \ \ \textcolor{keywordtype}{void}\ flashGreenColorFront()\ \textcolor{comment}{//前面闪绿灯}}
+\DoxyCodeLine{00456\ \ \ \{}
+\DoxyCodeLine{00457\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0);}
+\DoxyCodeLine{00458\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00459\ \ \ \}}
+\DoxyCodeLine{00460\ \ \ \textcolor{keywordtype}{void}\ flashGreenColorback()\ \textcolor{comment}{//后面闪绿灯}}
+\DoxyCodeLine{00461\ \ \ \{}
+\DoxyCodeLine{00462\ \ \ \ \ setColorNew(0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00463\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00464\ \ \ \}}
+\DoxyCodeLine{00465\ \ \ \textcolor{keywordtype}{void}\ flashGreenColorLeft()\ \textcolor{comment}{//左侧闪绿灯}}
+\DoxyCodeLine{00466\ \ \ \{}
+\DoxyCodeLine{00467\ \ \ \ \ setColorNew(0,\ 0,\ 0,\ 0,\ 255,\ 0,\ 0,\ 255,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00468\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00469\ \ \ \}}
+\DoxyCodeLine{00470\ \ \ \textcolor{keywordtype}{void}\ flashGreenColorRight()\ \textcolor{comment}{//右侧闪绿灯}}
+\DoxyCodeLine{00471\ \ \ \{}
+\DoxyCodeLine{00472\ \ \ \ \ setColorNew(0,\ 255,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 255,\ 0);}
+\DoxyCodeLine{00473\ \ \ \ \ setColorOld(0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00474\ \ \ \}}
+\DoxyCodeLine{00475\ }
+\DoxyCodeLine{00476\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00477\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ delay\_flag\ =\ 0;}
+\DoxyCodeLine{00478\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ previous\_millis\ =\ 0;}
+\DoxyCodeLine{00479\ \}\ rgb;}
+
+\end{DoxyCode}

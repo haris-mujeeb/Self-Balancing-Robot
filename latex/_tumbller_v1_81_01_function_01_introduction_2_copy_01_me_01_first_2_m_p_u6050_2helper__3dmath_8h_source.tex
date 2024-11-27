@@ -1,0 +1,222 @@
+\doxysection{helper\+\_\+3dmath.\+h}
+\hypertarget{_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_m_p_u6050_2helper__3dmath_8h_source}{}\label{_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_m_p_u6050_2helper__3dmath_8h_source}\index{reference material/TumbllerV1.1 Function Introduction/Copy Me First/MPU6050/helper\_3dmath.h@{reference material/TumbllerV1.1 Function Introduction/Copy Me First/MPU6050/helper\_3dmath.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ I2C\ device\ class\ (I2Cdev)\ demonstration\ Arduino\ sketch\ for\ MPU6050\ class,\ 3D\ math\ helper}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ 6/5/2012\ by\ Jeff\ Rowberg\ <jeff@rowberg.net>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Updates\ should\ (hopefully)\ always\ be\ available\ at\ https://github.com/jrowberg/i2cdevlib}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Changelog:}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ \ \ \ \ 2012-\/06-\/05\ -\/\ add\ 3D\ math\ helper\ file\ to\ DMP6\ example\ sketch}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ ============================================}}
+\DoxyCodeLine{00009\ \textcolor{comment}{I2Cdev\ device\ library\ code\ is\ placed\ under\ the\ MIT\ license}}
+\DoxyCodeLine{00010\ \textcolor{comment}{Copyright\ (c)\ 2012\ Jeff\ Rowberg}}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00013\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00014\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00015\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00016\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00017\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00020\ \textcolor{comment}{all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{}}
+\DoxyCodeLine{00022\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00023\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00024\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00025\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00026\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00027\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00028\ \textcolor{comment}{THE\ SOFTWARE.}}
+\DoxyCodeLine{00029\ \textcolor{comment}{===============================================}}
+\DoxyCodeLine{00030\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifndef\ \_HELPER\_3DMATH\_H\_}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ \_HELPER\_3DMATH\_H\_}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quaternion}{Quaternion}}\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ w;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ y;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ z;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}()\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ w\ =\ 1.0f;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ 0.0f;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ 0.0f;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ 0.0f;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}(\textcolor{keywordtype}{float}\ nw,\ \textcolor{keywordtype}{float}\ nx,\ \textcolor{keywordtype}{float}\ ny,\ \textcolor{keywordtype}{float}\ nz)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ w\ =\ nw;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ nx;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ ny;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ nz;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}\ getProduct(\mbox{\hyperlink{class_quaternion}{Quaternion}}\ q)\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quaternion\ multiplication\ is\ defined\ by:}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ (Q1\ *\ Q2).w\ =\ (w1w2\ -\/\ x1x2\ -\/\ y1y2\ -\/\ z1z2)}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ (Q1\ *\ Q2).x\ =\ (w1x2\ +\ x1w2\ +\ y1z2\ -\/\ z1y2)}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ (Q1\ *\ Q2).y\ =\ (w1y2\ -\/\ x1z2\ +\ y1w2\ +\ z1x2)}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ (Q1\ *\ Q2).z\ =\ (w1z2\ +\ x1y2\ -\/\ y1x2\ +\ z1w2}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_quaternion}{Quaternion}}(}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w*q.w\ -\/\ x*q.x\ -\/\ y*q.y\ -\/\ z*q.z,\ \ \textcolor{comment}{//\ new\ w}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w*q.x\ +\ x*q.w\ +\ y*q.z\ -\/\ z*q.y,\ \ \textcolor{comment}{//\ new\ x}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w*q.y\ -\/\ x*q.z\ +\ y*q.w\ +\ z*q.x,\ \ \textcolor{comment}{//\ new\ y}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w*q.z\ +\ x*q.y\ -\/\ y*q.x\ +\ z*q.w);\ \textcolor{comment}{//\ new\ z}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}\ getConjugate()\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_quaternion}{Quaternion}}(w,\ -\/x,\ -\/y,\ -\/z);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ getMagnitude()\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sqrt(w*w\ +\ x*x\ +\ y*y\ +\ z*z);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ normalize()\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\ =\ getMagnitude();}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ w\ /=\ m;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ x\ /=\ m;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ y\ /=\ m;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ z\ /=\ m;}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}\ getNormalized()\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}\ r(w,\ x,\ y,\ z);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ r.normalize();}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_vector_int16}{VectorInt16}}\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ int16\_t\ x;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ int16\_t\ y;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ int16\_t\ z;}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_int16}{VectorInt16}}()\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ 0;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ 0;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ 0;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_int16}{VectorInt16}}(int16\_t\ nx,\ int16\_t\ ny,\ int16\_t\ nz)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ nx;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ ny;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ nz;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ getMagnitude()\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sqrt(x*x\ +\ y*y\ +\ z*z);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ normalize()\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\ =\ getMagnitude();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ x\ /=\ m;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ y\ /=\ m;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ z\ /=\ m;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_int16}{VectorInt16}}\ getNormalized()\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_int16}{VectorInt16}}\ r(x,\ y,\ z);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ r.normalize();}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ rotate(\mbox{\hyperlink{class_quaternion}{Quaternion}}\ *q)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ http://www.cprogramming.com/tutorial/3d/quaternions.html}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/index.htm}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using\_Quaternions\_to\_represent\_rotation}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \string^\ or:\ http://webcache.googleusercontent.com/search?q=cache:xgJAp3bDNhQJ:content.gpwiki.org/index.php/OpenGL:Tutorials:Using\_Quaternions\_to\_represent\_rotation\&hl=en\&gl=us\&strip=1}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ P\_out\ =\ q\ *\ P\_in\ *\ conj(q)}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/\ P\_out\ is\ the\ output\ vector}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/\ q\ is\ the\ orientation\ quaternion}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/\ P\_in\ is\ the\ input\ vector\ (a*aReal)}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/\ conj(q)\ is\ the\ conjugate\ of\ the\ orientation\ quaternion\ (q=[w,x,y,z],\ q*=[w,-\/x,-\/y,-\/z])}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}\ p(0,\ x,\ y,\ z);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ quaternion\ multiplication:\ q\ *\ p,\ stored\ back\ in\ p}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ p\ =\ q\ -\/>\ getProduct(p);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ quaternion\ multiplication:\ p\ *\ conj(q),\ stored\ back\ in\ p}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ p\ =\ p.getProduct(q\ -\/>\ getConjugate());}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ p\ quaternion\ is\ now\ [0,\ x',\ y',\ z']}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ p.x;}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ p.y;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ p.z;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_int16}{VectorInt16}}\ getRotated(\mbox{\hyperlink{class_quaternion}{Quaternion}}\ *q)\ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_int16}{VectorInt16}}\ r(x,\ y,\ z);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ r.rotate(q);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \};}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_vector_float}{VectorFloat}}\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ y;}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ z;}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_float}{VectorFloat}}()\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ 0;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ 0;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ 0;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_float}{VectorFloat}}(\textcolor{keywordtype}{float}\ nx,\ \textcolor{keywordtype}{float}\ ny,\ \textcolor{keywordtype}{float}\ nz)\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ nx;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ ny;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ nz;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ getMagnitude()\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sqrt(x*x\ +\ y*y\ +\ z*z);}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ normalize()\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\ =\ getMagnitude();}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ x\ /=\ m;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ y\ /=\ m;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ z\ /=\ m;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_float}{VectorFloat}}\ getNormalized()\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_float}{VectorFloat}}\ r(x,\ y,\ z);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ r.normalize();}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ rotate(\mbox{\hyperlink{class_quaternion}{Quaternion}}\ *q)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_quaternion}{Quaternion}}\ p(0,\ x,\ y,\ z);}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ quaternion\ multiplication:\ q\ *\ p,\ stored\ back\ in\ p}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ p\ =\ q\ -\/>\ getProduct(p);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ quaternion\ multiplication:\ p\ *\ conj(q),\ stored\ back\ in\ p}}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ p\ =\ p.getProduct(q\ -\/>\ getConjugate());}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ p\ quaternion\ is\ now\ [0,\ x',\ y',\ z']}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ p.x;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ p.y;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ p.z;}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_float}{VectorFloat}}\ getRotated(\mbox{\hyperlink{class_quaternion}{Quaternion}}\ *q)\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_vector_float}{VectorFloat}}\ r(x,\ y,\ z);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ r.rotate(q);}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ \};}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \_HELPER\_3DMATH\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

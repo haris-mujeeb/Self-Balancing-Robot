@@ -1,0 +1,43 @@
+\doxysection{debug\+Config.\+h}
+\hypertarget{reference_01material_2_tumbller___code__20240301_2_tumbller_2debug_config_8h_source}{}\label{reference_01material_2_tumbller___code__20240301_2_tumbller_2debug_config_8h_source}\index{reference material/Tumbller\_Code\_20240301/Tumbller/debugConfig.h@{reference material/Tumbller\_Code\_20240301/Tumbller/debugConfig.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Global\ debug\ mode\ (set\ to\ false\ to\ disable\ all\ debugging)}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ DEBUG\_MODE\ false\ \ \ \ \ }}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ PLOT\_MODE\ true\ \ \ \ \ \ }}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Module-\/specific\ debug\ modes}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ DEBUG\_MOTOR\ false\ \ \ \ \ }\textcolor{comment}{//\ Debugging\ for\ Motor\ Control\ module}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ DEBUG\_VOLTAGE\ false\ \ \ }\textcolor{comment}{//\ Debugging\ for\ Communication\ module}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ DEBUG\_IMU\ false\ \ \ \ \ \ \ }\textcolor{comment}{//\ Debugging\ for\ IMU\ module}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DEBUG\_KALMAN\ false\ \ \ \ }\textcolor{comment}{//\ Debugging\ for\ Communication\ module}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ DEBUG\_CONTROL\ false\ \ \ }\textcolor{comment}{//\ Debugging\ for\ Communication\ module}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ DEBUG\_PID\_PITCH\ false\ }\textcolor{comment}{//\ Debugging\ for\ PID\ control\ for\ Pitch}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ DEBUG\_PID\_YAW\ false\ }\textcolor{comment}{//\ Debugging\ for\ PID\ control\ for\ Pitch}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ DEBUG\_PID\_POSITION\ false\ \ }\textcolor{comment}{//\ Debugging\ for\ PID\ control\ for\ Pitch}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ DEBUG\_ENCODER\ false\ \ }\textcolor{comment}{//\ Debugging\ for\ Motor\ incremental\ encoders}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Macro\ for\ conditional\ debugging}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#if\ DEBUG\_MODE}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \#define\ DEBUG\_PRINT(module,\ x)\ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \ \ if\ (module)\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.print("{}[time:\ "{});\ \(\backslash\)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.print(String(millis()));\ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.print("{}]\ "{});\ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Serial.println(x);\ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \ \ \}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \#define\ DEBUG\_PRINT(module,\ x)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#if\ PLOT\_MODE}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \#define\ SEND\_FOR\_PLOT(x)\ Serial.println(x);\ }}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Macro\ for\ error\ messages\ (always\ active)}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ ERROR\_PRINT(x)\ Serial.println(x)}}
+
+\end{DoxyCode}

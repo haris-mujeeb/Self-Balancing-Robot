@@ -1,0 +1,34 @@
+\doxysection{Kalman\+Filter.\+h}
+\hypertarget{_tumbller___code__20240301_2_tumbller_2_kalman_filter_8h_source}{}\label{_tumbller___code__20240301_2_tumbller_2_kalman_filter_8h_source}\index{reference material/Tumbller\_Code\_20240301/Tumbller/KalmanFilter.h@{reference material/Tumbller\_Code\_20240301/Tumbller/KalmanFilter.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ KalmanFilter\_h}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ KalmanFilter\_h}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#if\ defined(ARDUINO)\ \&\&\ (ARDUINO\ >=\ 100)}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <Arduino.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <WProgram.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_kalman_filter}{KalmanFilter}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \textcolor{keywordtype}{void}\ Yiorderfilter(\textcolor{keywordtype}{float}\ angle\_m,\ \textcolor{keywordtype}{float}\ gyro\_m,\textcolor{keywordtype}{float}\ dt,\textcolor{keywordtype}{float}\ K1);}
+\DoxyCodeLine{00014\ \ \ \textcolor{keywordtype}{void}\ Kalman\_Filter(\textcolor{keywordtype}{double}\ angle\_m,\ \textcolor{keywordtype}{double}\ gyro\_m,\textcolor{keywordtype}{float}\ dt,\textcolor{keywordtype}{float}\ Q\_angle,\textcolor{keywordtype}{float}\ Q\_gyro,\textcolor{keywordtype}{float}\ R\_angle,\textcolor{keywordtype}{float}\ C\_0);}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{void}\ Angle(int16\_t\ ax,\ int16\_t\ ay,\ int16\_t\ az,\ int16\_t\ gx,\ int16\_t\ gy,\ int16\_t\ gz,\ \textcolor{keywordtype}{float}\ dt,\ \textcolor{keywordtype}{float}\ Q\_angle,\ \textcolor{keywordtype}{float}\ Q\_gyro,\ \textcolor{keywordtype}{float}\ R\_angle,\ \textcolor{keywordtype}{float}\ C\_0,\ \textcolor{keywordtype}{float}\ K1);}
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{float}\ Gyro\_x,\ Gyro\_y,\ Gyro\_z;}
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{float}\ accelz\ =\ 0;}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_kalman_filter_ab2e32d30feacab30979a8a357207532e}{angle}};}
+\DoxyCodeLine{00019\ \ \ \textcolor{keywordtype}{float}\ angle6;}
+\DoxyCodeLine{00020\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \textcolor{keywordtype}{float}\ angle\_err,\ q\_bias;}
+\DoxyCodeLine{00022\ \ \ \textcolor{keywordtype}{float}\ Pdot[4]\ =\ \{\ 0,\ 0,\ 0,\ 0\};}
+\DoxyCodeLine{00023\ \ \ \textcolor{keywordtype}{float}\ P[2][2]\ =\ \{\{\ 1,\ 0\ \},\ \{\ 0,\ 1\ \}\};}
+\DoxyCodeLine{00024\ \ \ \textcolor{keywordtype}{float}\ PCt\_0,\ PCt\_1,\ E,\ K\_0,\ K\_1,\ t\_0,\ t\_1;}
+\DoxyCodeLine{00025\ \ \ \textcolor{keywordtype}{float}\ angle\_dot;}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

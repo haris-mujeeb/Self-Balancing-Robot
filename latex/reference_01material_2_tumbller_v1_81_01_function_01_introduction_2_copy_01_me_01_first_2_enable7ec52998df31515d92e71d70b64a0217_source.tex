@@ -1,0 +1,39 @@
+\doxysection{ei\+\_\+\+Pin\+Change\+Leonardo.\+h}
+\hypertarget{reference_01material_2_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_enable7ec52998df31515d92e71d70b64a0217_source}{}\label{reference_01material_2_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_enable7ec52998df31515d92e71d70b64a0217_source}\index{reference material/TumbllerV1.1 Function Introduction/Copy Me First/EnableInterrupt-\/1.1.0/utility/ei\_PinChangeLeonardo.h@{reference material/TumbllerV1.1 Function Introduction/Copy Me First/EnableInterrupt-\/1.1.0/utility/ei\_PinChangeLeonardo.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ ALL\ pin\ change\ interrupts\ are\ on\ Port\ B\ on\ Leonardo.}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_RISING}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00004\ risingPinsPORTB\ |=\ portMask;}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_RISING}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_FALLING}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00010\ fallingPinsPORTB\ |=\ portMask;}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_FALLING}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#if\ defined\ EI\_SECTION\_ASSIGNFUNCTIONSREGISTERS}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ NEEDFORSPEED}}
+\DoxyCodeLine{00017\ calculatedPointer=\&portBFunctions.pinZero\ +\ portBitNumber;}
+\DoxyCodeLine{00018\ *calculatedPointer\ =\ userFunction;}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ portSnapshotB=*portInputRegister(portNumber);}
+\DoxyCodeLine{00021\ pcmsk=\&PCMSK0;}
+\DoxyCodeLine{00022\ PCICR\ |=\ \_BV(0);}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_ASSIGNFUNCTIONSREGISTERS}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifdef\ EI\_SECTION\_DISABLEPINCHANGE}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifndef\ EI\_NOTPORTB}}
+\DoxyCodeLine{00028\ PCMSK0\ \&=\ \string~portMask;}
+\DoxyCodeLine{00029\ \textcolor{keywordflow}{if}\ (PCMSK0\ ==\ 0)\ \{\ PCICR\ \&=\ \string~\_BV(0);\ \};}
+\DoxyCodeLine{00030\ risingPinsPORTB\ \&=\ \string~portMask;}
+\DoxyCodeLine{00031\ fallingPinsPORTB\ \&=\ \string~portMask;}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EI\_SECTION\_DISABLEPINCHANGE}}
+
+\end{DoxyCode}

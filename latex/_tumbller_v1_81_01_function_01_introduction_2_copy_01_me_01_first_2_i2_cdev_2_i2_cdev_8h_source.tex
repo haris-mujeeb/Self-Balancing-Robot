@@ -1,0 +1,273 @@
+\doxysection{I2\+Cdev.\+h}
+\hypertarget{_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_i2_cdev_2_i2_cdev_8h_source}{}\label{_tumbller_v1_81_01_function_01_introduction_2_copy_01_me_01_first_2_i2_cdev_2_i2_cdev_8h_source}\index{reference material/TumbllerV1.1 Function Introduction/Copy Me First/I2Cdev/I2Cdev.h@{reference material/TumbllerV1.1 Function Introduction/Copy Me First/I2Cdev/I2Cdev.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ I2Cdev\ library\ collection\ -\/\ Main\ I2C\ device\ class\ header\ file}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Abstracts\ bit\ and\ byte\ I2C\ R/W\ functions\ into\ a\ convenient\ class}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ 6/9/2012\ by\ Jeff\ Rowberg\ <jeff@rowberg.net>}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Changelog:}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ \ \ \ \ \ 2013-\/05-\/06\ -\/\ add\ Francesco\ Ferrara's\ Fastwire\ v0.24\ implementation\ with\ small\ modifications}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ \ \ \ \ 2013-\/05-\/05\ -\/\ fix\ issue\ with\ writing\ bit\ values\ to\ words\ (Sasquatch/Farzanegan)}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ \ \ 2012-\/06-\/09\ -\/\ fix\ major\ issue\ with\ reading\ >\ 32\ bytes\ at\ a\ time\ with\ Arduino\ Wire}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ add\ compiler\ warnings\ when\ using\ outdated\ or\ IDE\ or\ limited\ I2Cdev\ implementation}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/11-\/01\ -\/\ fix\ write*Bits\ mask\ calculation\ (thanks\ sasquatch\ @\ Arduino\ forums)}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/10-\/03\ -\/\ added\ automatic\ Arduino\ version\ detection\ for\ ease\ of\ use}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/10-\/02\ -\/\ added\ Gene\ Knight's\ NBWire\ TwoWire\ class\ implementation\ with\ small\ modifications}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/08-\/31\ -\/\ added\ support\ for\ Arduino\ 1.0\ Wire\ library\ (methods\ are\ different\ from\ 0.x)}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/08-\/03\ -\/\ added\ optional\ timeout\ parameter\ to\ read*\ methods\ to\ easily\ change\ from\ default}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/08-\/02\ -\/\ added\ support\ for\ 16-\/bit\ registers}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ fixed\ incorrect\ Doxygen\ comments\ on\ some\ methods}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ added\ timeout\ value\ for\ read\ operations\ (thanks\ mem\ @\ Arduino\ forums)}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/07-\/30\ -\/\ changed\ read/write\ function\ structures\ to\ return\ success\ or\ byte\ counts}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ made\ all\ methods\ static\ for\ multi-\/device\ memory\ savings}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ \ \ 2011-\/07-\/28\ -\/\ initial\ release}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{/*\ ============================================}}
+\DoxyCodeLine{00023\ \textcolor{comment}{I2Cdev\ device\ library\ code\ is\ placed\ under\ the\ MIT\ license}}
+\DoxyCodeLine{00024\ \textcolor{comment}{Copyright\ (c)\ 2013\ Jeff\ Rowberg}}
+\DoxyCodeLine{00025\ \textcolor{comment}{}}
+\DoxyCodeLine{00026\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00027\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00028\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00029\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00030\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00031\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00032\ \textcolor{comment}{}}
+\DoxyCodeLine{00033\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{00034\ \textcolor{comment}{all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00035\ \textcolor{comment}{}}
+\DoxyCodeLine{00036\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00037\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00038\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00039\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00040\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00041\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{00042\ \textcolor{comment}{THE\ SOFTWARE.}}
+\DoxyCodeLine{00043\ \textcolor{comment}{===============================================}}
+\DoxyCodeLine{00044\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#ifndef\ \_I2CDEV\_H\_}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ \_I2CDEV\_H\_}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ I2C\ interface\ implementation\ setting}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ I2CDEV\_IMPLEMENTATION\ \ \ \ \ \ \ I2CDEV\_ARDUINO\_WIRE}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\#define\ I2CDEV\_IMPLEMENTATION\ \ \ \ \ \ \ I2CDEV\_BUILTIN\_FASTWIRE}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ comment\ this\ out\ if\ you\ are\ using\ a\ non-\/optimal\ IDE/implementation\ setting}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ but\ want\ the\ compiler\ to\ shut\ up\ about\ it}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ I2CDEV\_IMPLEMENTATION\_WARNINGS}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ I2C\ interface\ implementation\ options}}
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ I2CDEV\_ARDUINO\_WIRE\ \ \ \ \ \ \ \ \ 1\ }\textcolor{comment}{//\ Wire\ object\ from\ Arduino}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ I2CDEV\_BUILTIN\_NBWIRE\ \ \ \ \ \ \ 2\ }\textcolor{comment}{//\ Tweaked\ Wire\ object\ from\ Gene\ Knight's\ NBWire\ project}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \string^\string^\string^\ NBWire\ implementation\ is\ still\ buggy\ w/some\ interrupts!}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ I2CDEV\_BUILTIN\_FASTWIRE\ \ \ \ \ 3\ }\textcolor{comment}{//\ FastWire\ object\ from\ Francesco\ Ferrara's\ project}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ I2CDEV\_I2CMASTER\_LIBRARY\ \ \ \ 4\ }\textcolor{comment}{//\ I2C\ object\ from\ DSSCircuits\ I2C-\/Master\ Library\ at\ https://github.com/DSSCircuits/I2C-\/Master-\/Library}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ Arduino-\/style\ "{}Serial.print"{}\ debug\ constant\ (uncomment\ to\ enable)}}
+\DoxyCodeLine{00070\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00071\ \textcolor{comment}{//\#define\ I2CDEV\_SERIAL\_DEBUG}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#ifdef\ ARDUINO}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \#if\ ARDUINO\ <\ 100}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ "{}WProgram.h"{}}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \#if\ I2CDEV\_IMPLEMENTATION\ ==\ I2CDEV\_ARDUINO\_WIRE}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <Wire.h>}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\ \ \ \ \#if\ I2CDEV\_IMPLEMENTATION\ ==\ I2CDEV\_I2CMASTER\_LIBRARY}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <I2C.h>}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{comment}{//\ 1000ms\ default\ read\ timeout\ (modify\ with\ "{}I2Cdev::readTimeout\ =\ [ms];"{})}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ I2CDEV\_DEFAULT\_READ\_TIMEOUT\ \ \ \ \ 1000}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i2_cdev}{I2Cdev}}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_i2_cdev_a0a466e2323d9f719a1ecc9fa11ac5c84}{I2Cdev}}();}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_abe6d8ea07027d362419de86188981559}{readBit}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitNum,\ uint8\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_aaaa3b9ef9500a7d69ccc3d0ccaae33c4}{readBitW}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitNum,\ uint16\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_a8e5e9742072bb80db06ccd46f52e2b6d}{readBits}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitStart,\ uint8\_t\ length,\ uint8\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_a1f417ba3e5ce99832e07c31522c97f87}{readBitsW}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitStart,\ uint8\_t\ length,\ uint16\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_ad3fb41ce124a29f93749d99611c75c33}{readByte}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_a545cd48b1e806e7e467b542c9e38e8c8}{readWord}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint16\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_aca9c503da5cffd6ac6f8eff9b195c5f4}{readBytes}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ length,\ uint8\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ int8\_t\ \mbox{\hyperlink{class_i2_cdev_a1b3d895dc6a00cbb5fb3b0441b2e35de}{readWords}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ length,\ uint16\_t\ *data,\ uint16\_t\ timeout=\mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{I2Cdev::readTimeout}});}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_aa68890af87de5471d32e583ebbd91acb}{writeBit}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitNum,\ uint8\_t\ data);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_a1b5fbedfadec5d429c81ee84d27e658d}{writeBitW}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitNum,\ uint16\_t\ data);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_a913371251b6a41520c080115650e1b59}{writeBits}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitStart,\ uint8\_t\ length,\ uint8\_t\ data);}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_a8f8652a1328224cce867eed665a45c4d}{writeBitsW}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ bitStart,\ uint8\_t\ length,\ uint16\_t\ data);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_aeb297637ef985cd562da465ba61b7042}{writeByte}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ data);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_acbe68a802d6a177301736e60bedd1def}{writeWord}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint16\_t\ data);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_aa4e39cac6c0eac5112f9132084bcc93e}{writeBytes}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ length,\ uint8\_t\ *data);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i2_cdev_aae37c0526e4b4730a5b2ffd752fd8b21}{writeWords}}(uint8\_t\ devAddr,\ uint8\_t\ regAddr,\ uint8\_t\ length,\ uint16\_t\ *data);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint16\_t\ \mbox{\hyperlink{class_i2_cdev_a89c2dd0649451cb09d2edb96c27c158c}{readTimeout}};}
+\DoxyCodeLine{00113\ \};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#if\ I2CDEV\_IMPLEMENTATION\ ==\ I2CDEV\_BUILTIN\_FASTWIRE}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{comment}{//\ FastWire\ 0.24}}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{//\ This\ is\ a\ library\ to\ help\ faster\ programs\ to\ read\ I2C\ devices.}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{comment}{//\ Copyright(C)\ 2012}}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{comment}{//\ Francesco\ Ferrara}}
+\DoxyCodeLine{00122\ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{comment}{/*\ Master\ */}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_START\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x08}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_REP\_START\ \ \ \ \ \ \ \ \ \ \ \ 0x10}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{comment}{/*\ Master\ Transmitter\ */}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_SLA\_ACK\ \ \ \ \ \ \ \ \ \ \ 0x18}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_SLA\_NACK\ \ \ \ \ \ \ \ \ \ 0x20}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_DATA\_ACK\ \ \ \ \ \ \ \ \ \ 0x28}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_DATA\_NACK\ \ \ \ \ \ \ \ \ 0x30}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_ARB\_LOST\ \ \ \ \ \ \ \ \ \ 0x38}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{comment}{/*\ Master\ Receiver\ */}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_ARB\_LOST\ \ \ \ \ \ \ \ \ \ 0x38}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_SLA\_ACK\ \ \ \ \ \ \ \ \ \ \ 0x40}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_SLA\_NACK\ \ \ \ \ \ \ \ \ \ 0x48}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_DATA\_ACK\ \ \ \ \ \ \ \ \ \ 0x50}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_DATA\_NACK\ \ \ \ \ \ \ \ \ 0x58}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_OK\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{class\ }Fastwire\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{boolean}\ waitInt();}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ setup(\textcolor{keywordtype}{int}\ khz,\ \textcolor{keywordtype}{boolean}\ pullup);}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ beginTransmission(\textcolor{keywordtype}{byte}\ device);}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ write(\textcolor{keywordtype}{byte}\ value);}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ writeBuf(\textcolor{keywordtype}{byte}\ device,\ \textcolor{keywordtype}{byte}\ address,\ \textcolor{keywordtype}{byte}\ *data,\ \textcolor{keywordtype}{byte}\ num);}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ readBuf(\textcolor{keywordtype}{byte}\ device,\ \textcolor{keywordtype}{byte}\ address,\ \textcolor{keywordtype}{byte}\ *data,\ \textcolor{keywordtype}{byte}\ num);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ reset();}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}\ stop();}
+\DoxyCodeLine{00156\ \ \ \ \ \};}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#if\ I2CDEV\_IMPLEMENTATION\ ==\ I2CDEV\_BUILTIN\_NBWIRE}}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{comment}{//\ NBWire\ implementation\ based\ heavily\ on\ code\ by\ Gene\ Knight\ <Gene@Telobot.com>}}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{comment}{//\ Originally\ posted\ on\ the\ Arduino\ forum\ at\ http://arduino.cc/forum/index.php/topic,70705.0.html}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{comment}{//\ Originally\ offered\ to\ the\ i2cdevlib\ project\ at\ http://arduino.cc/forum/index.php/topic,68210.30.html}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\ \ \ \ \#define\ NBWIRE\_BUFFER\_LENGTH\ 32}}
+\DoxyCodeLine{00165\ \ \ \ \ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{class\ }TwoWire\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ rxBuffer[];}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ rxBufferIndex;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ rxBufferLength;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ txAddress;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ txBuffer[];}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ txBufferIndex;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ txBufferLength;}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ static\ uint8\_t\ transmitting;}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ void\ (*user\_onRequest)(void);}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ void\ (*user\_onReceive)(int);}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ onRequestService(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ onReceiveService(uint8\_t*,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00182\ \ \ \ \ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ TwoWire();}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ begin(uint8\_t);}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ begin(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ beginTransmission(uint8\_t);}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ beginTransmission(int);}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ endTransmission(uint16\_t\ timeout=0);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ nbendTransmission(\textcolor{keywordtype}{void}\ (*function)(\textcolor{keywordtype}{int}))\ ;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ requestFrom(uint8\_t,\ \textcolor{keywordtype}{int},\ uint16\_t\ timeout=0);}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//uint8\_t\ requestFrom(int,\ int);}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ nbrequestFrom(uint8\_t,\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{void}\ (*function)(\textcolor{keywordtype}{int}));}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ send(uint8\_t);}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ send(uint8\_t*,\ uint8\_t);}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ send(int);}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ send(\textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ available(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ receive(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ onReceive(\textcolor{keywordtype}{void}\ (*)(\textcolor{keywordtype}{int}));}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ onRequest(\textcolor{keywordtype}{void}\ (*)(\textcolor{keywordtype}{void}));}
+\DoxyCodeLine{00203\ \ \ \ \ \};}
+\DoxyCodeLine{00204\ \ \ \ \ }
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_READY\ \ \ 0}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_MRX\ \ \ \ \ 1}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_MTX\ \ \ \ \ 2}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_SRX\ \ \ \ \ 3}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_STX\ \ \ \ \ 4}}
+\DoxyCodeLine{00210\ \ \ \ \ }
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_WRITE\ \ \ \ 0}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_READ\ \ \ \ \ 1}}
+\DoxyCodeLine{00213\ \ \ \ \ }
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_SLA\_NACK\ \ \ \ \ \ 0x20}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_DATA\_NACK\ \ \ \ \ 0x30}}
+\DoxyCodeLine{00216\ \ \ \ \ }
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\ \ \ \ \#define\ CPU\_FREQ\ \ \ \ \ \ \ \ \ \ \ \ 16000000L}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_FREQ\ \ \ \ \ \ \ \ \ \ \ \ 100000L}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\ \ \ \ \#define\ TWI\_BUFFER\_LENGTH\ \ \ 32}}
+\DoxyCodeLine{00220\ \ \ \ \ }
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{comment}{/*\ TWI\ Status\ is\ in\ TWSR,\ in\ the\ top\ 5\ bits:\ TWS7\ -\/\ TWS3\ */}}
+\DoxyCodeLine{00222\ \ \ \ \ }
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_STATUS\_MASK\ \ \ \ \ \ \ \ \ \ \ \ \ \ (\_BV(TWS7)|\_BV(TWS6)|\_BV(TWS5)|\_BV(TWS4)|\_BV(TWS3))}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_STATUS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (TWSR\ \&\ TW\_STATUS\_MASK)}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_START\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x08}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_REP\_START\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x10}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_SLA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x18}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_SLA\_NACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x20}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_DATA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x28}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_DATA\_NACK\ \ \ \ \ \ \ \ \ \ \ \ \ 0x30}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MT\_ARB\_LOST\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x38}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_ARB\_LOST\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x38}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_SLA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x40}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_SLA\_NACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x48}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_DATA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x50}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_MR\_DATA\_NACK\ \ \ \ \ \ \ \ \ \ \ \ \ 0x58}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_ST\_SLA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xA8}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_ST\_ARB\_LOST\_SLA\_ACK\ \ \ \ \ \ 0xB0}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_ST\_DATA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xB8}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_ST\_DATA\_NACK\ \ \ \ \ \ \ \ \ \ \ \ \ 0xC0}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_ST\_LAST\_DATA\ \ \ \ \ \ \ \ \ \ \ \ \ 0xC8}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_SLA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x60}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_ARB\_LOST\_SLA\_ACK\ \ \ \ \ \ 0x68}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_GCALL\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ 0x70}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_ARB\_LOST\_GCALL\_ACK\ \ \ \ 0x78}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_DATA\_ACK\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x80}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_DATA\_NACK\ \ \ \ \ \ \ \ \ \ \ \ \ 0x88}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_GCALL\_DATA\_ACK\ \ \ \ \ \ \ \ 0x90}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_GCALL\_DATA\_NACK\ \ \ \ \ \ \ 0x98}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_SR\_STOP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xA0}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_NO\_INFO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xF8}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\ \ \ \ \#define\ TW\_BUS\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x00}}
+\DoxyCodeLine{00253\ \ \ \ \ }
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{comment}{//\#define\ \_MMIO\_BYTE(mem\_addr)\ (*(volatile\ uint8\_t\ *)(mem\_addr))}}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{comment}{//\#define\ \_SFR\_BYTE(sfr)\ \_MMIO\_BYTE(\_SFR\_ADDR(sfr))}}
+\DoxyCodeLine{00256\ \ \ \ \ }
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\ \ \ \ \#ifndef\ sbi\ }\textcolor{comment}{//\ set\ bit}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ sbi(sfr,\ bit)\ (\_SFR\_BYTE(sfr)\ |=\ \_BV(bit))}}
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\ \ \ \ \#endif\ }\textcolor{comment}{//\ sbi}}
+\DoxyCodeLine{00260\ \ \ \ \ }
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\ \ \ \ \#ifndef\ cbi\ }\textcolor{comment}{//\ clear\ bit}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ cbi(sfr,\ bit)\ (\_SFR\_BYTE(sfr)\ \&=\ \string~\_BV(bit))}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\ \ \ \ \#endif\ }\textcolor{comment}{//\ cbi}}
+\DoxyCodeLine{00264\ \ \ \ \ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keyword}{extern}\ TwoWire\ Wire;}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ I2CDEV\_IMPLEMENTATION\ ==\ I2CDEV\_BUILTIN\_NBWIRE}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \_I2CDEV\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
