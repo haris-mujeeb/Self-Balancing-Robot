@@ -1,9 +1,0 @@
-<map id="include/tb6612fng.hpp" name="include/tb6612fng.hpp">
-<area shape="rect" id="Node000001" title="Driver class for the TB6612FNG motor driver, supporting multiple motor control configurations." alt="" coords="67,5,215,32"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,82,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,35,74,73,71,69,122,30"/>
-<area shape="rect" id="Node000003" href="$include_2pins_8hpp.html" title="Pin definitions for hardware components of the self&#45;balancing robot." alt="" coords="106,80,176,107"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,33,144,64,138,64,138,33"/>
-<area shape="rect" id="Node000004" href="$include_2debug_config_8h_source.html" title=" " alt="" coords="200,80,306,107"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="162,30,222,69,219,74,159,35"/>
-</map>
