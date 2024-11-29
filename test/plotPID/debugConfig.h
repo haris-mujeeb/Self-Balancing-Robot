@@ -1,19 +1,20 @@
 #pragma once
 
 // Global debug mode (set to false to disable all debugging)
-#define DEBUG_MODE false     
 #define PLOT_MODE true      
+#define DEBUG_MODE false     
 // Module-specific debug modes
-#define DEBUG_MOTOR false     // Debugging for Motor Control module
-#define DEBUG_VOLTAGE false   // Debugging for Communication module
-#define DEBUG_IMU false       // Debugging for IMU module
-#define DEBUG_KALMAN false    // Debugging for Communication module
-#define DEBUG_CONTROL false   // Debugging for Communication module
-#define DEBUG_PID_PITCH false // Debugging for PID control for Pitch
-#define DEBUG_PID_YAW false // Debugging for PID control for Pitch
-#define DEBUG_PID_POSITION false  // Debugging for PID control for Pitch
-#define DEBUG_ENCODER false  // Debugging for Motor incremental encoders
-
+#if DEBUG_MODE
+  #define DEBUG_MOTOR false     // Debugging for Motor Control module
+  #define DEBUG_VOLTAGE false   // Debugging for Communication module
+  #define DEBUG_IMU false       // Debugging for IMU module 
+  #define DEBUG_KALMAN false    // Debugging for Communication module
+  #define DEBUG_CONTROL false   // Debugging for Communication module
+  #define DEBUG_PID_PITCH false // Debugging for PID control for Pitch
+  #define DEBUG_PID_YAW false // Debugging for PID control for Pitch
+  #define DEBUG_PID_POSITION false  // Debugging for PID control for Pitch
+  #define DEBUG_ENCODER false  // Debugging for Motor incremental encoders
+#endif
 // Macro for conditional debugging
 #if DEBUG_MODE
   #define DEBUG_PRINT(module, x) \

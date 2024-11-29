@@ -21,9 +21,10 @@
       if (module) { \
         Serial.print("[time: "); \
         Serial.print(String(millis())); \
+        
         Serial.print("] "); \
         Serial.println(x); \
-      }
+      } 
 #else
   #define DEBUG_PRINT(module, x)
 #endif
@@ -31,7 +32,9 @@
 
 #if PLOT_MODE
   #define SEND_FOR_PLOT(x) Serial.println(x); 
-
+#else
+  #define SEND_FOR_PLOT(x); 
+#endif
 
 // Macro for error messages (always active)
 #define ERROR_PRINT(x) Serial.println(x)

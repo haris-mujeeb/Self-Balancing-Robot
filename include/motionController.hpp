@@ -11,10 +11,10 @@
 #include <avr/wdt.h>
 
 enum motionState{ 
-  BALANCE,
+  STARTING,
   STANDBY,
   MOVING,
-  ROTATING,
+  TURNING,
   NUMBER_OF_MOTION_STATES
 };
 

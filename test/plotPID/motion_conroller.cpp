@@ -1,8 +1,7 @@
 #include "motion_controller.hpp"
 #include "EnableInterrupt.hpp"
-#include "voltage.hpp"
 
-#if (DEBUG_CONTROL) || (DEBUG_PID_PITCH) || (DEBUG_PID_YAW) || (DEBUG_PID_POSITION)
+#if DEBUG_MODE
     String debugMsg = "";
 #endif
 
@@ -40,6 +39,9 @@ volatile double setting_car_rotation_speed = 0;
 volatile double pitch_angle = 0; 
 volatile double gyro_x = 0;
 volatile double gyro_z = 0;
+float voltage_value = 0;                     ///< Measured battery voltage
+constexpr uint16_t VOLTAGE_MEASUREMENT_PERIOD = 200;   // Minimum allowed voltage for operation 
+
 motion_controller* controller_instance = nullptr; // for attaching balance() to MsTimer2 
 
 void encoderCounterLeftA() { encoder_count_left_a++;}
@@ -50,13 +52,8 @@ void motion_controller::run(){
   controller_instance = this;
   motors.init();
   mpu.init();
-  voltage_init();
   enableInterrupt(ENCODER_LEFT_A_PIN|PINCHANGEINTERRUPT, encoderCounterLeftA, CHANGE);
   enableInterrupt(ENCODER_RIGHT_A_PIN, encoderCounterRightA, CHANGE);
-}
-
-
-void motion_controller::run(){
   MsTimer2::set(dt*1000, balance);
   MsTimer2::start();
   DEBUG_PRINT(DEBUG_MODE, "motion_controller setup complete.");
@@ -99,7 +96,7 @@ void motion_controller::balance() {
 
   // stop execution if voltage is low.
   controller_instance->checkVoltageLevel(lastVoltageTime);
-  if(last_voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
+  if(voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
     // debug message
   #ifdef DEBUG_CONTROL
     DEBUG_PRINT(DEBUG_CONTROL ,"Voltage low!");
@@ -188,10 +185,13 @@ void motion_controller::balance() {
 #endif
 }
 
-void motion_controller::checkVoltageLevel(unsigned long& lastVoltageTime) {
-  if (millis() - lastVoltageTime >= 1000) { // Call voltage_read() every 100ms
-    lastVoltageTime = millis();
-    voltage_read();
+void motion_controller::checkVoltageLevel(unsigned long& voltage_measure_time) {
+  if (millis() - voltage_measure_time >= VOLTAGE_MEASUREMENT_PERIOD) { // Call voltage_read() every 100ms
+    voltage_measure_time = millis();
+    voltage_value = (analogRead(VOL_MEASURE_PIN) * 1.1 / 1024) * ((10 + 1.5) / 1.5);
+  #if DEBUG_VOLTAGE
+    debugMsg +=  "[voltage:" + String(voltage_value)+"]";
+  #endif
   }
 }
 

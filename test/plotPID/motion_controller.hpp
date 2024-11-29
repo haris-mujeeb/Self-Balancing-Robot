@@ -33,7 +33,11 @@ class motion_controller {
     mpu6050_base mpu;
     KalmanFilter kfilter;
     
-    motion_controller(); 
+    motion_controller() : motor(TB6612FNG(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT)),
+      mpu(mpu6050_base()), 
+      kfilter(KalmanFilter(dt, Q_angle, Q_gyro, R_angle, C_0)){
+    };
+
     void run();
     static void balance();   // void balance(float speed, float turn);
     void moveForward(float speed);
@@ -50,5 +54,9 @@ class motion_controller {
     void runYawControl();
     void runPositionControl();
     void updateMotorVelocities();
+
+   // Setting Kalman filter parameters
+   float dt = 0.005, Q_angle = 0.001, Q_gyro = 0.005, 
+          R_angle = 0.5, C_0 = 1, K_comp_filter = 0.05;
 
 };

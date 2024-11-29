@@ -22,13 +22,12 @@ constexpr uint16_t START_UP_TIME = 5000;  // Time for robot to stand upright.
 constexpr float ENCODER_STEP_PER_CM = 32.0;  // Time for robot to stand upright.
 
 // Control Gains
-constexpr double kp_balance = 35;
+constexpr double kp_balance = 55;
 constexpr double kd_balance = 0.75;
-constexpr double kd_position = 10*POSITION_CONTROL_FREQUENCY/8;
-constexpr double kp_position = 0.26*POSITION_CONTROL_FREQUENCY/8;
-constexpr double kp_turn = 5;
+constexpr double kd_position = 20;
+constexpr double kp_position = 0.26;
+constexpr double kp_turn = 2.5;
 constexpr double kd_turn = 0.5;
-// constexpr double ki_turn = 0.2;
 
 // Kalman Filter and Complementary Filter Constants
 // constexpr float angle_zero = 0.0f;           ///< Default zero angle for the system
@@ -65,7 +64,7 @@ double final_position = 0;                   ///< Final position of the robot
 double setting_car_speed = 0;                ///< Desired speed of the robot
 double setting_car_rotation_speed = 0;       ///< Desired rotational speed (yaw)
 float pitch_angle = 0;                       ///< Measured pitch angle
-float angle_zero = 0.0f;                    ///< Default zero angle for the system
+constexpr float pitch_angle_zero = 0.0f;                    ///< Default zero angle for the system
 float yaw_angle = 0;                       ///< Measured pitch angle
 float alpha = 0.95;                       ///< Measured pitch angle
 double desired_yaw_angle = 0;                   ///< Current position of the robot
@@ -85,10 +84,13 @@ void checkVoltageLevel(unsigned long&);
 void updateSensorValues(float&, float&, float&);
 void runPitchControl();
 void updateEncoderValues();
+void updateDistance();
 void runPositionControl();
 void runYawControl();
 void updateMotorVelocities();
 void checkStopConditions();
+void resetWdt();
+void checkBalanceExitCondition(unsigned long&);
 
 // Interrupt Handlers for Encoder Counts
 void encoderCounterLeftA() { encoder_count_left_a++;} ///< ISR for left encoder count (incremented on pin change)
@@ -117,7 +119,7 @@ void motionController::run(){
   DEBUG_PRINT(DEBUG_WATCHDOG, "WatchDog enabled!")
 
   // Set up a timer to call the balance function at regular intervals
-  currentRobotState = BALANCE;
+  currentRobotState = STARTING;
   MsTimer2::set(dt * 1000, balance);
   // while(digitalRead(KEY_MODE)){}; // stop execution until the push button is pressed.
   MsTimer2::start();
@@ -133,6 +135,8 @@ void motionController::run(){
  * and yaw, and applies appropriate motor speeds.
  */
 void motionController::balance() {
+  if(!disableWdt) resetWdt();     
+
   // stop execution if voltage is low.
   static unsigned long lastVoltageTime = 0;
   checkVoltageLevel(lastVoltageTime);
@@ -141,27 +145,23 @@ void motionController::balance() {
     motors.stop();  ///< Stop the motors if voltage is insufficient
     return;
   }
- 
-  static unsigned long firstStartedBalancingTime = ;
+
   sei();  // Enable global interrupts
   updateSensorValues(pitch_angle, gyro_x, gyro_z);
-  checkStopConditions();
   runPitchControl();  ///< Compute pitch control output
   updateEncoderValues();
 
-  if(BALANCE) {
-    if (millis() - firstStartedBalancingTime > 4000 
-        && pitch_angle < 20) {
-      currentRobotState = STANDBY;
-      }
-  } else{
-    // Update position and yaw control periodically
-    position_control_period_count ++;
-    if (position_control_period_count >= POSITION_CONTROL_FREQUENCY && currentRobotState != ) {
-      position_control_period_count = 0;
-      runPositionControl(); ///< Compute position control output
-      runYawControl();      ///< Compute yaw control output
-    }
+  static unsigned long firstStartedBalancingTime = millis();
+  checkBalanceExitCondition(firstStartedBalancingTime);
+  checkStopConditions();
+
+  // Update position and yaw control periodically
+  position_control_period_count++;
+  if (position_control_period_count >= POSITION_CONTROL_FREQUENCY) {
+    position_control_period_count = 0;
+    updateDistance();
+    runYawControl();    ///< Compute yaw control output
+    runPositionControl();
   }
 
   // Compute and update PWM values for motor control
@@ -171,28 +171,34 @@ void motionController::balance() {
 
   // Debugging and plotting sections
   #if DEBUG_CONTROL 
-  debugMsg += "[pwn_left:" + String(pwm_left) + "]"; 
-  debugMsg += "[pwn_right:" + String(pwm_right) + "]"; 
+  debugMsg += "[Pwn_left:" + String(pwm_left) + "]"; 
+  debugMsg += "[Pwn_right:" + String(pwm_right) + "]"; 
+  #endif
+
+  #if DEBUG_PID_PITCH
+    debugMsg += "[Pitch PID:" + String(pitch_angle) + "]";
+    debugMsg += "[Pitch:" + String(pitch_pid_output) + "]";
   #endif
 
   #if DEBUG_PID_YAW
-    debugMsg += "[YAW PID: " + String(yaw_pid_output) + "]";
+    debugMsg += "[Yaw PID: " + String(yaw_angle) + "]";
+    debugMsg += "[Yaw PID: " + String(yaw_pid_output) + "]";
   #endif
 
-  #if (DEBUG_PID_POSITION) && (DEBUG_MODE)
-    debugMsg += "[POS PID:" + String(position_pid_output) + "]";
-    debugMsg += "[postion:" + String(robot_position) + "]";
+  #if DEBUG_PID_POSITION
+    debugMsg += "[Pos PID:" + String(position_pid_output) + "]";
+    debugMsg += "[Postion:" + String(robot_position) + "]";
   #endif
 
-  #if (DEBUG_MODE)
+  #if DEBUG_MODE
     DEBUG_PRINT(DEBUG_MODE, debugMsg);
     debugMsg = "";
   #endif
 
   #if (PLOT_MODE)
-    plotMsg += String(encoder_speed_filtered) + ","; 
-    plotMsg += String(encoder_speed_filtered_old)  + ","; 
-    plotMsg += String(robot_position) + ","; 
+    plotMsg += String(pitch_angle) + ","; 
+    plotMsg += String(yaw_angle)  + ","; 
+    plotMsg += String(robot_position)+ ","; 
     plotMsg += String(pitch_pid_output) + ","; 
     plotMsg += String(yaw_pid_output) + ","; 
     plotMsg += String(position_pid_output) + ","; 
@@ -240,13 +246,22 @@ inline void checkVoltageLevel(unsigned long& voltage_measure_time) {
  * based on the motor's direction. The counts are then reset for the next measurement cycle.
  */
 inline void updateEncoderValues(){
+  position_control_period_count ++;
   encoder_left_position +=  pwm_left < 0 ? -encoder_count_left_a : encoder_count_left_a;
   encoder_right_position += pwm_right < 0 ? -encoder_count_right_a : encoder_count_right_a;
   encoder_count_left_a = 0;
   encoder_count_right_a = 0;
 }
 
-
+inline void updateDistance(){
+  position_control_period_count = 0;
+  double encoder_speed = (encoder_left_position + encoder_right_position) * 0.5; 
+  encoder_left_position = 0;
+  encoder_right_position = 0;
+  encoder_speed_filtered = encoder_speed_filtered_old * 0.7 + encoder_speed * 0.3; 
+  encoder_speed_filtered_old = encoder_speed_filtered;
+  robot_position += encoder_speed_filtered;
+}
 /**
  * @brief Updates the sensor values using the MPU module.
  * 
@@ -263,10 +278,9 @@ inline void updateSensorValues(float& pitch_angle, float& gyro_x, float& gyro_z)
   gyro_x = mpu.getGyroX();
   gyro_z = mpu.getGyroZ();
   pitch_angle = mpu.getPitchAngle();
-  if (currentRobotState == BALANCE) {
-    yaw_angle += mpu.getGyroZ() * dt;
+  if(currentRobotState == TURNING){
+    yaw_angle += gyro_z * dt; // record angle 
   }
-  
   // Update Kalman filter
   pitch_angle = kalman.getAngle(pitch_angle, gyro_x);
 }
@@ -279,10 +293,9 @@ inline void updateSensorValues(float& pitch_angle, float& gyro_x, float& gyro_z)
  * the estimated angle from the Kalman filter, and the angular velocity.
  */
 inline void runPitchControl() {
-  if (millis() - sinceStartUp)
   // Compute balance control output
-  pitch_pid_output = kp_balance * (pitch_angle - constrain(angle_zero, -0.5, 0.5))
-                    + kd_balance * (gyro_x  - angular_velocity_zero);
+  pitch_pid_output = kp_balance * (pitch_angle - pitch_angle_zero)
+                    + kd_balance * (gyro_x  - angular_velocity_zero);                    
 }
 
 
@@ -293,19 +306,16 @@ inline void runPitchControl() {
  * using the z-axis angular velocity and desired rotation speed.
  */
 inline void runYawControl(){
-  if(currentRobotState == ROTATING){
-
+  if (currentRobotState == TURNING) {
     setting_car_rotation_speed = kp_turn * (yaw_angle - desired_yaw_angle) ;
     setting_car_rotation_speed = constrain(setting_car_rotation_speed, -50, 50);
-    if (abs(yaw_angle - desired_yaw_angle) < 0.5) {
-      currentRobotState = STANDBY;
-    }
   } else {
     setting_car_rotation_speed = 0;
   }
+
   yaw_pid_output = setting_car_rotation_speed + kd_turn * gyro_z 
-                  // + ki_turn * (yaw_angle - desired_yaw_angle)
-                  ;
+                // + ki_turn * (yaw_angle - desired_yaw_angle)
+                ;
 }
 
 
@@ -315,29 +325,15 @@ inline void runYawControl(){
  * This function uses encoder readings to compute the position PID output, 
  * which helps in maintaining or changing the robot's position based on the target speed.
  */
-inline void runPositionControl(){
-  double encoder_speed = (encoder_left_position + encoder_right_position) * 0.5; 
-  encoder_left_position = 0;
-  encoder_right_position = 0;
-  encoder_speed_filtered = encoder_speed_filtered_old * 0.7 + encoder_speed * 0.3; 
-  encoder_speed_filtered_old = encoder_speed_filtered;
-  robot_position += encoder_speed_filtered;
-  // robot_position += -setting_car_speed;
-  
-  if(currentRobotState == MOVING){
-    position_pid_output = - kp_position 
-                            * (constrain(robot_position, -1000, 1000) 
-                              - constrain(move_to_position, -50, 50)) 
-                        - kd_position * encoder_speed_filtered;
+inline void runPositionControl() {
+  if (currentRobotState == MOVING) {
     move_to_position = move_to_position*0.7 + final_position*0.3;
-    angle_zero = position_pid_output/100;
-    if (abs(robot_position - final_position) < 20) {
-        currentRobotState = STANDBY;
-      }
-  } else {
-    position_pid_output = 0;
   }
-
+  position_pid_output = - kp_position * (
+                            constrain(robot_position, -1000, 1000) 
+                            - constrain(move_to_position, -50, 50)
+                          ) 
+                        - kd_position * encoder_speed_filtered;
 }
 
 
@@ -365,7 +361,7 @@ inline void updateMotorVelocities() {
  */
 inline void checkStopConditions(){
   // Check if the absolute pitch angle exceeds 20 degrees and the watchdog timer (WDT) is enabled
-  if(!disableWdt && abs(position_pid_output) > 1000) {
+  if(!disableWdt && abs(pitch_angle) > 20 && currentRobotState != STARTING) {
     /**
      * @brief Logs an error message and stops the motors if the pitch angle exceeds 20 degrees.
      * 
@@ -388,7 +384,12 @@ inline void checkStopConditions(){
     }
 
     // If the angle is within acceptable limits, reset the watchdog timer to keep the system running
-    } else if(!disableWdt) {
+    }
+}
+
+
+void resetWdt() {
+  if(!disableWdt) {
     /**
      * @brief Resets the watchdog timer if the system is operating normally.
      * 
@@ -475,7 +476,7 @@ void motionController::moveCentimeters(float dist_in_cm) {
  * @param degreesCW The angle in degrees to turn the robot clockwise.
  */
 void motionController::turnDegrees(float degreesCW){
-  currentRobotState = ROTATING;
+  currentRobotState = TURNING;
   desired_yaw_angle = degreesCW;
 }
 
@@ -506,4 +507,10 @@ void motionController::getRobotStateData(float& distance, float&yaw){
   distance = robot_position;
   yaw = yaw_angle;
   sei(); // Re-enable interrupts
+}
+
+void checkBalanceExitCondition(unsigned long& time){
+  if (millis() - time > 2000 && abs(pitch_angle) < 20) {
+    currentRobotState = STANDBY;
+  }
 }

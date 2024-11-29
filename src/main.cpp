@@ -12,11 +12,16 @@ motionController motion_controller;
 telemetryPacket data_packet;
 
 void setup() { 
-  Serial.begin(9600);
+  Serial.begin(250000);
+  while (!Serial) {    // Wait for Serial to be ready (optional for some platforms)
+    delay(10);
+  }
+  
   // Serial.println("AT+UART=9600,0,0"); // Set BT baud rate to 9600
   // delay(1000);
   pinMode(LEFT_RECEIVE_PIN, INPUT_PULLUP);
   pinMode(RIGHT_RECEIVE_PIN, INPUT_PULLUP);
+  
   wdt_disable();
   motion_controller.run();
   DEBUG_PRINT(DEBUG_MODE, "Robot initiated.");
@@ -37,12 +42,14 @@ void inputHandle(){
   switch (recv_data.command) {
     case 'M':
       motion_controller.moveCentimeters((float)recv_data.value);
+      DEBUG_PRINT(DEBUG_COMM, "Move:" + String(recv_data.value) +  " cm");
       break;
     case 'T':
       motion_controller.turnDegrees((float)recv_data.value);
+      DEBUG_PRINT(DEBUG_COMM, "Turn:" + String(recv_data.value) +  " cm");
       break;
     default:
-      Serial.println("Unknown command");
+      ERROR_PRINT("Unknown command");
       break;
   }
 }

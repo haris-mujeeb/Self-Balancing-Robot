@@ -8,7 +8,7 @@ void setup() {
   pinMode(RIGHT_RECEIVE_PIN, INPUT_PULLUP);
   Serial.begin(250000);
   Wire.begin();
-  motion.init();
+  motion.run();
 }
 
 void loop() {

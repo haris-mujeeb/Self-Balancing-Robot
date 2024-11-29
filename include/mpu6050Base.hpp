@@ -5,12 +5,6 @@
 #include "Wire.h"
 #include "debugConfig.h"
 
-// Macro for debug messages
-#if DEBUG_IMU
-  #define DEBUG_MSG(x) Serial.println(x)
-#else
-  #define DEBUG_MSG(x)
-#endif
 
 // Define constants for MPU6050 configuration
 #define MPU6050_READINGS 200        ///< Number of readings for error calculation
@@ -50,7 +44,6 @@ class mpu6050Base {
 
   // Helper functions for internal use
   void setup_mpu_6050_registers(); ///< Initializes MPU6050 registers
-  void printErrorData(const IMUErrorData &imuError, HardwareSerial &serialPort); ///< Prints error data to serial port
 
 public:
   /**

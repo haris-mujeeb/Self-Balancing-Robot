@@ -103,8 +103,8 @@ void balanceCar() {
     rotation_control_output = setting_turn_speed + kd_turn * kalmanfilter.Gyro_z;
   }
 
-  pwm_left = balance_control_output - speed_control_output - rotation_control_output;
-  pwm_right = balance_control_output - speed_control_output + rotation_control_output;
+  pwm_left = balance_control_output - 0 - 0;
+  pwm_right = balance_control_output - 0 + 0;
   pwm_left = constrain(pwm_left, -255, 255);
   pwm_right = constrain(pwm_right, -255, 255);
 
