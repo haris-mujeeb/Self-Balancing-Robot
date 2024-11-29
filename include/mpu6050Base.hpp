@@ -43,7 +43,7 @@ struct IMUErrorData {
  * reading accelerometer and gyroscope data, calculating angles,
  * and performing sensor calibration and error correction.
  */
-class mpu6050_base {
+class mpu6050Base {
  private:
   uint8_t mpu6050_addr;  ///< I2C address of MPU6050
   long loop_timer;       ///< Timer for maintaining control loop frequency
@@ -58,7 +58,7 @@ public:
    * 
    * @param i2c_addr I2C address of the MPU6050 sensor (default 0x68).
    */
-  mpu6050_base(uint8_t i2c_addr = 0x68) : mpu6050_addr(i2c_addr){}
+  mpu6050Base(uint8_t i2c_addr = 0x68) : mpu6050_addr(i2c_addr){}
 
   float acc_x = 0;                     ///< Accelerometer data in the X axis
   float acc_y = 0;                     ///< Accelerometer data in the Y axis
@@ -165,4 +165,4 @@ float getPitchAngle();
   void recalibrate(HardwareSerial &serialPort);
 };
 
-extern mpu6050_base mpu;
+extern mpu6050Base mpu;

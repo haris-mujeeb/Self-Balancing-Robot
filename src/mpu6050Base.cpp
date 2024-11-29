@@ -1,4 +1,4 @@
-#include "mpu6050_base.hpp"
+#include "mpu6050Base.hpp"
 
 // Calibration offsets for gyroscope axes
 long gyro_x_cal = 0;                 ///< Calibration offset for gyroscope X axis
@@ -28,7 +28,7 @@ bool set_gyro_angles = false;        ///< Flag indicating whether gyro angles ha
  * This function sets up the MPU6050 registers, performs gyroscope calibration by 
  * averaging a set of samples, and calculates the gyro offsets for all axes.
  */
-void mpu6050_base::init() {
+void mpu6050Base::init() {
   setup_mpu_6050_registers();  // Set up MPU6050 registers for operation
 
   // Perform gyroscope calibration by taking multiple samples
@@ -60,7 +60,7 @@ void mpu6050_base::init() {
  * This function combines accelerometer and gyroscope data using complementary filters to 
  * calculate stable pitch and roll angles, reducing the effect of sensor noise and drift.
  */
-void mpu6050_base::calculate() {
+void mpu6050Base::calculate() {
   read_mpu_6050_data();  // Read sensor data from the MPU6050
 
   // Subtract calibration offsets from raw gyro values
@@ -110,7 +110,7 @@ void mpu6050_base::calculate() {
  * This function configures the MPU6050 for proper operation by initializing
  * the power management, accelerometer, and gyroscope registers.
  */
-void mpu6050_base::setup_mpu_6050_registers() {
+void mpu6050Base::setup_mpu_6050_registers() {
   // Wake up MPU6050 from sleep mode
   Wire.beginTransmission(mpu6050_addr);
   Wire.write(0x6B);  // Power Management register (0x6B)
@@ -138,7 +138,7 @@ void mpu6050_base::setup_mpu_6050_registers() {
  * This function reads 14 bytes of sensor data (accelerometer, gyroscope, and temperature)
  * from the MPU6050 and stores it in the respective variables.
  */
-void mpu6050_base::read_mpu_6050_data() {
+void mpu6050Base::read_mpu_6050_data() {
   Wire.beginTransmission(mpu6050_addr);         // Start communication with MPU6050
   Wire.write(0x3B);                             // Starting register for accelerometer data
   Wire.endTransmission();
@@ -177,7 +177,7 @@ void mpu6050_base::read_mpu_6050_data() {
  * 
  * @return The X-axis gyroscope value in degrees per second.
  */
-float mpu6050_base::getGyroX(){
+float mpu6050Base::getGyroX(){
   return (gyro_x -gyro_x_cal - 128.1) / 131.0;
 }
 
@@ -193,7 +193,7 @@ float mpu6050_base::getGyroX(){
  * 
  * @return The Z-axis gyroscope value in degrees per second.
  */
-float mpu6050_base::getGyroZ(){
+float mpu6050Base::getGyroZ(){
   return - (gyro_z - gyro_z_cal) / 131.0;
 }
 
@@ -207,7 +207,7 @@ float mpu6050_base::getGyroZ(){
  * 
  * @return The pitch angle in degrees.
  */
-float mpu6050_base::getPitchAngle(){
+float mpu6050Base::getPitchAngle(){
   return atan2(mpu.acc_y, mpu.acc_z) * 57.3;
 }
 
@@ -219,7 +219,7 @@ float mpu6050_base::getPitchAngle(){
  * 
  * @return IMUErrorData Structure containing calculated accelerometer and gyroscope errors.
  */
-IMUErrorData mpu6050_base::calculate_IMU_error() {
+IMUErrorData mpu6050Base::calculate_IMU_error() {
   IMUErrorData imuError;
   
   // Calibrate accelerometer by averaging multiple readings
