@@ -2,7 +2,7 @@
 #include "EnableInterrupt.hpp"
 #include "AccelStepper.h"
 
-#if DEBUG_MODE
+#if DEBUG_CONTROL
   String debugMsg = "";
 #if DEBUG_ENCODER
   String debugEncoderMsg = "";
@@ -90,7 +90,7 @@ void runYawControl();
 void updateMotorVelocities();
 void checkStopConditions();
 void resetWdt();
-void checkBalanceExitCondition(unsigned long&);
+void checkStartingExitCondition(unsigned long&);
 
 // Interrupt Handlers for Encoder Counts
 void encoderCounterLeftA() { encoder_count_left_a++;} ///< ISR for left encoder count (incremented on pin change)
@@ -116,8 +116,9 @@ void motionController::run(){
   // Configure watchdog timer
   wdt_enable(WDTO_500MS); // Watchdog timeout set to 500 milli seconds
   disableWdt = false;
-  DEBUG_PRINT(DEBUG_WATCHDOG, "WatchDog enabled!")
-
+  #if DEBUG_WATCHDOG
+    debugMsg += "WatchDog enabled!";
+  #endif
   // Set up a timer to call the balance function at regular intervals
   currentRobotState = STARTING;
   MsTimer2::set(dt * 1000, balance);
@@ -152,7 +153,7 @@ void motionController::balance() {
   updateEncoderValues();
 
   static unsigned long firstStartedBalancingTime = millis();
-  checkBalanceExitCondition(firstStartedBalancingTime);
+  if(currentRobotState == STARTING) checkStartingExitCondition(firstStartedBalancingTime);
   checkStopConditions();
 
   // Update position and yaw control periodically
@@ -186,12 +187,12 @@ void motionController::balance() {
   #endif
 
   #if DEBUG_PID_POSITION
-    debugMsg += "[Pos PID:" + String(position_pid_output) + "]";
+    debugMsg += "[Pos PID:" + String(position_`pid_output) + "]";
     debugMsg += "[Postion:" + String(robot_position) + "]";
   #endif
 
-  #if DEBUG_MODE
-    DEBUG_PRINT(DEBUG_MODE, debugMsg);
+  #if DEBUG_CONTROL
+    DEBUG_PRINT(DEBUG_CONTROL, debugMsg);
     debugMsg = "";
   #endif
 
@@ -307,8 +308,11 @@ inline void runPitchControl() {
  */
 inline void runYawControl(){
   if (currentRobotState == TURNING) {
-    setting_car_rotation_speed = kp_turn * (yaw_angle - desired_yaw_angle) ;
+    setting_car_rotation_speed = kp_turn * (yaw_angle - desired_yaw_angle);
     setting_car_rotation_speed = constrain(setting_car_rotation_speed, -50, 50);
+    if (abs(yaw_angle - desired_yaw_angle) < 1) {
+      currentRobotState = STANDBY;
+      }
   } else {
     setting_car_rotation_speed = 0;
   }
@@ -328,10 +332,11 @@ inline void runYawControl(){
 inline void runPositionControl() {
   if (currentRobotState == MOVING) {
     move_to_position = move_to_position*0.7 + final_position*0.3;
+    // move_to_position = final_position;
+    if (abs(robot_position - final_position) < 5*ENCODER_STEP_PER_CM){currentRobotState = STANDBY;}
   }
   position_pid_output = - kp_position * (
-                            constrain(robot_position, -1000, 1000) 
-                            - constrain(move_to_position, -50, 50)
+                            constrain(robot_position - move_to_position, -1000, 1000)
                           ) 
                         - kd_position * encoder_speed_filtered;
 }
@@ -462,6 +467,7 @@ void motionController::turnRight(float rotation_speed){
  * @param dist_in_cm The distance to move in centimeters.
  */
 void motionController::moveCentimeters(float dist_in_cm) {
+  currentRobotState = MOVING;
   final_position = dist_in_cm * ENCODER_STEP_PER_CM;
 }
 
@@ -504,12 +510,12 @@ void motionController::stop(){
  */
 void motionController::getRobotStateData(float& distance, float&yaw){
   cli(); // Disable interrupts
-  distance = robot_position;
+  distance = robot_position/ENCODER_STEP_PER_CM;
   yaw = yaw_angle;
   sei(); // Re-enable interrupts
 }
 
-void checkBalanceExitCondition(unsigned long& time){
+void checkStartingExitCondition(unsigned long& time){
   if (millis() - time > 2000 && abs(pitch_angle) < 20) {
     currentRobotState = STANDBY;
   }

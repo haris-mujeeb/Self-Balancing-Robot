@@ -12,7 +12,7 @@ motionController motion_controller;
 telemetryPacket data_packet;
 
 void setup() { 
-  Serial.begin(250000);
+  Serial.begin(9600); // 250000
   while (!Serial) {    // Wait for Serial to be ready (optional for some platforms)
     delay(10);
   }
@@ -29,7 +29,11 @@ void setup() {
 
 void loop() {
   motion_controller.getRobotStateData(data_packet.distance, data_packet.yaw);
-  data_packet.sendPacketASCII();
+  static unsigned long updateTime = 0;
+  if(millis() - updateTime > 1000) {
+    data_packet.sendPacketASCII();
+    updateTime = millis();
+  }
   inputHandle();
 
   // test_moving();
@@ -37,20 +41,25 @@ void loop() {
 }
 
 void inputHandle(){
-  telemetryCommands recv_data;
-  recv_data.readPacketASCII();
-  switch (recv_data.command) {
-    case 'M':
-      motion_controller.moveCentimeters((float)recv_data.value);
-      DEBUG_PRINT(DEBUG_COMM, "Move:" + String(recv_data.value) +  " cm");
-      break;
-    case 'T':
-      motion_controller.turnDegrees((float)recv_data.value);
-      DEBUG_PRINT(DEBUG_COMM, "Turn:" + String(recv_data.value) +  " cm");
-      break;
-    default:
-      ERROR_PRINT("Unknown command");
-      break;
+  if (Serial.available()){
+    telemetryCommands recv_data;
+    recv_data.readPacketASCII();
+    switch (recv_data.command) {
+      case 'M':
+        motion_controller.moveCentimeters((float)recv_data.value);
+        DEBUG_PRINT(DEBUG_COMM, "Move: " + String(recv_data.value) +  " cm");
+        break;
+      case 'T':
+        motion_controller.turnDegrees((float)recv_data.value);
+        DEBUG_PRINT(DEBUG_COMM, "Turn: " + String(recv_data.value) +  " deg");
+        break;
+      case '\0':
+        DEBUG_PRINT(DEBUG_COMM, "No Command.");
+        break;
+      default:
+        ERROR_PRINT("Invalid command");
+        break;
+    }
   }
 }
 

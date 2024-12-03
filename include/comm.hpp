@@ -1,5 +1,7 @@
 #include "Arduino.h"
 
+bool isNumeric(String str);
+
 struct telemetryPacket {
   float yaw;
   float distance;
@@ -57,10 +59,32 @@ void telemetryCommands::readPacketBytes(){
 void telemetryCommands::readPacketASCII(){
   // Read a full command from the serial input
   String input = Serial.readStringUntil('\n'); // Read until newline
+ 
+  // Remove any trailing '\r' (carriage return)
+  input.trim(); // Removes leading/trailing whitespace, including '\r'
 
   if (input.length() > 0) {
     // Extract the command (first character) and the value (remaining characters)
     command = input.charAt(0);
-    value = input.substring(1).toInt();  // Convert the rest to an integer
+    String valueString = input.substring(1);  
+    if (valueString.length() > 0 && isNumeric(valueString)){
+      value = valueString.toInt();   // Convert the rest to an integer
+    } else {
+      // Handle invalid value error
+      ERROR_PRINT("Invalid value.");
+      value = 0;
+    }
+  } else {
+    DEBUG_PRINT(DEBUG_COMM,"No input received.");
+    command = '\0';
   }
+}
+
+bool isNumeric(String str) {
+  for(unsigned int i = 0; i < str.length(); i++) {
+    if(!isDigit(str[i])  &&  !(i == 0 && str[i] == '-')) {
+      return false;
+    }
+  }
+  return true;
 }
