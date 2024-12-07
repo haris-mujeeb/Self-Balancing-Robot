@@ -9,8 +9,8 @@
   // Module-specific debug modes
   #define DEBUG_MOTOR false     // Debugging for Motor Control module
   #define DEBUG_IMU false       // Debugging for IMU module
-  #define DEBUG_KALMAN false    // Debugging for Communication module
-  #define DEBUG_CONTROL false   // Debugging for Communication module
+  #define DEBUG_KALMAN false    // Debugging for Kalman Filter alogrithm
+  #define DEBUG_CONTROL false   // Debugging for Motion Controller alogrithm
   #if DEBUG_CONTROL
     #define DEBUG_VOLTAGE false   // Debugging for Communication module
     #define DEBUG_PID_PITCH false // Debugging for PID control for Pitch
@@ -19,7 +19,8 @@
     #define DEBUG_ENCODER false  // Debugging for Motor incremental encoders
     #define DEBUG_WATCHDOG false
   #endif
-  #define DEBUG_COMM true
+  #define DEBUG_COMM false   // Debugging for Communication module
+  #define DEBUG_USONIC true // Debugging for Ultrasonic and IR modules
 #endif
 
 // Macro for conditional debugging

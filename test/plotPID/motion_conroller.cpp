@@ -1,5 +1,4 @@
 #include "motion_controller.hpp"
-#include "EnableInterrupt.hpp"
 
 #if DEBUG_MODE
     String debugMsg = "";

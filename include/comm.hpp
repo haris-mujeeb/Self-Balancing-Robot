@@ -71,7 +71,7 @@ void telemetryCommands::readPacketASCII(){
       value = valueString.toInt();   // Convert the rest to an integer
     } else {
       // Handle invalid value error
-      ERROR_PRINT("Invalid value.");
+      DEBUG_PRINT(DEBUG_COMM,"Invalid value.");
       value = 0;
     }
   } else {

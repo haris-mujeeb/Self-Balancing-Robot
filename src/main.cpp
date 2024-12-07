@@ -2,42 +2,48 @@
 #include "motionController.hpp"
 #include "comm.hpp"
 #include "SoftwareSerial.h"
+#include "ultrasonic.hpp"
 
 // void inputHandleOLD();
 void inputHandle();
 void test_moving();
 void test_turning();
 
-motionController motion_controller;
+motionController robot;
 telemetryPacket data_packet;
 
 void setup() { 
-  Serial.begin(9600); // 250000
-  while (!Serial) {    // Wait for Serial to be ready (optional for some platforms)
-    delay(10);
-  }
-  
-  // Serial.println("AT+UART=9600,0,0"); // Set BT baud rate to 9600
-  // delay(1000);
-  pinMode(LEFT_RECEIVE_PIN, INPUT_PULLUP);
-  pinMode(RIGHT_RECEIVE_PIN, INPUT_PULLUP);
-  
+  Serial.begin(9600); // 250000  
+  InitializeIRAndUltrasonic();
   wdt_disable();
-  motion_controller.run();
+  robot.run();
   DEBUG_PRINT(DEBUG_MODE, "Robot initiated.");
 }
 
 void loop() {
-  motion_controller.getRobotStateData(data_packet.distance, data_packet.yaw);
   static unsigned long updateTime = 0;
+  
+  CheckIRObstacle();
+  
   if(millis() - updateTime > 1000) {
-    data_packet.sendPacketASCII();
     updateTime = millis();
-  }
-  inputHandle();
 
-  // test_moving();
-  // test_turning();
+    StartUltrasonicMeasurement();
+    
+    robot.getRobotStateData(data_packet.distance, data_packet.yaw);
+    // data_packet.sendPacketASCII();
+  }
+  
+  if(currentRobotState != STARTING) {
+    if(irLeftIsObstacle && irRightIsObstacle && usonicDistanceValue < 20.0) {
+      robot.stop();
+      while (usonicDistanceValue > 20)  {
+        robot.moveCentimeters(robot_position - 1);
+      }
+    }
+  }
+  
+  inputHandle();
 }
 
 void inputHandle(){
@@ -46,18 +52,18 @@ void inputHandle(){
     recv_data.readPacketASCII();
     switch (recv_data.command) {
       case 'M':
-        motion_controller.moveCentimeters((float)recv_data.value);
+        robot.moveCentimeters((float)recv_data.value);
         DEBUG_PRINT(DEBUG_COMM, "Move: " + String(recv_data.value) +  " cm");
         break;
       case 'T':
-        motion_controller.turnDegrees((float)recv_data.value);
+        robot.turnDegrees((float)recv_data.value);
         DEBUG_PRINT(DEBUG_COMM, "Turn: " + String(recv_data.value) +  " deg");
         break;
       case '\0':
         DEBUG_PRINT(DEBUG_COMM, "No Command.");
         break;
       default:
-        ERROR_PRINT("Invalid command");
+        DEBUG_PRINT(DEBUG_COMM, "Invalid command");
         break;
     }
   }
@@ -74,10 +80,10 @@ void test_moving() {
     }
     switch (state) {
     case 0:
-      motion_controller.moveCentimeters(30);
+      robot.moveCentimeters(30);
       break;
     case 1:
-      motion_controller.moveCentimeters(0);
+      robot.moveCentimeters(0);
       break;
     default:
       break;
@@ -95,10 +101,10 @@ void test_turning() {
     }
     switch (state) {
     case 0:
-      motion_controller.turnDegrees(45);
+      robot.turnDegrees(45);
       break;
     case 1:
-      motion_controller.turnDegrees(-45);
+      robot.turnDegrees(-45);
       break;
     default:
       break;
