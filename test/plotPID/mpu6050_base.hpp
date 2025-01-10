@@ -3,7 +3,7 @@
 #include "Arduino.h"
 #include "HardwareSerial.h"
 #include "Wire.h"
-#include "debugConfig.h"
+#include "debugConfigTest.h"
 
 // Macro for debug messages
 #if DEBUG_IMU

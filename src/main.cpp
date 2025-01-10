@@ -3,6 +3,7 @@
 #include "comm.hpp"
 #include "SoftwareSerial.h"
 #include "ultrasonic.hpp"
+#include "mazeSolver.hpp"
 
 // void inputHandleOLD();
 void inputHandle();
@@ -11,9 +12,11 @@ void test_turning();
 
 motionController robot;
 telemetryPacket data_packet;
+mazeSolver myMazeSolver;
 
 void setup() { 
-  Serial.begin(9600); // 250000  
+  // Serial.begin(9600); // for Bluetooth 
+  Serial.begin(115200);   // for Terra
   InitializeIRAndUltrasonic();
   wdt_disable();
   robot.run();
@@ -22,28 +25,29 @@ void setup() {
 
 void loop() {
   static unsigned long updateTime = 0;
+  // CheckIRObstacle();
   
-  CheckIRObstacle();
-  
-  if(millis() - updateTime > 1000) {
-    updateTime = millis();
+  myMazeSolver.getTerraData();
 
-    StartUltrasonicMeasurement();
+  // if(millis() - updateTime > 1000) {
+  //   updateTime = millis();
+
+  //   StartUltrasonicMeasurement();
     
-    robot.getRobotStateData(data_packet.distance, data_packet.yaw);
-    // data_packet.sendPacketASCII();
-  }
+  //   robot.getRobotStateData(data_packet.distance, data_packet.yaw);
+  //   // data_packet.sendPacketASCII();
+  // }
   
-  if(currentRobotState != STARTING) {
-    if(irLeftIsObstacle && irRightIsObstacle && usonicDistanceValue < 20.0) {
-      robot.stop();
-      while (usonicDistanceValue > 20)  {
-        robot.moveCentimeters(robot_position - 1);
-      }
-    }
-  }
+  // if(currentRobotState != STARTING) {
+  //   if(irLeftIsObstacle && irRightIsObstacle && usonicDistanceValue < 20.0) {
+  //     robot.stop();
+  //     while (usonicDistanceValue > 20)  {
+  //       robot.moveCentimeters(robot_position - 1);
+  //     }
+  //   }
+  // }
   
-  inputHandle();
+  // inputHandle();
 }
 
 void inputHandle(){

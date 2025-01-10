@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "HardwareSerial.h"
-#include "debugConfig.h"
+#include "debugConfigTest.h"
 #include "pins.hpp"
 #include "pid.hpp"
 #include "tb6612fng.hpp"

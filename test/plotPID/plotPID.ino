@@ -1,4 +1,4 @@
-#include "debugConfig.h"
+#include "debugConfigTest.h"
 #include "motion_controller.hpp"
 
 motion_controller motion;
