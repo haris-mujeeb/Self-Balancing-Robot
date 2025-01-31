@@ -1,0 +1,219 @@
+
+\section{Extended Kalman Filter}
+For non-linear system, with Stochastic disturbances:
+$$
+\begin{aligned}
+	\dot{\underline{x}}(t) &= f\left( \underline{x}(t), \underline{u}(t) \right) + \underline{d}(t) \\
+	\underline{y}(t) &= h\left( \underline{x}(t) \right) + \underline{n}(t)
+\end{aligned}
+$$
+where $f$ is a non-linear function of $\underline{x}(t)$, $\underline{u}(t)$.
+
+\subsection{State Estimation}
+For a non-linear system the state form is as follows,
+$$
+\begin{aligned}
+	\dot{\hat{\underline{x}}}(t) &= f\left( \underline{\hat{x}}(t), \underline{u}(t) \right) + \underline{K}\left( y(t) - \hat{y}(t) \right) \\
+	\hat{y}(t) &= h\left( \underline{\hat{x}}(t) \right)
+\end{aligned}
+$$
+
+Kalman Gain is calculated after the system is linearized around a working point or a trajectory.
+
+$$
+\underline{A}(t) = \frac{\mathrm{d}f}{\mathrm{d}\underline{x}} \bigg|_{\underline{\hat{x}}(t), \underline{u}(t)} \quad \text{and} \quad
+\underline{C}(t) = \frac{\mathrm{d}h}{\mathrm{d}\underline{x}} \bigg|_{\underline{\hat{x}}(t)}
+$$
+
+where $\underline{A}(t)$ and $\underline{C}(t)$ correspond to the Jacobian matrix.
+
+\subsubsection{covraince matrix}
+We use Differential Riccati Equation (DRE) for finding a solution for covraince matrix:
+$$
+\dot{P}(t) = \underline{A}(t) P(t) + P(t) \underline{A}^T(t) + Q - P(t) \underline{C}^T(t) R^{-1} \underline{C}(t) P(t)
+$$
+
+Defining an initialization according to:
+$$
+P(0) = \mathbf{E}(\Delta\underline{x}(0) \Delta\underline{x}^T(0))
+$$
+
+The optimal Kalman gain matrix is:
+$$
+\underline{K}(t) = P(t) \underline{C}^T(t) R^{-1}
+$$
+
+\subsubsection{Time-Discrete Kalman Filter}
+$$
+\begin{aligned}
+	\underline{x}_{k} &= \underline{A} \underline{x}_{k-1} + \underline{B} \underline{u}_{k} + \underline{d}_{k-1} \\
+	\underline{y}_{k} &= \underline{C} \underline{x}_{k} + \underline{n}_{k}
+\end{aligned}
+$$
+\subsubsection{
+	Estimated states:
+}
+$$
+\begin{aligned}
+	\underline{\hat{x}}_{k} &= \underline{A} \underline{\hat{x}}_{k-1} + \underline{B} \underline{u}_{k} + \underline{d}_{k-1} \\
+	\hat{y}_{k} &= \underline{C} \underline{\hat{x}}_{k} + \underline{n}_{k}
+\end{aligned}
+$$
+\subsubsection{
+	State-space From
+}
+$$
+\begin{aligned}
+	\underline{\dot{x}}(t) = \underline{A}.\underline{x}(t) + \underline{B}.\underline{u}(t) \\
+	\underline{y}(t) = \underline{C}.\underline{x}(t) + \underline{D}.\underline{u}(t)
+\end{aligned}
+$$
+where,
+$$
+\mathbf{x}_{k} = \begin{bmatrix} \text{angle} \\ \text{q\_bias} \end{bmatrix}, \ \ \ \ \ \ \ \  
+\mathbf{A}_k = \begin{bmatrix} 1 & -dt \\ 0 & 1 \end{bmatrix}
+$$
+$$
+\mathbf{B}_k = 0  ,\ \ \ \ \ \ 
+\mathbf{C}_k = \begin{bmatrix} 1 & 0 \end{bmatrix} ,\ \ \ \ \ \
+\mathbf{D}_k = 0
+$$
+
+
+This means you are directly measuring the angle, but you have no direct measurement of the gyroscope bias.
+
+\subsubsection{
+	Measurement Noise Covariance Matrix $\mathbf{R}$:
+}
+$$
+\mathbf{R}_{k} = R_{angle}
+$$
+the measurement noise variance for the angle sensor.
+
+Process/System Noise Covariance Matrix $\mathbf{Q}$:
+$$
+\mathbf{Q} = \begin{bmatrix} Q_{\text{angle}} & 0 \\ 0 & Q_{\text{gyro bias}} \end{bmatrix} * \Delta t
+$$
+
+\subsubsection{
+	State Covariance Matrix $\mathbf{P}$:
+}
+$$
+\mathbf{P}_k = \begin{bmatrix} P_{00} & P_{01} \\ P_{10} & P_{11} \end{bmatrix}
+$$
+\begin{itemize}
+	\item $P_{00}$ represents the uncertainty in the angle estimate.
+	\item $P_{11}$ represents the uncertainty in the gyroscope bias estimate.
+	\item $P_{01} = P_{10}$ represent the covariance between the angle and gyroscope bias.
+\end{itemize}
+
+\subsubsection{
+	Kalman Gain $\mathbf{K}$:
+}
+$$
+\mathbf{K}_k = \begin{bmatrix} K_{0} \\ K_{1} \end{bmatrix}
+$$
+
+\subsubsection{
+	Estimated states: 
+}
+$$
+angle = angle + (gyro_{m} - gyro_{bias}) * \Delta t
+$$
+
+\subsubsection{
+	Error Calculation:
+}
+$$
+angle_{err} = angle_{m} - angle
+$$
+
+\subsubsection{
+	Time Update (prediction):
+}
+$$
+\mathbf{P}_k = \begin{bmatrix} P_{00} & P_{01} \\ P_{10} & P_{11} \end{bmatrix}
+$$
+The matrix $P$ reflects the uncertainties in the angle estimate ($P_{00}$), the gyroscope bias ($P_{11}$), and the cross-covariance terms ($P_{01}$, $P_{10}$).
+
+\subsubsection{
+	Initialization,
+}
+$$
+\mathbf{P}_0 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
+$$
+$$
+\mathbf{P}_k = \mathbf{A} \mathbf{P}_{k-1} \mathbf{A^T} + \mathbf{Q}
+$$
+$$
+\mathbf{P}_k = \begin{bmatrix} P_{00}^- + [(Q_{\text{angle}} - P_{01}^- - P_{10}^-)*\Delta t]  &  P_{01}^- - (P_{11}^-*\Delta t)  
+	\\ P_{10}^- - (P_{11}^-*\Delta t)  &  P_{11}^- + (Q_{\text{gyro bias}}*\Delta t) \end{bmatrix}
+$$
+
+\subsubsection{
+	Kalman gain
+}
+$$
+\begin{aligned}
+	\underline{K}_{k} &= \underline{P}_{k}^- \ \underline{C}^T ( \underline{C} \ \underline{P}_{k}^-\ \underline{C}^T  +\underline{R})^{-1} \\
+	\\
+	&= 
+	\begin{bmatrix} P_{00} & P_{01} \\ P_{10} & P_{11} \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix}
+	\left(
+	\begin{bmatrix} 1 & 0 \end{bmatrix} 
+	\begin{bmatrix} P_{00} & P_{01} \\ P_{10} & P_{11} \end{bmatrix}  
+	\begin{bmatrix} 1 \\ 0 \end{bmatrix} 
+	+ R_{angle}
+	\right)^{-1} \\ \\
+	&= 
+	\begin{bmatrix} P_{00} \\ P_{10}\end{bmatrix}
+	\left(
+	P_{00}  
+	+ R_{angle}
+	\right)^{-1} \\ \\
+	\mathbf{K}_k &= \begin{bmatrix} \frac{ P_{00} }{ P_{00}  
+			+ R_{angle}} \\ \frac{ P_{10} }{ P_{00}  
+			+ R_{angle}} \end{bmatrix}
+\end{aligned}
+$$
+
+\subsubsection{Measurement Update (correction):}
+\[
+\begin{aligned}
+	\underline{P}_{k} &= \ (\underline{I} - \underline{K}_{k} \ \underline{C}) \ \underline{P}_{k}^- \\ 
+	&= \ \left( \begin{bmatrix} 
+		1 & 0 \\ 
+		0 & 1 
+	\end{bmatrix}
+	- 
+	\begin{bmatrix} 
+		K_{0} \\  
+		K_{1} 
+	\end{bmatrix} 
+	\begin{bmatrix} 
+		1 & 0 
+	\end{bmatrix}  
+	\right) 
+	\begin{bmatrix}
+		P_{00} & P_{01} \\ 
+		P_{10} & P_{11} 
+	\end{bmatrix} 
+	&=  
+	\begin{bmatrix} 
+		1 - K_{0} & 0 \\ 
+		-K_{1} & 1 
+	\end{bmatrix} 
+	\begin{bmatrix} 
+		P_{00} & P_{01} \\ 
+		P_{10} & P_{11} 
+	\end{bmatrix}
+	&= 
+	\begin{bmatrix} 
+		P_{00} - K_{0} \cdot P_{00} & P_{01} - K_{0} \cdot P_{01} \\
+		P_{10} - K_{1} \cdot P_{00} & P_{11} - K_{1} \cdot P_{01} \\
+	\end{bmatrix}
+\end{aligned}
+\]
+
+
+
