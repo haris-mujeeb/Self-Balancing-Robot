@@ -29,7 +29,7 @@ void telemetryPacket::sendPacketASCII(){
 
 
 struct telemetryCommands {
-  char command;
+  String command;
   int value;
   void readPacketBytes();
   void readPacketASCII();
@@ -64,16 +64,26 @@ void telemetryCommands::readPacketASCII(){
   input.trim(); // Removes leading/trailing whitespace, including '\r'
 
   if (input.length() > 0) {
-    // Extract the command (first character) and the value (remaining characters)
-    command = input.charAt(0);
-    String valueString = input.substring(1);  
-    if (valueString.length() > 0 && isNumeric(valueString)){
-      value = valueString.toInt();   // Convert the rest to an integer
-    } else {
-      // Handle invalid value error
-      DEBUG_PRINT(DEBUG_COMM,"Invalid value.");
-      value = 0;
-    }
+    // Find the comma separating command and value
+    int commandIndex = input.indexOf(',');
+    if (commandIndex !=  -1){ 
+      // Extract the command (first character) and the value (remaining characters)
+      command = input.substring(0, commandIndex); // Get the command part
+      String valueString = input.substring(commandIndex + 1);  
+
+      // Check if the value string is numeric
+      if (valueString.length() > 0 && isNumeric(valueString)){
+        value = valueString.toFloat();   // Convert the rest to a float
+      } else {
+        // Handle invalid value error
+        DEBUG_PRINT(DEBUG_COMM,"Invalid value.");
+        value = 0;
+      }
+              } else {
+            // Handle missing comma error
+            DEBUG_PRINT(DEBUG_COMM, "Comma not found in input.");
+            command = ""; // Set command to empty string
+        }
   } else {
     DEBUG_PRINT(DEBUG_COMM,"No input received.");
     command = '\0';

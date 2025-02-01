@@ -3,7 +3,6 @@
 #include "comm.hpp"
 #include "SoftwareSerial.h"
 #include "ultrasonic.hpp"
-#include "mazeSolver.hpp"
 
 // void inputHandleOLD();
 void inputHandle();
@@ -12,7 +11,6 @@ void test_turning();
 
 motionController robot;
 telemetryPacket data_packet;
-mazeSolver myMazeSolver;
 
 void setup() { 
   // Serial.begin(9600); // for Bluetooth 
@@ -25,50 +23,41 @@ void setup() {
 
 void loop() {
   static unsigned long updateTime = 0;
-  // CheckIRObstacle();
-  
-  myMazeSolver.getTerraData();
+  CheckIRObstacle();
 
-  // if(millis() - updateTime > 1000) {
-  //   updateTime = millis();
+  if(millis() - updateTime > 1000) {
+    updateTime = millis();
 
-  //   StartUltrasonicMeasurement();
+    StartUltrasonicMeasurement();
     
-  //   robot.getRobotStateData(data_packet.distance, data_packet.yaw);
-  //   // data_packet.sendPacketASCII();
-  // }
+    robot.getRobotStateData(data_packet.distance, data_packet.yaw);
+    // data_packet.sendPacketASCII();
+  }
   
-  // if(currentRobotState != STARTING) {
-  //   if(irLeftIsObstacle && irRightIsObstacle && usonicDistanceValue < 20.0) {
-  //     robot.stop();
-  //     while (usonicDistanceValue > 20)  {
-  //       robot.moveCentimeters(robot_position - 1);
-  //     }
-  //   }
-  // }
-  
-  // inputHandle();
+  if(currentRobotState != STARTING) {
+    if(irLeftIsObstacle && irRightIsObstacle && usonicDistanceValue < 20.0) {
+      robot.stop();
+      while (usonicDistanceValue > 20)  {
+        robot.moveCentimeters(robot_position - 1);
+      }
+    }
+  }
+
+  inputHandle();
 }
 
 void inputHandle(){
   if (Serial.available()){
     telemetryCommands recv_data;
     recv_data.readPacketASCII();
-    switch (recv_data.command) {
-      case 'M':
+    if (recv_data.command == "M") {
         robot.moveCentimeters((float)recv_data.value);
         DEBUG_PRINT(DEBUG_COMM, "Move: " + String(recv_data.value) +  " cm");
-        break;
-      case 'T':
-        robot.turnDegrees((float)recv_data.value);
+    } else if (recv_data.command == "T") {
+        robot.turnDegrees((float)recv_data.value);   
         DEBUG_PRINT(DEBUG_COMM, "Turn: " + String(recv_data.value) +  " deg");
-        break;
-      case '\0':
-        DEBUG_PRINT(DEBUG_COMM, "No Command.");
-        break;
-      default:
+    } else {
         DEBUG_PRINT(DEBUG_COMM, "Invalid command");
-        break;
     }
   }
 }
