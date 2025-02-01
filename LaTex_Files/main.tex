@@ -1,0 +1,106 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx} % Required for including images
+\usepackage{cite}     % Required for handling citations
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Define colors for syntax highlighting
+\definecolor{keywordcolor}{RGB}{0,0,255}
+\definecolor{commentcolor}{RGB}{0,128,0}
+\definecolor{stringcolor}{RGB}{255,0,0}
+
+% Set the style for C++ code
+\lstdefinestyle{cppstyle}{
+	language=C++,
+	keywordstyle=\color{keywordcolor},
+	commentstyle=\color{commentcolor},
+	stringstyle=\color{stringcolor},
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	stepnumber=1,
+	numbersep=5pt,
+	frame=single,
+	tabsize=4,
+	breaklines=true
+}
+
+
+\title{Self Balancing Robot}
+\author{Muhammad Haris Mujeeb}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report focuses on the design of a Two-wheeled Self-Balancing Robot, which embodies the classic inverted pendulum problem. Using a Kalman filter for MPU6050 sensor data fusion and implementing PID controllers. This project aims to develop a robust two-wheeled self-balancing robot that can be observed and controlled remotely. The coding for the Arduino Nano has been executed using \href{https://platformio.org/}{PlatformIO}, with the complete project available on this \href{https://github.com/haris-mujeeb/Self-Balancing-Robot}{GitHub repository}.
+\end{abstract}
+
+\section{Introduction}
+Two-wheeled vehicles are generally more agile, allowing easier navigation through tight spaces, making them ideal for congested environments. Their lighter weight and compact size facilitate easier handling while also enhancing energy efficiency. In addition, they are typically less expensive to purchase and maintain, increasing accessibility for a wider range of users.
+A good base model to build such robot is \href{https://www.elegoo.com/products/elegoo-tumbller-self-balancing-robot-car}{ELEGOO Tumbler} (shown in Fig. \ref{fig:tumbler}), which provided nearly all the hardware required as a DIY kit.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\linewidth]{assets/tumbler.jpg}
+    \caption{\label{fig:tumbler} ELEGOO Tumbler which was used for this project \cite{elegoo}.}
+\end{figure}
+
+\section{Hardware}
+
+\subsection{ATmega328P}
+The ATmega328P is a popular microcontroller from Microchip Technology, widely used in embedded systems and electronics projects. It belongs to the AVR family of microcontrollers and is renowned for its versatility, ease of use, and robust performance (shown in Fig. \ref{fig:ATmega328p}). Its most significant benefits is its abundance of resources and community support, particularly due to its compatibility with the Arduino platform. With a 16 MHz clock speed, 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM, the ATmega328P provides ample resources for this projects application. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.15\linewidth]{assets/ATmega328p.png}
+    \caption{ATMEGA328P ANR \cite{atmega_microchip}.}
+    \label{fig:ATmega328p}
+\end{figure}
+
+\subsection{MPU6050}
+The MPU6050 is a widely used sensor that integrates a three-axis gyroscope and a three-axis accelerometer on a single chip, making it essential for motion tracking and stabilization applications (shown in Fig. \ref{fig:mpu-6050}). Its compact design and built-in Digital Motion Processor (DMP) enable real-time processing of sensor data, which is crucial for robotics, drones, and wearable devices.
+In applications like self-balancing robots, it provides accurate orientation and acceleration data necessary for maintaining stability. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.15\linewidth]{assets/mpu-6050.png}
+    \caption{MPU-6050 \cite{mpu6050}.}
+    \label{fig:mpu-6050}
+\end{figure}
+
+
+\subsection{TB6612FNG H-bridge}
+The TB6612FNG H-bridge \cite{TB6612FNG} together with SN74LVC2G14 schmitt-trigger \cite{SN74LVC2G14} provide a powerful and reliable motor control solution for self-balancing robots. This combination allows for precise motor operation, enabling the robot to adapt quickly to its environment and maintain stability effectively.
+
+\subsection{Geared DC Motors}
+37mm High Torque 12V Gearbox DC Motors with Speed Encoders were used in this project. Multiple manufacurer are producing these kind of motors (shown in Fig. \ref{fig:dc-motors}). Motors from NHYTech were in this case.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.25\linewidth]{assets/dc-motor-with-encoder.jpg}
+    \caption{Similar construction motors were used in this project \cite{dc-motor}.}
+    \label{fig:dc-motors}
+\end{figure}
+
+\include{modelling.tex}
+\include{kalman_filter.tex}
+\include{pid.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references.bib}
+
+\end{document}
