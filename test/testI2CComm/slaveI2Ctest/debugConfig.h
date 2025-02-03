@@ -23,6 +23,7 @@
 
   #define DEBUG_COMM true   // Debugging for Communication module
   #define DEBUG_USONIC false // Debugging for Ultrasonic and IR modules
+  #define DEBUG_TERRA_RANGER true // Debugging for TerraRanger Multiflex
 #endif
 
 // Macro for conditional debugging

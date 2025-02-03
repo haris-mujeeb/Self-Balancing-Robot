@@ -71,7 +71,7 @@ class motionController {
      * 
      * @param rotation_speed The angular speed for left turn (positive value).
      */
-    void turnLeft(float rotation_speed);
+    void turnSpeed(float rotation_speed);
 
 
     /**
@@ -188,6 +188,7 @@ constexpr float pitch_angle_zero = 0.0f;                    ///< Default zero an
 float yaw_angle = 0;                       ///< Measured pitch angle
 float alpha = 0.95;                       ///< Measured pitch angle
 double desired_yaw_angle = 0;                   ///< Current position of the robot
+double desired_yaw_speed = 0;                   ///< Current position of the robot
 float gyro_x = 0;                            ///< Gyro X-axis angular velocity
 float gyro_z = 0;                            ///< Gyro Z-axis angular velocity
 float voltage_value = 0;                     ///< Measured battery voltage
@@ -383,6 +384,8 @@ inline void updateDistance(){
   encoder_speed_filtered_old = encoder_speed_filtered;
   robot_position += encoder_speed_filtered;
 }
+
+
 /**
  * @brief Updates the sensor values using the MPU module.
  * 
@@ -428,8 +431,14 @@ inline void runPitchControl() {
  */
 inline void runYawControl(){
   if (currentRobotState == TURNING) {
+    desired_yaw_angle = yaw_angle + desired_yaw_speed;
     setting_car_rotation_speed = kp_turn * (yaw_angle - desired_yaw_angle);
     setting_car_rotation_speed = constrain(setting_car_rotation_speed, -50, 50);
+  
+    DEBUG_PRINT(DEBUG_COMM, desired_yaw_speed); 
+    DEBUG_PRINT(DEBUG_COMM, desired_yaw_angle); 
+    DEBUG_PRINT(DEBUG_COMM, setting_car_rotation_speed); 
+
     if (abs(yaw_angle - desired_yaw_angle) < 1) {
       currentRobotState = STANDBY;
       }
@@ -450,12 +459,11 @@ inline void runYawControl(){
  * which helps in maintaining or changing the robot's position based on the target speed.
  */
 inline void runPositionControl() {
-  if (currentRobotState == MOVING) {
     move_to_position = move_to_position*0.7 + final_position*0.3;
     // move_to_position = final_position;
     if (abs(robot_position - final_position) < 5*ENCODER_STEP_PER_CM){currentRobotState = STANDBY;}
-  }
-  position_pid_output = - kp_position * (
+
+    position_pid_output = - kp_position * (
                             constrain(robot_position - move_to_position, -1000, 1000)
                           ) 
                         - kd_position * encoder_speed_filtered;
@@ -554,27 +562,17 @@ void motionController::moveBack(float speed){
 /**
  * @brief Turns the robot to the left at the specified rotation speed.
  * 
- * Stops forward/backward motion and sets the rotation speed for a left turn.
+ * Stops forward/backward motion and sets the rotation speed for a CW turn.
  * 
- * @param rotation_speed The angular speed for left turn (positive value).
+ * @param rotation_speed The angular speed for CW turn (positive value).
  */
-void motionController::turnLeft(float rotation_speed){
+void motionController::turnSpeed(float rot_speed_CW){
+  currentRobotState = TURNING;
   setting_car_speed = 0;
-  setting_car_rotation_speed = rotation_speed;
+  desired_yaw_speed = rot_speed_CW;
 }
 
 
-/**
- * @brief Turns the robot to the right at the specified rotation speed.
- * 
- * Stops forward/backward motion and sets the rotation speed for a right turn.
- * 
- * @param rotation_speed The angular speed for right turn (positive value).
- */
-void motionController::turnRight(float rotation_speed){
-  setting_car_speed = 0;
-  setting_car_rotation_speed = -rotation_speed;
-}
 
 /**
  * @brief Moves the robot a specified distance in centimeters.
@@ -615,6 +613,7 @@ void motionController::turnDegrees(float degreesCW){
 void motionController::stop(){
   currentRobotState = STANDBY;
   final_position = robot_position;
+  desired_yaw_speed = 0;
   desired_yaw_angle = yaw_angle;
 }
 
