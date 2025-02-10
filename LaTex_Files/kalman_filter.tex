@@ -1,5 +1,10 @@
 
-\section{Extended Kalman Filter}
+\subsection{Extended Kalman Filter}
+The Kalman filter provides a more sophisticated approach, estimating the true state of the system by minimizing the mean of the squared error. It involves prediction and update steps. But Kalman Filter assumes linearity in both the process and measurement models. To solve this issue we will use Extended Kalman Filter.
+
+The Extended Kalman Filter (EKF) is an extension of the Kalman Filter for nonlinear systems, utilizing first-order Taylor series expansion to linearize process and measurement models. EKF maintains a Gaussian belief over the state, updating it through a prediction-correction cycle. The Jacobian matrices of the system dynamics and measurement functions are used to approximate state transitions and measurement updates. Its advantages include handling nonlinearities, fusing multi-sensor data, and improving estimation accuracy in noisy environments. 
+
+\subsubsection{General State Equation}
 For non-linear system, with Stochastic disturbances:
 $$
 \begin{aligned}
@@ -7,9 +12,17 @@ $$
 	\underline{y}(t) &= h\left( \underline{x}(t) \right) + \underline{n}(t)
 \end{aligned}
 $$
-where $f$ is a non-linear function of $\underline{x}(t)$, $\underline{u}(t)$.
+where,
+\begin{itemize}
+	\item $ \dot{\underline{x}}(t) $: This represents the time derivative of the state vector $ \underline{x}(t) $, indicating how the state evolves over time.
+	\item $ f $: This is a nonlinear function that describes the system dynamics, taking the current state $ \underline{x}(t) $ and the control input $ \underline{u}(t) $ as arguments. It captures how the state changes based on the current state and control inputs.
+	\item $ \underline{d}(t) $: This term represents stochastic disturbances (or process noise) affecting the state dynamics, typically modeled as a zero-mean Gaussian noise.
+	\item $ y(t) $: This is the measurement vector at time $ t $, representing the observed outputs of the system. It is the data collected from sensors or measurement devices.
+	\item $ h $: This is a nonlinear measurement function that maps the true state vector $ \underline{x}(t) $ to the measurement space. It describes how the state influences the measurements. The function $ h $ can be complex and may involve various transformations of the state variables.
+	\item $ n(t) $: This term represents measurement noise, which is also typically modeled as zero-mean Gaussian noise. It accounts for inaccuracies in the measurements due to sensor errors, environmental conditions, or other random factors that can affect the observed data.
+\end{itemize}
 
-\subsection{State Estimation}
+\subsubsection{State Estimation}
 For a non-linear system the state form is as follows,
 $$
 \begin{aligned}
@@ -18,86 +31,103 @@ $$
 \end{aligned}
 $$
 
-Kalman Gain is calculated after the system is linearized around a working point or a trajectory.
-
+To compute the Kalman gain $\underline{K}$ the system must be linearized around the current state estimate. The Jacobain matrices are defined as follows:
 $$
 \underline{A}(t) = \frac{\mathrm{d}f}{\mathrm{d}\underline{x}} \bigg|_{\underline{\hat{x}}(t), \underline{u}(t)} \quad \text{and} \quad
 \underline{C}(t) = \frac{\mathrm{d}h}{\mathrm{d}\underline{x}} \bigg|_{\underline{\hat{x}}(t)}
 $$
 
-where $\underline{A}(t)$ and $\underline{C}(t)$ correspond to the Jacobian matrix.
+where $\underline{A}(t)$ represents the partial derivatives of the state dynamics function $f$ and $\underline{C}(t)$ represents the partial derivatives of the measurement function $h$.
 
-\subsubsection{covraince matrix}
-We use Differential Riccati Equation (DRE) for finding a solution for covraince matrix:
+\subsubsection{Covraince Matrix}
+To find a solution for the covariance matrix, we utilize Differential Riccati Equation (DRE):
 $$
 \dot{P}(t) = \underline{A}(t) P(t) + P(t) \underline{A}^T(t) + Q - P(t) \underline{C}^T(t) R^{-1} \underline{C}(t) P(t)
 $$
+where, 
+\begin{itemize}
+	\item $\dot{P}(t)$: his represents the time derivative of the covariance matrix $\dot{P}(t)$, which quantifies the uncertainty in the state estimate over time.
+	\item $\underline{A}(t)$: This is the state transition matrix, which describes how the state evolves from one time step to the next.
+	\item $Q$: This is the process noise covariance matrix, representing the uncertainty in the process model.
+	\item $\underline{C}(t)$: This is the measurement matrix, which relates the state to the measurements.
+	\item $R$: This is the measurement noise covariance matrix, representing the uncertainty in the measurements.
+\end{itemize}
 
+\subsubsection{Initialization}
 Defining an initialization according to:
 $$
 P(0) = \mathbf{E}(\Delta\underline{x}(0) \Delta\underline{x}^T(0))
 $$
+where $P(0)$ is the initial covariance matrix, presenting the expected uncertainty in the initial state estimate. It is calculated based on the expected error in the initial state.
 
-The optimal Kalman gain matrix is:
+\subsubsection{Optimal Kalman Gain}
+We can find optimal Kalman gain matrix $\underline{K}(t)$ as following:
 $$
 \underline{K}(t) = P(t) \underline{C}^T(t) R^{-1}
 $$
+It determines much the state estimate should be adjusted based on the measurement residual. It balances the uncertainty in the state estimate and the measurement noise.
 
 \subsubsection{Time-Discrete Kalman Filter}
+The time-discrete Kalman filter equations are expressed as:
 $$
 \begin{aligned}
 	\underline{x}_{k} &= \underline{A} \underline{x}_{k-1} + \underline{B} \underline{u}_{k} + \underline{d}_{k-1} \\
 	\underline{y}_{k} &= \underline{C} \underline{x}_{k} + \underline{n}_{k}
 \end{aligned}
 $$
-\subsubsection{
-	Estimated states:
-}
+
+where, 
+\begin{itemize}
+	\item $\underline{x}_k$: This is the state vector at time step $k$.
+	\item $\underline{B}$: This is the control input matrix, which relates the control inputs $\underline{u}_k$ to the state.
+	\item $\underline{y}_k$: This is the measurement vector at time step $k$.
+	\item $\underline{d}_{k-1}$: This represents process noise at the previous time step.
+	\item $\underline{n}_k$: This represents measurement noise at time step $k$.
+\end{itemize}
+
+\subsubsection{Estimated states:}
+The estimated states are given by:
 $$
 \begin{aligned}
-	\underline{\hat{x}}_{k} &= \underline{A} \underline{\hat{x}}_{k-1} + \underline{B} \underline{u}_{k} + \underline{d}_{k-1} \\
-	\hat{y}_{k} &= \underline{C} \underline{\hat{x}}_{k} + \underline{n}_{k}
+	\underline{\hat{x}}_{k} &= \underline{A} \  \underline{\hat{x}}_{k-1} + \underline{B} \ \underline{u}_{k} + \underline{d}_{k-1} \\
+	\underline{\hat{y}}_{k} &= \underline{C} \ \underline{\hat{x}}_{k} + \underline{n}_{k}
 \end{aligned}
 $$
-\subsubsection{
-	State-space From
-}
+\subsubsection{State Equation for Self-Balancing Robot}
+The state-space representation of the system is given by:
 $$
 \begin{aligned}
 	\underline{\dot{x}}(t) = \underline{A}.\underline{x}(t) + \underline{B}.\underline{u}(t) \\
 	\underline{y}(t) = \underline{C}.\underline{x}(t) + \underline{D}.\underline{u}(t)
 \end{aligned}
 $$
-where,
-$$
-\mathbf{x}_{k} = \begin{bmatrix} \text{angle} \\ \text{q\_bias} \end{bmatrix}, \ \ \ \ \ \ \ \  
-\mathbf{A}_k = \begin{bmatrix} 1 & -dt \\ 0 & 1 \end{bmatrix}
-$$
-$$
-\mathbf{B}_k = 0  ,\ \ \ \ \ \ 
-\mathbf{C}_k = \begin{bmatrix} 1 & 0 \end{bmatrix} ,\ \ \ \ \ \
-\mathbf{D}_k = 0
-$$
+where the components of the State-Space Representation are,
+\begin{itemize}
+	\item \textbf{State Vector} $\mathbf{\underline{x}(t)}$: This vector encapsulates the internal state of the system at time t. It this case, it is defined as $\mathbf{x}_{k} = \begin{bmatrix} \text{angle} \\ \text{q\_bias} \end{bmatrix}$. Where \text{angle} represents the measured angle of the system, while \text{q\_bias} denotes the bias of the gyroscope.
+	
+	\item \textbf{State Transition Matrix} $\underline{\mathbf{A}}$: This matrix describes how the state evolves over time. It is defined as: $\mathbf{A}_k = \begin{bmatrix} 1 & -dt \\ 0 & 1 \end{bmatrix}$ The first row indicates that the angle is updated based on its previous value and the time step $dt$, while the second row shows that the gyroscope bias remains constant in this model.
+	
+	\item \textbf{Control Input Matrix} $\underline{\mathbf{B}}$: This matrix relates the control inputs to the state. In this case, it is defined as:
+	$\mathbf{B}_k = 0$. This indicates that there are no direct control inputs affecting the state in this model.
+	
+	\item \textbf{Measurement Matrix} $\underline{\mathbf{C}}$: This matrix maps the state vector to the measurement output. It is defined as: $\mathbf{C}_k = \begin{bmatrix} 1 & 0 \end{bmatrix}$. This means that the measurement output directly reflects the angle, with no contribution from the gyroscope bias.
+	
+	\item \textbf{Feedforward Matrix} $\underline{\mathbf{D}}$: This matrix relates the control input directly to the measurement output. In this case, it is defined as: $\mathbf{D}_k = 0$. This indicates that there is no direct influence of the control input on the measurement output.	
+\end{itemize}
 
 
-This means you are directly measuring the angle, but you have no direct measurement of the gyroscope bias.
+\subsubsection{Measurement Noise Covariance Matrix $\mathbf{R}$}
+The measurement noise variance for the angle sensor is defined as:
+$$ \mathbf{R}_{k} = R_{angle} $$
 
-\subsubsection{
-	Measurement Noise Covariance Matrix $\mathbf{R}$:
-}
-$$
-\mathbf{R}_{k} = R_{angle}
-$$
-the measurement noise variance for the angle sensor.
-
-Process/System Noise Covariance Matrix $\mathbf{Q}$:
+\subsubsection{Process/System Noise Covariance Matrix $\mathbf{Q}$}
+The process noise covariance matrix is given by:
 $$
 \mathbf{Q} = \begin{bmatrix} Q_{\text{angle}} & 0 \\ 0 & Q_{\text{gyro bias}} \end{bmatrix} * \Delta t
 $$
 
-\subsubsection{
-	State Covariance Matrix $\mathbf{P}$:
-}
+\subsubsection{State Covariance Matrix $\mathbf{P}$}
+The state covariance matrix is represented as:
 $$
 \mathbf{P}_k = \begin{bmatrix} P_{00} & P_{01} \\ P_{10} & P_{11} \end{bmatrix}
 $$
@@ -107,52 +137,42 @@ $$
 	\item $P_{01} = P_{10}$ represent the covariance between the angle and gyroscope bias.
 \end{itemize}
 
-\subsubsection{
-	Kalman Gain $\mathbf{K}$:
-}
+\subsubsection{Kalman Gain $\mathbf{K}$:}
+The Kalman gain is defined as:
 $$
 \mathbf{K}_k = \begin{bmatrix} K_{0} \\ K_{1} \end{bmatrix}
 $$
 
-\subsubsection{
-	Estimated states: 
-}
+\subsubsection{Estimated states}
+The estimated states are updated as follows:
 $$
-angle = angle + (gyro_{m} - gyro_{bias}) * \Delta t
-$$
-
-\subsubsection{
-	Error Calculation:
-}
-$$
-angle_{err} = angle_{m} - angle
+\theta_{measured} = \theta_{measured} + (\omega_{measured} - \omega_{bias}) * \Delta t
 $$
 
-\subsubsection{
-	Time Update (prediction):
-}
+\subsubsection{Error Calculation}
+The error in the angle estimate is calculated as:
+$$ \theta_{error} = \theta_{measured} - \theta_{desired} $$
+
+\subsubsection{Time Update (prediction)}
+The time update for the state covariance matrix is given by:
 $$
 \mathbf{P}_k = \begin{bmatrix} P_{00} & P_{01} \\ P_{10} & P_{11} \end{bmatrix}
 $$
 The matrix $P$ reflects the uncertainties in the angle estimate ($P_{00}$), the gyroscope bias ($P_{11}$), and the cross-covariance terms ($P_{01}$, $P_{10}$).
 
-\subsubsection{
-	Initialization,
-}
-$$
-\mathbf{P}_0 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
-$$
-$$
-\mathbf{P}_k = \mathbf{A} \mathbf{P}_{k-1} \mathbf{A^T} + \mathbf{Q}
-$$
+\subsubsection{Initialization}
+The initial state covariance matrix is defined as:
+$$\mathbf{P}_0 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+The prediction step for the covariance matrix is:
+$$\mathbf{P}_k = \mathbf{A} \mathbf{P}_{k-1} \mathbf{A^T} + \mathbf{Q}$$
+This expands to:
 $$
 \mathbf{P}_k = \begin{bmatrix} P_{00}^- + [(Q_{\text{angle}} - P_{01}^- - P_{10}^-)*\Delta t]  &  P_{01}^- - (P_{11}^-*\Delta t)  
 	\\ P_{10}^- - (P_{11}^-*\Delta t)  &  P_{11}^- + (Q_{\text{gyro bias}}*\Delta t) \end{bmatrix}
 $$
 
-\subsubsection{
-	Kalman gain
-}
+\subsubsection{Kalman Gain Calculation}
+The Kalman gain $\underline{K}_{k}$ is computed as:
 $$
 \begin{aligned}
 	\underline{K}_{k} &= \underline{P}_{k}^- \ \underline{C}^T ( \underline{C} \ \underline{P}_{k}^-\ \underline{C}^T  +\underline{R})^{-1} \\
@@ -177,7 +197,8 @@ $$
 \end{aligned}
 $$
 
-\subsubsection{Measurement Update (correction):}
+\subsubsection{Measurement Update (Correction)}
+The measurement update for the state covariance matrix is given by:
 \[
 \begin{aligned}
 	\underline{P}_{k} &= \ (\underline{I} - \underline{K}_{k} \ \underline{C}) \ \underline{P}_{k}^- \\ 
@@ -215,5 +236,51 @@ $$
 \end{aligned}
 \]
 
+\subsection{Software Implementation of Extended Kalman Filter}
+\begin{lstlisting}[style=cppstyle2]
+#include <Arduino.h>
 
+class KalmanFilter {
+ private:
+  float m_dt, m_Q_angle, m_Q_gyro, m_R_angle, m_C_0;
+  float q_bias = 0, angle_err = 0;
+  float P[2][2] = {{1, 0}, {0, 1}}; // Covariance matrix
+  float K_0 = 0, K_1 = 0;
 
+ public:
+  float angle = 0;
+
+KalmanFilter(float dt, float Q_angle, float Q_gyro, float R_angle, float C_0)
+: m_dt(dt), m_Q_angle(Q_angle), m_Q_gyro(Q_gyro), m_R_angle(R_angle), m_C_0(C_0) {}
+
+float getAngle(float measured_angle, float measured_gyro) {
+	// Predict
+	angle += (measured_gyro - q_bias) * m_dt;
+	angle_err = measured_angle - angle;
+	
+	// Update covariance matrix
+	P[0][0] += m_Q_angle - P[0][1] - P[1][0];
+	P[0][1] -= P[1][1];
+	P[1][0] -= P[1][1];
+	P[1][1] += m_Q_gyro;
+	
+	// Compute Kalman gain
+	float E = m_R_angle + m_C_0 * P[0][0];
+	K_0 = (m_C_0 * P[0][0]) / E;
+	K_1 = (m_C_0 * P[1][0]) / E;
+	
+	// Update state
+	angle += K_0 * angle_err;
+	q_bias += K_1 * angle_err;
+	
+	// Update covariance matrix
+	float C0_P00 = m_C_0 * P[0][0];
+	P[0][0] -= K_0 * C0_P00;
+	P[0][1] -= K_0 * P[0][1];
+	P[1][0] -= K_1 * P[0][0];
+	P[1][1] -= K_1 * P[0][1];
+	
+		return angle;
+	}
+};
+\end{lstlisting}

@@ -10,14 +10,18 @@
 #include "MsTimer2.h"
 #include <avr/wdt.h>
 #include "EnableInterrupt.h"
+#include "comm.hpp"
+#include "Rgb.h"
 
 
-enum motionState{ 
+enum motionState{
   STARTING,
   STANDBY,
-  MOVING,
-  TURNING,
-  NUMBER_OF_MOTION_STATES
+  TURN_LEFT,
+  TURN_RIGHT,
+  MOVE_FORWARD,
+  MOVE_BACKWARD,
+  ERROR,
 };
 
 
@@ -36,12 +40,14 @@ class motionController {
      */
     motionController(){};
     
+    
     /**
      * @brief Initializes the motion controller and its components.
      * 
      * Sets up sensors, motor drivers, interrupts, and the timer to manage the robot's balance control loop.
      */
     void run();
+
 
     /**
      * @brief Balance control loop for the robot.
@@ -50,36 +56,6 @@ class motionController {
      * It calculates control outputs based on sensor data and applies them to the motors.
      */
     static void balance();
-
-    /**
-     * @brief Moves the robot forward at the specified speed.
-     * 
-     * @param speed The forward speed for the robot (positive value).
-     */
-    void moveForward(float speed);
-
-    /**
-     * @brief Moves the robot backward at the specified speed.
-     * 
-     * @param speed The backward speed for the robot (positive value).
-     */
-    void moveBack(float speed);
-
-
-    /**
-     * @brief Turns the robot to the left at the specified rotation speed.
-     * 
-     * @param rotation_speed The angular speed for left turn (positive value).
-     */
-    void turnSpeed(float rotation_speed);
-
-
-    /**
-     * @brief Turns the robot to the right at the specified rotation speed.
-     * 
-     * @param rotation_speed The angular speed for right turn (positive value).
-     */
-    void turnRight(float rotation_speed);
 
 
     /**
@@ -90,7 +66,7 @@ class motionController {
      * 
      * @param dist_in_cm The distance to move in centimeters.
      */
-    void moveCentimeters(float dist_in_cm);
+    void move(float dist_in_cm, float speed);
 
 
     /**
@@ -98,7 +74,7 @@ class motionController {
      * 
      * @param degreesCW The angle in degrees for clockwise rotation.
      */
-    void turnDegrees(float degreesCW);
+    void rotate(float degrees_CW, float rot_Speed);
 
 
     /**
@@ -108,17 +84,24 @@ class motionController {
      */
     void stop();
 
+  
+    /**
+     * @brief Stops the robot's movement.
+     * 
+     * Sets both the forward speed and rotation speed to zero, halting all motion.
+     */
+    void reset();
 
-  /**
-   * @brief Safely retrieves the yaw angle and robot position.
-   * 
-   * This function disables interrupts temporarily to ensure atomic access
-   * to `yaw_angle` and `robot_position`, which are updated in an interrupt context.
-   * 
-   * @param yaw Reference to store the retrieved yaw angle.
-   * @param position Reference to store the retrieved robot position.
-   */
-    void getRobotStateData(float& distance, float&yaw);
+
+    /**
+     * @brief Safely retrieves the yaw angle and robot position.
+     * 
+     * This function disables interrupts temporarily to ensure atomic access
+     * to `yaw_angle_degrees` and `current_position`, which are updated in an interrupt context.
+     * 
+     * @param telemetery Reference to store the retrieved yaw angle, robot position and ultrasonic sensor value.
+     */
+      void getRobotStateData(telemetryPacket&);
 };
 
 
@@ -178,14 +161,14 @@ double position_pid_output = 0;              ///< Output of the position PID con
 double yaw_pid_output = 0;                  ///< Output of the yaw PID controller
 double encoder_speed_filtered = 0;           ///< Filtered encoder speed value
 double encoder_speed_filtered_old = 0;       ///< Previous filtered encoder speed value
-double robot_position = 0;                   ///< Current position of the robot
+double current_position = 0;                   ///< Current position of the robot
 double move_to_position = 0;                   ///< Temporary taget position for the robot
 double final_position = 0;                   ///< Final position of the robot
 double setting_car_speed = 0;                ///< Desired speed of the robot
 double setting_car_rotation_speed = 0;       ///< Desired rotational speed (yaw)
 float pitch_angle = 0;                       ///< Measured pitch angle
 constexpr float pitch_angle_zero = 0.0f;                    ///< Default zero angle for the system
-float yaw_angle = 0;                       ///< Measured pitch angle
+float yaw_angle_degrees = 0;                       ///< Measured pitch angle
 float alpha = 0.95;                       ///< Measured pitch angle
 double desired_yaw_angle = 0;                   ///< Current position of the robot
 double desired_yaw_speed = 0;                   ///< Current position of the robot
@@ -193,7 +176,7 @@ float gyro_x = 0;                            ///< Gyro X-axis angular velocity
 float gyro_z = 0;                            ///< Gyro Z-axis angular velocity
 float voltage_value = 0;                     ///< Measured battery voltage
 bool disableWdt = true;
-motionState currentRobotState;
+motionState currentRobotState = STARTING;
 
 // Instances
 TB6612FNG motors(STBY_PIN, AIN1, BIN1, PWMA_LEFT, PWMB_RIGHT); ///< Motor controller instance for controlling the motors
@@ -212,6 +195,7 @@ void updateMotorVelocities();
 void checkStopConditions();
 void resetWdt();
 void checkStartingExitCondition(unsigned long&);
+void updateRobotState();
 
 // Interrupt Handlers for Encoder Counts
 void encoderCounterLeftA() { encoder_count_left_a++;} ///< ISR for left encoder count (incremented on pin change)
@@ -226,10 +210,10 @@ void encoderCounterRightA() { encoder_count_right_a++;} ///< ISR for right encod
  * and setting up a timer for the balance control function.
  */
 void motionController::run(){
-  analogReference(INTERNAL);  ///< Use internal voltage reference for ADC
-  motors.init();               ///< Initialize motor controller
-  mpu.init();                  ///< Initialize MPU sensor
-
+  analogReference(INTERNAL);    ///< Use internal voltage reference for ADC
+  motors.init();                ///< Initialize motor controller
+  mpu.init();                   ///< Initialize MPU sensor
+  rgb.initialize();             ///< Initialize RGBs
   // Enable encoder interrupts for left and right encoder
   enableInterrupt(ENCODER_LEFT_A_PIN | PINCHANGEINTERRUPT, encoderCounterLeftA, CHANGE);
   enableInterrupt(ENCODER_RIGHT_A_PIN, encoderCounterRightA, CHANGE);
@@ -238,14 +222,13 @@ void motionController::run(){
   wdt_enable(WDTO_500MS); // Watchdog timeout set to 500 milli seconds
   disableWdt = false;
   #if DEBUG_WATCHDOG
-    debugMsg += "WatchDog enabled!";
+  debugMsg += "WatchDog enabled!";
   #endif
   // Set up a timer to call the balance function at regular intervals
   currentRobotState = STARTING;
   MsTimer2::set(dt * 1000, balance);
   // while(digitalRead(KEY_MODE)){}; // stop execution until the push button is pressed.
   MsTimer2::start();
-
   DEBUG_PRINT(DEBUG_MODE, "motion_controller setup complete.");
 }
 
@@ -257,16 +240,22 @@ void motionController::run(){
  * and yaw, and applies appropriate motor speeds.
  */
 void motionController::balance() {
-  if(!disableWdt) resetWdt();     
+  updateRobotState();
+  rgb.blink(100);
 
+  // stop execution if front push button is pressed.
+  while(!digitalRead(KEY_MODE)) {}
+  
   // stop execution if voltage is low.
   static unsigned long lastVoltageTime = 0;
   checkVoltageLevel(lastVoltageTime);
   if(voltage_value <= MINIMUM_ALLOWED_VOLTAGE) {
-    ERROR_PRINT("Voltage low!");  ///< Print error if voltage is below the minimum threshold
     motors.stop();  ///< Stop the motors if voltage is insufficient
+    ERROR_PRINT("Voltage low!");  ///< Print error if voltage is below the minimum threshold
+    currentRobotState = ERROR;
     return;
   }
+  if(!disableWdt) resetWdt();     
 
   sei();  // Enable global interrupts
   updateSensorValues(pitch_angle, gyro_x, gyro_z);
@@ -274,7 +263,9 @@ void motionController::balance() {
   updateEncoderValues();
 
   static unsigned long firstStartedBalancingTime = millis();
-  if(currentRobotState == STARTING) checkStartingExitCondition(firstStartedBalancingTime);
+  if(currentRobotState == STARTING) {
+    checkStartingExitCondition(firstStartedBalancingTime);
+  }
   checkStopConditions();
 
   // Update position and yaw control periodically
@@ -303,13 +294,13 @@ void motionController::balance() {
   #endif
 
   #if DEBUG_PID_YAW
-    debugMsg += "[Yaw PID: " + String(yaw_angle) + "]";
+    debugMsg += "[Yaw PID: " + String(yaw_angle_degrees) + "]";
     debugMsg += "[Yaw PID: " + String(yaw_pid_output) + "]";
   #endif
 
   #if DEBUG_PID_POSITION
     debugMsg += "[Pos PID:" + String(position_`pid_output) + "]";
-    debugMsg += "[Postion:" + String(robot_position) + "]";
+    debugMsg += "[Postion:" + String(current_position) + "]";
   #endif
 
   #if DEBUG_CONTROL
@@ -319,8 +310,8 @@ void motionController::balance() {
 
   #if (PLOT_MODE)
     plotMsg += String(pitch_angle) + ","; 
-    plotMsg += String(yaw_angle)  + ","; 
-    plotMsg += String(robot_position)+ ","; 
+    plotMsg += String(yaw_angle_degrees)  + ","; 
+    plotMsg += String(current_position)+ ","; 
     plotMsg += String(pitch_pid_output) + ","; 
     plotMsg += String(yaw_pid_output) + ","; 
     plotMsg += String(position_pid_output) + ","; 
@@ -382,7 +373,7 @@ inline void updateDistance(){
   encoder_right_position = 0;
   encoder_speed_filtered = encoder_speed_filtered_old * 0.7 + encoder_speed * 0.3; 
   encoder_speed_filtered_old = encoder_speed_filtered;
-  robot_position += encoder_speed_filtered;
+  current_position += encoder_speed_filtered;
 }
 
 
@@ -402,9 +393,8 @@ inline void updateSensorValues(float& pitch_angle, float& gyro_x, float& gyro_z)
   gyro_x = mpu.getGyroX();
   gyro_z = mpu.getGyroZ();
   pitch_angle = mpu.getPitchAngle();
-  if(currentRobotState == TURNING){
-    yaw_angle += gyro_z * dt; // record angle 
-  }
+  yaw_angle_degrees += gyro_z * dt; // record angle 
+
   // Update Kalman filter
   pitch_angle = kalman.getAngle(pitch_angle, gyro_x);
 }
@@ -426,29 +416,22 @@ inline void runPitchControl() {
 /**
  * @brief Executes the yaw control algorithm.
  * 
- * Calculates the yaw PID output to control the rotational motion of the robot 
+ * Calculates the yaw PID output to control the rotational motion of the robot.
  * using the z-axis angular velocity and desired rotation speed.
  */
-inline void runYawControl(){
-  if (currentRobotState == TURNING) {
-    desired_yaw_angle = yaw_angle + desired_yaw_speed;
-    setting_car_rotation_speed = kp_turn * (yaw_angle - desired_yaw_angle);
-    setting_car_rotation_speed = constrain(setting_car_rotation_speed, -50, 50);
-  
-    DEBUG_PRINT(DEBUG_COMM, desired_yaw_speed); 
-    DEBUG_PRINT(DEBUG_COMM, desired_yaw_angle); 
-    DEBUG_PRINT(DEBUG_COMM, setting_car_rotation_speed); 
+inline void runYawControl() {
+  desired_yaw_speed = constrain(desired_yaw_speed, -1, 1);
+  float delta_yaw_angle = yaw_angle_degrees - desired_yaw_angle;
+  setting_car_rotation_speed = kp_turn * (delta_yaw_angle) ;
+  setting_car_rotation_speed = constrain(setting_car_rotation_speed, -50, 50);
 
-    if (abs(yaw_angle - desired_yaw_angle) < 1) {
-      currentRobotState = STANDBY;
-      }
-  } else {
+  if (abs(delta_yaw_angle) < 1 && (currentRobotState == TURN_LEFT || currentRobotState == TURN_RIGHT)) {
+    currentRobotState = STANDBY;
     setting_car_rotation_speed = 0;
+    desired_yaw_speed = 0;
   }
 
-  yaw_pid_output = setting_car_rotation_speed + kd_turn * gyro_z 
-                // + ki_turn * (yaw_angle - desired_yaw_angle)
-                ;
+  yaw_pid_output = setting_car_rotation_speed + kd_turn * gyro_z; 
 }
 
 
@@ -459,14 +442,17 @@ inline void runYawControl(){
  * which helps in maintaining or changing the robot's position based on the target speed.
  */
 inline void runPositionControl() {
-    move_to_position = move_to_position*0.7 + final_position*0.3;
-    // move_to_position = final_position;
-    if (abs(robot_position - final_position) < 5*ENCODER_STEP_PER_CM){currentRobotState = STANDBY;}
+  setting_car_speed = constrain(setting_car_speed, -0.1, 0.1);  
+  move_to_position = move_to_position*0.7 + final_position*0.3;
+  if (abs(current_position - final_position) < 5*ENCODER_STEP_PER_CM
+    && (currentRobotState == MOVE_FORWARD || currentRobotState == MOVE_BACKWARD))
+  {
+    currentRobotState = STANDBY;
+  }
 
-    position_pid_output = - kp_position * (
-                            constrain(robot_position - move_to_position, -1000, 1000)
-                          ) 
-                        - kd_position * encoder_speed_filtered;
+  position_pid_output = - (kp_position + setting_car_speed) * (
+                          constrain(current_position - move_to_position, -1000, 1000)
+                        ) - kd_position * encoder_speed_filtered;
 }
 
 
@@ -476,7 +462,6 @@ inline void runPositionControl() {
  * This function applies the computed PWM values to the motor controller to drive the motors.
  */
 inline void updateMotorVelocities() {
-  // Set motor A and B
   motors.motorA(pwm_left);
   motors.motorB(pwm_right);
 }
@@ -502,7 +487,7 @@ inline void checkStopConditions(){
      * system after the timeout period if the loop is not broken (i.e., the WDT is not reset).
      */
     ERROR_PRINT("Restarting...");
-        
+
     // Stop the motors to prevent further movement
     motors.stop();
 
@@ -534,47 +519,6 @@ void resetWdt() {
 
 
 /**
- * @brief Moves the robot forward at the specified speed.
- * 
- * Sets the forward speed for the robot while ensuring no rotational motion.
- * 
- * @param speed The forward speed for the robot (positive value).
- */
-void motionController::moveForward(float speed){
-  setting_car_speed = speed;
-  setting_car_rotation_speed = 0;
-}
-
-
-/**
- * @brief Moves the robot backward at the specified speed.
- * 
- * Sets the backward speed for the robot while ensuring no rotational motion.
- * 
- * @param speed The backward speed for the robot (positive value).
- */
-void motionController::moveBack(float speed){
-  setting_car_speed = -speed;
-  setting_car_rotation_speed = 0;
-}
-
-
-/**
- * @brief Turns the robot to the left at the specified rotation speed.
- * 
- * Stops forward/backward motion and sets the rotation speed for a CW turn.
- * 
- * @param rotation_speed The angular speed for CW turn (positive value).
- */
-void motionController::turnSpeed(float rot_speed_CW){
-  currentRobotState = TURNING;
-  setting_car_speed = 0;
-  desired_yaw_speed = rot_speed_CW;
-}
-
-
-
-/**
  * @brief Moves the robot a specified distance in centimeters.
  * 
  * This function converts the given distance in centimeters to the corresponding 
@@ -583,10 +527,17 @@ void motionController::turnSpeed(float rot_speed_CW){
  * number of encoder steps per centimeter.
  * 
  * @param dist_in_cm The distance to move in centimeters.
+ *  
+ * @param speed The speed for the robot (positive value for moving forward).
  */
-void motionController::moveCentimeters(float dist_in_cm) {
-  currentRobotState = MOVING;
+void motionController::move(float dist_in_cm, float moveSpeed = 0.0) {
   final_position = dist_in_cm * ENCODER_STEP_PER_CM;
+  setting_car_speed = moveSpeed/2;
+  if (final_position  - current_position > 0) {
+    currentRobotState = MOVE_FORWARD;
+  } else {
+    currentRobotState = MOVE_BACKWARD;
+  }
 }
 
 
@@ -598,10 +549,18 @@ void motionController::moveCentimeters(float dist_in_cm) {
  * desired_yaw_angle variable.
  * 
  * @param degreesCW The angle in degrees to turn the robot clockwise.
+ * 
+ * @param speed The rotation speed for the robot (positive value for CW).
  */
-void motionController::turnDegrees(float degreesCW){
-  currentRobotState = TURNING;
+void motionController::rotate(float degreesCW, float rotSpeed){
   desired_yaw_angle = degreesCW;
+  desired_yaw_speed = rotSpeed;
+  setting_car_speed = 0;
+  if (desired_yaw_angle  - yaw_angle_degrees > 0) {
+    currentRobotState = TURN_RIGHT;
+  } else {
+    currentRobotState = TURN_LEFT;
+  }
 }
 
 
@@ -611,10 +570,26 @@ void motionController::turnDegrees(float degreesCW){
  * Sets both the forward/backward and rotation speeds to zero, halting all motion.
  */
 void motionController::stop(){
-  currentRobotState = STANDBY;
-  final_position = robot_position;
+  final_position = current_position;
+  setting_car_speed = 0;
+  desired_yaw_angle = yaw_angle_degrees;
   desired_yaw_speed = 0;
-  desired_yaw_angle = yaw_angle;
+}
+
+
+/**
+ * @brief Resets the robot's telemetry data.
+ * 
+ * Sets both the forward/backward and rotation speeds to zero, halting all motion.
+ */
+void motionController::reset(){
+  final_position = 0.0;
+  current_position = 0.0;
+  setting_car_speed = 0.0;
+  desired_yaw_angle = 0.0;
+  yaw_angle_degrees = 0.0;
+  desired_yaw_speed = 0.0;
+  currentRobotState = STANDBY;
 }
 
 
@@ -622,16 +597,43 @@ void motionController::stop(){
  * @brief Safely retrieves the yaw angle and robot position.
  * 
  * This function disables interrupts temporarily to ensure atomic access
- * to `yaw_angle` and `robot_position`, which are updated in an interrupt context.
+ * to `yaw_angle_degrees` and `current_position`, which are updated in an interrupt context.
  * 
  * @param yaw Reference to store the retrieved yaw angle.
  * @param position Reference to store the retrieved robot position.
  */
-void motionController::getRobotStateData(float& distance, float&yaw){
+void motionController::getRobotStateData(telemetryPacket& data){
   cli(); // Disable interrupts
-  distance = robot_position/ENCODER_STEP_PER_CM;
-  yaw = yaw_angle;
+  data.robotDistanceCm = current_position/ENCODER_STEP_PER_CM;
+  data.robotYawDegrees = yaw_angle_degrees;
   sei(); // Re-enable interrupts
+}
+
+void updateRobotState(){
+  switch (currentRobotState) {
+    case MOVE_FORWARD:
+      rgb.flashGreenColorFront();
+      break;
+    case MOVE_BACKWARD:
+      rgb.flashGreenColorBack();
+      break;
+    case TURN_RIGHT:
+      rgb.flashGreenColorRight();
+      break;
+    case TURN_LEFT:
+      rgb.flashGreenColorLeft();
+      break;
+    case STARTING:
+      rgb.flashYellowColor();
+      break;
+    case STANDBY:
+      rgb.brightBlueColor();
+      break;
+    case ERROR:
+    default: 
+      rgb.brightRedColor();
+      break;
+  }
 }
 
 void checkStartingExitCondition(unsigned long& time){

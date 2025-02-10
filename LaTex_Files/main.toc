@@ -1,0 +1,109 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Background \& Motivation}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Project Objectives}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Scope of Work}{4}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Literature Review}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Overall Architecture}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Hardware Components}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Microcontroller}{4}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Inertial Measuring Unit}{5}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Motor Driver}{5}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.4}Drive Motors}{6}{subsubsection.2.2.4}%
+\contentsline {subsubsection}{\numberline {2.2.5}Ultrasonic Distance Sensor}{7}{subsubsection.2.2.5}%
+\contentsline {subsubsection}{\numberline {2.2.6}Infrared Sensing}{7}{subsubsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.3}Bluetooth}{7}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Power Supply considerations}{8}{subsubsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.4}Mathematical Modelling}{9}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Software Implementation}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Firmware Overview}{10}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Sensor Fusion for Self-Balancing Robot using MPU6050}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Introduction}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Working of MPU6050}{11}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Reading Raw Sensor Data}{11}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Issues with Raw Sensor Data}{11}{subsubsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.3}Complementary Filter}{11}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Mathematical Model}{12}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Initial Calibration}{12}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Calculating Angles}{12}{subsubsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.4}Results}{13}{subsubsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.4}Extended Kalman Filter}{14}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}General State Equation}{14}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}State Estimation}{14}{subsubsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.3}Covraince Matrix}{15}{subsubsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.4}Initialization}{15}{subsubsection.4.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.5}Optimal Kalman Gain}{15}{subsubsection.4.4.5}%
+\contentsline {subsubsection}{\numberline {4.4.6}Time-Discrete Kalman Filter}{15}{subsubsection.4.4.6}%
+\contentsline {subsubsection}{\numberline {4.4.7}Estimated states:}{15}{subsubsection.4.4.7}%
+\contentsline {subsubsection}{\numberline {4.4.8}State Equation for Self-Balancing Robot}{16}{subsubsection.4.4.8}%
+\contentsline {subsubsection}{\numberline {4.4.9}Measurement Noise Covariance Matrix $\mathbf {R}$}{16}{subsubsection.4.4.9}%
+\contentsline {subsubsection}{\numberline {4.4.10}Process/System Noise Covariance Matrix $\mathbf {Q}$}{16}{subsubsection.4.4.10}%
+\contentsline {subsubsection}{\numberline {4.4.11}State Covariance Matrix $\mathbf {P}$}{16}{subsubsection.4.4.11}%
+\contentsline {subsubsection}{\numberline {4.4.12}Kalman Gain $\mathbf {K}$:}{16}{subsubsection.4.4.12}%
+\contentsline {subsubsection}{\numberline {4.4.13}Estimated states}{17}{subsubsection.4.4.13}%
+\contentsline {subsubsection}{\numberline {4.4.14}Error Calculation}{17}{subsubsection.4.4.14}%
+\contentsline {subsubsection}{\numberline {4.4.15}Time Update (prediction)}{17}{subsubsection.4.4.15}%
+\contentsline {subsubsection}{\numberline {4.4.16}Initialization}{17}{subsubsection.4.4.16}%
+\contentsline {subsubsection}{\numberline {4.4.17}Kalman Gain Calculation}{17}{subsubsection.4.4.17}%
+\contentsline {subsubsection}{\numberline {4.4.18}Measurement Update (Correction)}{17}{subsubsection.4.4.18}%
+\contentsline {subsection}{\numberline {4.5}Software Implementation of Extended Kalman Filter}{18}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Cascaded PID Control Loop}{19}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Basic PID Structure}{19}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Position Control Loop}{20}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Implementation Considerations}{20}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Discrete Time Implementation}{20}{subsection.6.1}%
+\contentsline {section}{\numberline {7}Tuning Methodology}{20}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Ziegler-Nichols Method}{20}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Practical Tuning Guidelines}{20}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Pitch PID Control:}{21}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Yaw Control:}{21}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Position Control:}{22}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Combining Control Outputs}{22}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}Conclusion}{23}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}Front Obstacle Detection}{24}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}Ultrasonic Working Principle}{24}{subsection.7.9}%
+\contentsline {subsubsection}{\numberline {7.9.1}Ultrasonic Implementation}{24}{subsubsection.7.9.1}%
+\contentsline {subsubsection}{\numberline {7.9.2}Code for Distance Measurement}{24}{subsubsection.7.9.2}%
+\contentsline {subsubsection}{\numberline {7.9.3}Interrupt Service Routine}{25}{subsubsection.7.9.3}%
+\contentsline {subsubsection}{\numberline {7.9.4}Infrared Sensing Implementation}{25}{subsubsection.7.9.4}%
+\contentsline {section}{\numberline {8}Remote Control and Communication}{27}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Bluetooth Module Integration}{27}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Communication Protocol}{27}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}User Interface for Remote Control}{27}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Testing and Performance}{27}{subsection.8.4}%
+\contentsline {section}{\numberline {9}Simulation and Testing}{28}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Simulation Tools and Environment}{28}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Control Algorithm Testing}{28}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Performance Metrics}{28}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Real-World Validation}{28}{subsection.9.4}%
+\contentsline {section}{\numberline {10}Simulation and Testing}{29}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Simulation Tools and Environment}{29}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Control Algorithm Testing}{29}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Performance Metrics}{29}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.4}Real-World Validation}{29}{subsection.10.4}%
+\contentsline {section}{\numberline {11}Power Management}{30}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Battery Selection and Integration}{30}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Power Monitoring}{30}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Charging and Safety}{30}{subsection.11.3}%
+\contentsline {section}{\numberline {12}User Interface}{31}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Graphical User Interface (GUI)}{31}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Physical Interface}{31}{subsection.12.2}%
+\contentsline {section}{\numberline {13}Safety Features}{32}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Emergency Stop Mechanism}{32}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Overcurrent and Overvoltage Protection}{32}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.3}Fall Detection and Recovery}{32}{subsection.13.3}%
+\contentsline {section}{\numberline {14}Future Work and Improvements}{33}{section.14}%
+\contentsline {subsection}{\numberline {14.1}Enhanced Control Algorithms}{33}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}Autonomous Navigation}{33}{subsection.14.2}%
+\contentsline {subsection}{\numberline {14.3}Mobile App Development}{33}{subsection.14.3}%
+\contentsline {subsection}{\numberline {14.4}Extended Battery Life}{33}{subsection.14.4}%
+\contentsline {section}{\numberline {15}Real-World Applications}{34}{section.15}%
+\contentsline {subsection}{\numberline {15.1}Personal Transportation}{34}{subsection.15.1}%
+\contentsline {subsection}{\numberline {15.2}Robotics Research and Education}{34}{subsection.15.2}%
+\contentsline {subsection}{\numberline {15.3}Delivery and Logistics}{34}{subsection.15.3}%
+\contentsline {subsection}{\numberline {15.4}Assistive Technology}{34}{subsection.15.4}%
+\contentsline {section}{\numberline {16}Challenges and Limitations}{35}{section.16}%
+\contentsline {subsection}{\numberline {16.1}Sensor Noise and Drift}{35}{subsection.16.1}%
+\contentsline {subsection}{\numberline {16.2}Hardware Constraints}{35}{subsection.16.2}%
+\contentsline {subsection}{\numberline {16.3}Battery Life}{35}{subsection.16.3}%
+\contentsline {subsection}{\numberline {16.4}Communication Interference}{35}{subsection.16.4}%

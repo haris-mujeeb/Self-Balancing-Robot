@@ -25,7 +25,7 @@ constexpr uint8_t IR_COUNT_DELAY_MS = 50;
 constexpr uint8_t IR_PULSE_DELAY_MS = 15; 
 constexpr uint8_t SLIDING_WINDOW_SIZE = 10;
 constexpr uint8_t USONIC_GET_DISTANCE_DELAY_MS = 50; 
-constexpr float SPEED_OF_SOUND_HALVED = (340.29*100.0)/(2*1000.0*1000.0); // in cm per microSec
+constexpr float SPEED_OF_SOUND_HALVED = (340.29 * 100.0)/(2 * 1000.0 * 1000.0); // in cm per microSec
 
 // Global Variables
 unsigned long irSendTime = 0;
@@ -49,7 +49,7 @@ uint8_t irLeftIndex = 0;
 uint8_t irRightIndex = 0;
 
 UltrasonicMeasureFlagStatus usonicMeasureFlag = IDLE; 
-float usonicDistanceValue = 0; 
+uint8_t usonicDistanceValue = 0; 
  
 // Function Prototypes
 void IRLeftReceive();
@@ -194,7 +194,7 @@ void StartUltrasonicMeasurement(){
       debugMsg += usonicDistanceValue;
       DEBUG_PRINT(DEBUG_USONIC, debugMsg);
       debugMsg = "";
-    #endif 
+    #endif
   }
 }
 
@@ -207,7 +207,7 @@ void HandleUltrasonicMeasurementInterrupt(){
     attachPinChangeInterrupt(ECHO_PIN, HandleUltrasonicMeasurementInterrupt, FALLING);
     usonicMeasureFlag = RECEIVED;
   } else if(usonicMeasureFlag == RECEIVED){
-    usonicDistanceValue = (micros() - usonicMeasurePrevTime) * SPEED_OF_SOUND_HALVED; 
+    usonicDistanceValue = (uint8_t)((micros() - usonicMeasurePrevTime) * SPEED_OF_SOUND_HALVED); 
     usonicMeasureFlag = IDLE; 
   }
 }

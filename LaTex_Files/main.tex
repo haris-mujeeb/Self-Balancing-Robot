@@ -16,6 +16,9 @@
 
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{float}
 
 % Define colors for syntax highlighting
 \definecolor{keywordcolor}{RGB}{0,0,255}
@@ -38,6 +41,21 @@
 	breaklines=true
 }
 
+% Define code style
+\lstdefinestyle{cppstyle2}{
+  language=C++,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny, 
+  stepnumber=1,
+  breaklines=true,
+  backgroundcolor=\color{gray!10},
+  frame=single
+}
+
 
 \title{Self Balancing Robot}
 \author{Muhammad Haris Mujeeb}
@@ -49,56 +67,175 @@
 This report focuses on the design of a Two-wheeled Self-Balancing Robot, which embodies the classic inverted pendulum problem. Using a Kalman filter for MPU6050 sensor data fusion and implementing PID controllers. This project aims to develop a robust two-wheeled self-balancing robot that can be observed and controlled remotely. The coding for the Arduino Nano has been executed using \href{https://platformio.org/}{PlatformIO}, with the complete project available on this \href{https://github.com/haris-mujeeb/Self-Balancing-Robot}{GitHub repository}.
 \end{abstract}
 
-\section{Introduction}
-Two-wheeled vehicles are generally more agile, allowing easier navigation through tight spaces, making them ideal for congested environments. Their lighter weight and compact size facilitate easier handling while also enhancing energy efficiency. In addition, they are typically less expensive to purchase and maintain, increasing accessibility for a wider range of users.
-A good base model to build such robot is \href{https://www.elegoo.com/products/elegoo-tumbller-self-balancing-robot-car}{ELEGOO Tumbler} (shown in Fig. \ref{fig:tumbler}), which provided nearly all the hardware required as a DIY kit.
+\thispagestyle{empty}
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
 
+\section{Introduction}
+\subsection{Background \& Motivation}
+Two-wheeled vehicles are generally more agile, allowing easier navigation through tight spaces, making them ideal for congested environments. Their lighter weight and compact size facilitate easier handling while also enhancing energy efficiency. In addition, they are typically less expensive to purchase and maintain, increasing accessibility for a wider range of users.
+A good base model to build such robot is \href{https://www.elegoo.com/products/elegoo-tumbller-self-balancing-robot-car}{ELEGOO Tumbler} (shown in Fig. 
+\ref{fig:tumbler}), which provided nearly all the hardware required as a DIY kit.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.25\linewidth]{assets/tumbler.jpg}
+    \includegraphics[height=6cm]{assets/tumbler.jpg}
     \caption{\label{fig:tumbler} ELEGOO Tumbler which was used for this project \cite{elegoo}.}
 \end{figure}
 
-\section{Hardware}
+\subsection{Project Objectives}
 
-\subsection{ATmega328P}
-The ATmega328P is a popular microcontroller from Microchip Technology, widely used in embedded systems and electronics projects. It belongs to the AVR family of microcontrollers and is renowned for its versatility, ease of use, and robust performance (shown in Fig. \ref{fig:ATmega328p}). Its most significant benefits is its abundance of resources and community support, particularly due to its compatibility with the Arduino platform. With a 16 MHz clock speed, 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM, the ATmega328P provides ample resources for this projects application. 
+\subsection{Scope of Work}
+
+
+\section{Literature Review}
+\subsection{Overall Architecture}
+Block diagram of the system
+Explanation of the control flow
+
+
+\subsection{Hardware Components}
+\subsubsection{Microcontroller}
+The ATmega328P (shown in Fig. \ref{fig:ATmega328p}) is a popular microcontroller from Microchip Technology, widely used in embedded systems and electronics projects. With a 16 MHz clock speed, 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM \cite{atmega_microchip}, the ATmega328P provides ample resources for this projects application. 
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.15\linewidth]{assets/ATmega328p.png}
-    \caption{ATMEGA328P ANR \cite{atmega_microchip}.}
-    \label{fig:ATmega328p}
+	\begin{subfigure}{0.5\textwidth}
+	    \centering
+		\includegraphics[height=3cm]{assets/ATmega328p.png}
+		\caption{ATMEGA328P ANR \cite{atmega_microchip}.}
+		\label{fig:ATmega328p}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+    	\centering
+		\includegraphics[height=3cm]{assets/arduino_nano.jpg}
+		\caption{Arduino Nano \cite{arduino_nano}.}
+		\label{fig:arduino_nano}
+	\end{subfigure}
+	 \caption{ATMEGA328P MCU (a) and Arduino Nano development board (b).} % Caption for the whole figure
+	\label{fig:ATmega328p_and_arduino_nano}
 \end{figure}
 
-\subsection{MPU6050}
-The MPU6050 is a widely used sensor that integrates a three-axis gyroscope and a three-axis accelerometer on a single chip, making it essential for motion tracking and stabilization applications (shown in Fig. \ref{fig:mpu-6050}). Its compact design and built-in Digital Motion Processor (DMP) enable real-time processing of sensor data, which is crucial for robotics, drones, and wearable devices.
-In applications like self-balancing robots, it provides accurate orientation and acceleration data necessary for maintaining stability. 
+The ATMEGA328P is also used in the Arduino Nano (shown in Fig. \ref{fig:arduino_nano}), a widely adopted development board known for its low cost and open-source ecosystem \cite{arduino_nano}. The combination of affordability and extensive community support makes it an ideal choice for rapid prototyping and academic research, ensuring easy integration with various sensors and motor drivers. 
 
+
+\subsubsection{Inertial Measuring Unit}
+The MPU6050 is a widely used six-axis sensor that integrates a three-axis gyroscope and a three-axis accelerometer on a single chip, making it essential for motion tracking and stabilization applications (shown in Fig. \ref{fig:mpu-6050}). Its compact design and built-in Digital Motion Processor (DMP) enable real-time processing of sensor data, which is crucial for robotics, drones, and wearable devices.
+In applications like self-balancing robots, it provides accurate orientation and acceleration data necessary for maintaining stability. 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.15\linewidth]{assets/mpu-6050.png}
+    \includegraphics[height=3cm]{assets/mpu-6050.png}
     \caption{MPU-6050 \cite{mpu6050}.}
     \label{fig:mpu-6050}
 \end{figure}
 
-
-\subsection{TB6612FNG H-bridge}
-The TB6612FNG H-bridge \cite{TB6612FNG} together with SN74LVC2G14 schmitt-trigger \cite{SN74LVC2G14} provide a powerful and reliable motor control solution for self-balancing robots. This combination allows for precise motor operation, enabling the robot to adapt quickly to its environment and maintain stability effectively.
-
-\subsection{Geared DC Motors}
-37mm High Torque 12V Gearbox DC Motors with Speed Encoders were used in this project. Multiple manufacurer are producing these kind of motors (shown in Fig. \ref{fig:dc-motors}). Motors from NHYTech were in this case.
+\subsubsection{Motor Driver}
+The TB6612FNG dual motor driver (shown in Fig. \ref{fig:tb6612fng}) allows independent control of two DC motors. It uses a MOSFET H-bridge for bidirectional and Pulse Width Modulation (PWM) based motor speed control. Fig. \ref{fig:tb6612fng_plot} shows that each channel of the TB6612FNG can deliver up to 0.85A of current continuously. Furthermore, it consists of integrated over-current protection and thermal shutdown features for enhance reliability \cite{TB6612FNG}.
 
 \begin{figure}[h]
+	\centering
+	\includegraphics[height=3cm]{assets/TB6612FNG.jpg}
+	\caption{TB6612FNG\cite{TB6612FNG_photo}.}
+	\label{fig:tb6612fng}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=6cm]{assets/TB6612FNG_target_characteristics}
+	\caption{Target characteristics for TB6612FNG \cite{TB6612FNG}.}
+	\label{fig:tb6612fng_plot}
+\end{figure}
+
+Instead of using two separate MCU pins for direction control, a single pin can be used with an inverted Schmitt trigger to generate the complementary signal automatically. For this purspose SN74LVC2G14 (shown in Fig. \ref{fig:SN74LVC2G14}) is used. It also enhances motor control by improving signal stability (similar to what is shown in Fig. \ref{fig:schmitt_trigger_hysteresis}).  
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=2cm]{assets/SN74LVC2G14.png}
+	\caption{SN74LVC2G14\cite{SN74LVC2G14}.}
+	\label{fig:SN74LVC2G14}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=4cm]{assets/schmitt_trigger_hysteresis.png}
+	\caption{Schmitt trigger output without hysteresis (left) and with hysteresis (right) \cite{schmitt_trigger_hysteresis}.}
+	\label{fig:schmitt_trigger_hysteresis}
+\end{figure}
+
+\subsubsection{Drive Motors}
+The drive system employs NNHYTECH GA37 520 DC motors (37mm diameter, 12V, 360 RPM) equipped with Hall effect encoders (shown in Fig. \ref{fig:dc-motor}) \cite{dc-motor}. These motors feature a reduction gearbox, which enhances torque output while maintaining controlled rotational speed, making them well-suited for applications requiring precise motion control. The Hall effect encoders generate quadrature signals, enabling accurate measurement of speed and position. Motors from NHYTech were in this case.
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.25\linewidth]{assets/dc-motor-with-encoder.jpg}
+    \includegraphics[height=4cm]{assets/dc-motor-with-encoder.jpg}
     \caption{Similar construction motors were used in this project \cite{dc-motor}.}
-    \label{fig:dc-motors}
+    \label{fig:dc-motor}
+\end{figure}
+
+\subsubsection{Ultrasonic Distance Sensor}
+The HC-SR04 is an ultrasonic distance sensor used for measuring the distance to an obstacle by sending an ultrasonic pulse and measuring the time it takes for the echo to return. It operates based on the principle of time-of-flight of sound waves, with a known speed of sound in air.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\linewidth]{assets/Ultrasonic-HC-SR04.png}
+    \caption{Ultrasonic distance sensor by  Sparkfun electronics \cite{ultra-sonic}.}
+    \label{fig:ultra-sonic}
+\end{figure}
+
+\subsubsection{Infrared Sensing}
+The robot is equipped with infrared proximity sensors at the front-left and front-right directions using the Everlight Elec IR Receiver (IRM-56384) and the Infrared LED (IR204C-A). These sensors detect obstacles by transmitting a modulated infrared signal and detecting its reflection.
+\begin{figure}[H]
+\begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[height=3cm]{assets/HIR204C.jpg} 
+    \caption{IR204C-A \cite{ir-led}.}
+    \label{fig:ir-led}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[height=3cm]{assets/ir-receiver.png} 
+    \caption{IRM-56384 \cite{ir-receiver}.}
+    \label{fig:ir-receiver}
+\end{subfigure}
+    \caption{LED-Emitter (a) and Infrared LED Reciever (b).} % Caption for the whole figure
+    \label{fig:ir-sensors}
+\end{figure}
+
+\subsection{Bluetooth}
+The BT16 4.2 Bluetooth transparent transmission module is a cutting-edge component that leverages the advanced capabilities of the Airoha ABI 602 single chip, which is compliant with the Bluetooth 4.2 BLE standard. This module facilitates GATT-based Bluetooth data transmission through its integrated data transparent transmission service, ensuring efficient and reliable communication. One of the key features of the BT16 module is its support for serial command mode, which enables seamless interaction between the external microcontroller unit (MCU) and the Bluetooth module. This functionality allows users to configure various parameters and exert control over the module via serial port commands. Users can modify essential settings such as the UUID, change the Bluetooth device name, and manage Bluetooth disconnection processes. 
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=3cm]{assets/BT16Module.png}
+	\caption{Ultrasonic distance sensor by  Sparkfun electronics \cite{bluetooth}.}
+	\label{fig:bluetooth}
+\end{figure}
+
+
+\subsubsection{Power Supply considerations}
+This custom-designed battery box provides a portable and rechargeable power solution for the Elegoo robot \cite{battery}. Housing two 18650 LiPo batteries (likely connected in series), it delivers a regulated output to power the robot's various components. The integrated Battery Management System (BMS) ensures safe operation by providing overcharge, over-discharge, over-current, and short-circuit protection. A power switch allows for complete disconnection, while a USB charging port and status indicator LED simplify recharging and monitoring.  
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=6cm]{assets/Battery.png}
+	\caption{ELEGOO battery pack with charger.}
+	\label{fig:battery}
 \end{figure}
 
 \include{modelling.tex}
+
+\include{firmware_overview.tex}
+\include{sensor_fusion.tex}
 \include{kalman_filter.tex}
 \include{pid.tex}
+\include{obstacle_avoidance.tex}
+\include{serial_communication_debugging.tex}
+
+\include{simulation_and_testing.tex}
+\include{power_management.tex}
+\include{user_interface.tex}
+\include{safety_features.tex}
+\include{future_work_and_improvements.tex}
+\include{real_world_applications.tex}
+\include{challenges_and_limitations.tex}
 
 \bibliographystyle{IEEEtran}
 \bibliography{references.bib}

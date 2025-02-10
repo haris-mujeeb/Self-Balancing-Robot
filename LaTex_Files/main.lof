@@ -1,0 +1,16 @@
+\babel@toc {english}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces ELEGOO Tumbler which was used for this project \cite {elegoo}.}}{4}{figure.caption.4}%
+\contentsline {figure}{\numberline {2}{\ignorespaces ATMEGA328P MCU (a) and Arduino Nano development board (b).}}{4}{figure.caption.5}%
+\contentsline {figure}{\numberline {3}{\ignorespaces MPU-6050 \cite {mpu6050}.}}{5}{figure.caption.6}%
+\contentsline {figure}{\numberline {4}{\ignorespaces TB6612FNG\cite {TB6612FNG_photo}.}}{5}{figure.caption.7}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Target characteristics for TB6612FNG \cite {TB6612FNG}.}}{6}{figure.caption.8}%
+\contentsline {figure}{\numberline {6}{\ignorespaces SN74LVC2G14\cite {SN74LVC2G14}.}}{6}{figure.caption.9}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Schmitt trigger output without hysteresis (left) and with hysteresis (right) \cite {schmitt_trigger_hysteresis}.}}{6}{figure.caption.10}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Similar construction motors were used in this project \cite {dc-motor}.}}{7}{figure.caption.11}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Ultrasonic distance sensor by Sparkfun electronics \cite {ultra-sonic}.}}{7}{figure.caption.12}%
+\contentsline {figure}{\numberline {10}{\ignorespaces LED-Emitter (a) and Infrared LED Reciever (b).}}{7}{figure.caption.13}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Ultrasonic distance sensor by Sparkfun electronics \cite {bluetooth}.}}{8}{figure.caption.14}%
+\contentsline {figure}{\numberline {12}{\ignorespaces ELEGOO battery pack with charger.}}{8}{figure.caption.15}%
+\contentsline {figure}{\numberline {13}{\ignorespaces A simplified block diagram of the control loop. }}{10}{figure.caption.16}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Pitch angle caluclated using a complementary filter with $\omega = 0.9$.}}{13}{figure.caption.17}%
+\contentsline {figure}{\numberline {15}{\ignorespaces A simplified block diagram of the control loop. }}{19}{figure.caption.18}%

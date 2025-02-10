@@ -1,0 +1,35 @@
+\section{Remote Control and Communication}
+
+The remote control and communication system of the two-wheeled self-balancing robot was designed to enable seamless and reliable interaction between the user and the robot. For this purpose, we integrated the \textbf{BT16 Bluetooth UART Module}, which provided a robust wireless communication link.
+
+\subsection{Bluetooth Module Integration}
+The \textbf{BT16 Bluetooth UART Module} was chosen due to its compatibility with microcontrollers and its ability to provide stable serial communication over Bluetooth. The module was interfaced with the microcontroller using UART communication, ensuring efficient data transmission and reception.
+
+\subsection{Communication Protocol}
+A custom communication protocol was developed to manage the exchange of control commands and telemetry data. Key features of the protocol included:
+
+\begin{itemize}
+\item \textbf{Command Transmission:} The robot could receive commands for movement control, mode switching, and parameter adjustments from a remote device.
+\item \textbf{Telemetry Feedback:} The robot transmitted real-time data such as tilt angle, battery status, and motor performance back to the controlling device.
+\item \textbf{Error Handling:} Mechanisms were implemented to detect and recover from communication errors, ensuring reliable operation even in noisy environments.
+\end{itemize}
+
+\subsection{User Interface for Remote Control}
+The Bluetooth communication enabled the development of a user-friendly interface for remote control. This interface could be a mobile application or a desktop-based GUI, allowing users to interact with the robot intuitively. Features included:
+
+\begin{itemize}
+\item \textbf{Joystick Control:} For real-time maneuvering of the robot.
+\item \textbf{Status Monitoring:} Display of critical telemetry data.
+\item \textbf{Parameter Tuning:} On-the-fly adjustment of control parameters for performance optimization.
+\end{itemize}
+
+\subsection{Testing and Performance}
+Extensive testing was conducted to ensure the reliability and responsiveness of the Bluetooth communication system. The tests focused on:
+
+\begin{itemize}
+\item \textbf{Range:} Assessing the effective communication distance.
+\item \textbf{Latency:} Measuring the delay between command transmission and robot response.
+\item \textbf{Stability:} Ensuring consistent performance in various environments.
+\end{itemize}
+
+The integration of the Bluetooth module significantly enhanced the robot's usability, providing a flexible and responsive remote control solution that contributed to the overall functionality and user experience of the system.

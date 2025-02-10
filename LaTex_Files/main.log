@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.11.23)  24 NOV 2024 15:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.11.23)  10 FEB 2025 21:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -352,32 +352,87 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 )
+(D:\Installed Softwares\\MiKTeX\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+
+(D:\Installed Softwares\\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(D:\Installed Softwares\\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen170
+\captionmargin=\dimen171
+\caption@leftmargin=\dimen172
+\caption@rightmargin=\dimen173
+\caption@width=\dimen174
+\caption@indent=\dimen175
+\caption@parindent=\dimen176
+\caption@hangindent=\dimen177
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count307
+\c@continuedfloat=\count308
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count309
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count310
+)
+(D:\Installed Softwares\\MiKTeX\tex/latex/wrapfig\wrapfig.sty
+\wrapoverhang=\dimen178
+\WF@size=\dimen179
+\c@WF@wrappedlines=\count311
+\WF@box=\box56
+\WF@everypar=\toks25
+Package: wrapfig 2003/01/31  v 3.6
+)
+(D:\Installed Softwares\\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count312
+\float@exts=\toks26
+\float@box=\box57
+\@float@everytoks=\toks27
+\@floatcapt=\box58
+)
 (D:\Installed Softwares\\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count307
-\l__pdf_internal_box=\box56
+\l__color_backend_stack_int=\count313
+\l__pdf_internal_box=\box59
 )
-(main.aux (modelling.aux) (kalman_filter.aux) (pid.aux))
+(main.aux (modelling.aux) (firmware_overview.aux) (sensor_fusion.aux
+
+LaTeX Warning: Label `fig:battery' multiply defined.
+
+) (kalman_filter.aux) (pid.aux
+
+LaTeX Warning: Label `fig:control-loop' multiply defined.
+
+) (obstacle_avoidance.aux) (serial_communication_debugging.aux)
+(simulation_and_testing.aux) (power_management.aux) (user_interface.aux)
+(safety_features.aux) (future_work_and_improvements.aux)
+(real_world_applications.aux) (challenges_and_limitations.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -415,17 +470,17 @@ LaTeX Font Info:    ... okay on input line 45.
 
 (D:\Installed Softwares\\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count308
-\scratchdimen=\dimen170
-\scratchbox=\box57
-\nofMPsegments=\count309
-\nofMParguments=\count310
-\everyMPshowfont=\toks25
-\MPscratchCnt=\count311
-\MPscratchDim=\dimen171
-\MPnumerator=\count312
-\makeMPintoPDFobject=\count313
-\everyMPtoPDFconversion=\toks26
+\scratchcounter=\count314
+\scratchdimen=\dimen180
+\scratchbox=\box60
+\nofMPsegments=\count315
+\nofMParguments=\count316
+\everyMPshowfont=\toks28
+\MPscratchCnt=\count317
+\MPscratchDim=\dimen181
+\MPnumerator=\count318
+\makeMPintoPDFobject=\count319
+\everyMPtoPDFconversion=\toks29
 ) (D:\Installed Softwares\\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -434,119 +489,176 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (D:\Installed Softwares\\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 45.
+Package hyperref Info: Link coloring ON on input line 63.
  (main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-\c@lstlisting=\count314
-<assets/tumbler.jpg, id=147, 1450.41875pt x 1218.5525pt>
+\c@lstlisting=\count320
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+ (main.toc
+
+[1
+
+{C:/Users/harri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+
+[2])
+\tf@toc=\write4
+\openout4 = `main.toc'.
+
+ (main.lof)
+\tf@lof=\write5
+\openout5 = `main.lof'.
+
+ (main.lot)
+\tf@lot=\write6
+\openout6 = `main.lot'.
+
+
+
+[3]
+<assets/tumbler.jpg, id=619, 1450.41875pt x 1218.5525pt>
 File: assets/tumbler.jpg Graphic file (type jpg)
 <use assets/tumbler.jpg>
-Package pdftex.def Info: assets/tumbler.jpg  used on input line 58.
-(pdftex.def)             Requested size: 110.8946pt x 93.15388pt.
-<assets/ATmega328p.png, id=150, 555.07375pt x 461.725pt>
+Package pdftex.def Info: assets/tumbler.jpg  used on input line 83.
+(pdftex.def)             Requested size: 203.19003pt x 170.71652pt.
+<assets/ATmega328p.png, id=624, 555.07375pt x 461.725pt>
 File: assets/ATmega328p.png Graphic file (type png)
 <use assets/ATmega328p.png>
-Package pdftex.def Info: assets/ATmega328p.png  used on input line 69.
-(pdftex.def)             Requested size: 66.53406pt x 55.3412pt.
+Package pdftex.def Info: assets/ATmega328p.png  used on input line 105.
+(pdftex.def)             Requested size: 102.6108pt x 85.35826pt.
+<assets/arduino_nano.jpg, id=628, 1003.75pt x 752.8125pt>
+File: assets/arduino_nano.jpg Graphic file (type jpg)
+<use assets/arduino_nano.jpg>
+Package pdftex.def Info: assets/arduino_nano.jpg  used on input line 111.
+(pdftex.def)             Requested size: 113.79767pt x 85.35826pt.
 
-Overfull \hbox (11.08887pt too wide) in paragraph at lines 75--77
-\OT1/cmr/m/n/10 The MPU6050 is a widely used sensor that integrates a three-axi
-s gyroscope and a three-axis accelerometer
+Overfull \hbox (2.2222pt too wide) in paragraph at lines 103--115
+[][] [] 
  []
 
 
 
-[1
-
-{C:/Users/harri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./assets/tum
-bler.jpg> <./assets/ATmega328p.png>]
-<assets/mpu-6050.png, id=170, 501.875pt x 358.33875pt>
+[4 <./assets/tumbler.jpg> <./assets/ATmega328p.png> <./assets/arduino_nano.jpg>
+]
+<assets/mpu-6050.png, id=641, 501.875pt x 358.33875pt>
 File: assets/mpu-6050.png Graphic file (type png)
 <use assets/mpu-6050.png>
-Package pdftex.def Info: assets/mpu-6050.png  used on input line 80.
-(pdftex.def)             Requested size: 66.53406pt x 47.50426pt.
-<assets/dc-motor-with-encoder.jpg, id=175, 1204.5pt x 803.0pt>
+Package pdftex.def Info: assets/mpu-6050.png  used on input line 127.
+(pdftex.def)             Requested size: 119.54881pt x 85.35826pt.
+
+Overfull \hbox (7.11682pt too wide) in paragraph at lines 123--131
+\OT1/cmr/m/n/10 like self-balancing robots, it provides accurate orientation an
+d acceleration data necessary for maintaining
+ []
+
+<assets/TB6612FNG.jpg, id=647, 451.6875pt x 451.6875pt>
+File: assets/TB6612FNG.jpg Graphic file (type jpg)
+<use assets/TB6612FNG.jpg>
+Package pdftex.def Info: assets/TB6612FNG.jpg  used on input line 137.
+(pdftex.def)             Requested size: 85.35284pt x 85.35826pt.
+<assets/TB6612FNG_target_characteristics.png, id=650, 1259.4553pt x 529.22719pt
+>
+File: assets/TB6612FNG_target_characteristics.png Graphic file (type png)
+<use assets/TB6612FNG_target_characteristics.png>
+Package pdftex.def Info: assets/TB6612FNG_target_characteristics.png  used on i
+nput line 144.
+(pdftex.def)             Requested size: 406.26251pt x 170.71652pt.
+
+
+[5 <./assets/mpu-6050.png> <./assets/TB6612FNG.jpg>]
+<assets/SN74LVC2G14.png, id=660, 1284.8pt x 722.7pt>
+File: assets/SN74LVC2G14.png Graphic file (type png)
+<use assets/SN74LVC2G14.png>
+Package pdftex.def Info: assets/SN74LVC2G14.png  used on input line 152.
+(pdftex.def)             Requested size: 101.15892pt x 56.9055pt.
+<assets/schmitt_trigger_hysteresis.png, id=663, 836.3747pt x 255.20343pt>
+File: assets/schmitt_trigger_hysteresis.png Graphic file (type png)
+<use assets/schmitt_trigger_hysteresis.png>
+Package pdftex.def Info: assets/schmitt_trigger_hysteresis.png  used on input l
+ine 159.
+(pdftex.def)             Requested size: 372.99596pt x 113.81102pt.
+<assets/dc-motor-with-encoder.jpg, id=668, 1204.5pt x 803.0pt>
 File: assets/dc-motor-with-encoder.jpg Graphic file (type jpg)
 <use assets/dc-motor-with-encoder.jpg>
-Package pdftex.def Info: assets/dc-motor-with-encoder.jpg  used on input line 9
-4.
-(pdftex.def)             Requested size: 110.8946pt x 73.921pt.
+Package pdftex.def Info: assets/dc-motor-with-encoder.jpg  used on input line 1
+68.
+(pdftex.def)             Requested size: 170.70569pt x 113.81102pt.
 
 
-[2 <./assets/mpu-6050.png> <./assets/dc-motor-with-encoder.jpg>]
+[6 <./assets/TB6612FNG_target_characteristics.png> <./assets/SN74LVC2G14.png> <
+./assets/schmitt_trigger_hysteresis.png>]
+<assets/Ultrasonic-HC-SR04.png, id=677, 313.9228pt x 240.9pt>
+File: assets/Ultrasonic-HC-SR04.png Graphic file (type png)
+<use assets/Ultrasonic-HC-SR04.png>
+Package pdftex.def Info: assets/Ultrasonic-HC-SR04.png  used on input line 177.
+
+(pdftex.def)             Requested size: 110.8946pt x 85.09554pt.
+<assets/HIR204C.jpg, id=680, 642.4pt x 642.4pt>
+File: assets/HIR204C.jpg Graphic file (type jpg)
+<use assets/HIR204C.jpg>
+Package pdftex.def Info: assets/HIR204C.jpg  used on input line 187.
+(pdftex.def)             Requested size: 85.35774pt x 85.35826pt.
+<assets/ir-receiver.png, id=683, 94.10156pt x 121.95563pt>
+File: assets/ir-receiver.png Graphic file (type png)
+<use assets/ir-receiver.png>
+Package pdftex.def Info: assets/ir-receiver.png  used on input line 193.
+(pdftex.def)             Requested size: 65.86345pt x 85.35826pt.
+
+Overfull \hbox (2.2222pt too wide) in paragraph at lines 185--197
+[][] [] 
+ []
+
+<assets/BT16Module.png, id=686, 151.3153pt x 183.68625pt>
+File: assets/BT16Module.png Graphic file (type png)
+<use assets/BT16Module.png>
+Package pdftex.def Info: assets/BT16Module.png  used on input line 207.
+(pdftex.def)             Requested size: 70.31702pt x 85.35826pt.
+
+
+[7 <./assets/dc-motor-with-encoder.jpg> <./assets/Ultrasonic-HC-SR04.png> <./as
+sets/HIR204C.jpg> <./assets/ir-receiver.png>]
+<assets/Battery.png, id=699, 386.19281pt x 344.78813pt>
+File: assets/Battery.png Graphic file (type png)
+<use assets/Battery.png>
+Package pdftex.def Info: assets/Battery.png  used on input line 218.
+(pdftex.def)             Requested size: 191.21611pt x 170.71652pt.
+
+
+[8 <./assets/BT16Module.png> <./assets/Battery.png>]
 \openout2 = `modelling.aux'.
 
  (modelling.tex)
 
-[3
+[9
 
 ]
-\openout2 = `kalman_filter.aux'.
+\openout2 = `firmware_overview.aux'.
 
- (kalman_filter.tex
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 87.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 87.
-
-
-
-[4
-
-
-
-]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 100.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 100.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 112.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 112.
-
-
-
-[5]
-Overfull \hbox (45.48396pt too wide) detected at line 216
-[][]
- []
-
-)
-
-[6]
-\openout2 = `pid.aux'.
-
- (pid.tex
-Overfull \hbox (0.58798pt too wide) in paragraph at lines 4--5
-\OT1/cmr/m/n/10 The algorithm utilizes cascade Proportional{Integral{Derivative
- (PID) control loop to maintain balance
- []
-
-<assets/Control_Loop.png, id=216, 418.56375pt x 683.55376pt>
+ (firmware_overview.tex
+<assets/Control_Loop.png, id=713, 418.56375pt x 683.55376pt>
 File: assets/Control_Loop.png Graphic file (type png)
 <use assets/Control_Loop.png>
-Package pdftex.def Info: assets/Control_Loop.png  used on input line 8.
+Package pdftex.def Info: assets/Control_Loop.png  used on input line 5.
 (pdftex.def)             Requested size: 221.78923pt x 362.19832pt.
+)
 
-
-[7
+[10
 
 
 
  <./assets/Control_Loop.png>]
+\openout2 = `sensor_fusion.aux'.
+
+ (sensor_fusion.tex
+Overfull \hbox (7.67224pt too wide) in paragraph at lines 15--16
+[]\OT1/cmr/m/n/10 It requests 14 bytes of data from the sensor, covering the ac
+celerometer, gyroscope, and temperature
+ []
+
 (D:\Installed Softwares\\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
@@ -556,46 +668,326 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 (D:\Installed Softwares\\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 )
+Overfull \hbox (8.60371pt too wide) in paragraph at lines 44--46
+[]\OT1/cmr/bx/n/10 Gyroscope Drift\OT1/cmr/m/n/10 : Over time, integration erro
+rs cause drift, leading to inaccurate angle estimation.
+ []
 
-[8]
-Overfull \hbox (0.10915pt too wide) in paragraph at lines 95--96
+
+
+[11
+
+
+
+]
+Overfull \hbox (2.38068pt too wide) in paragraph at lines 74--75
+[]\OT1/cmr/m/n/10 Gyroscope calibration is performed by collecting multiple rea
+dings and averaging them to calculate
+ []
+
+
+Overfull \hbox (15.39449pt too wide) in paragraph at lines 104--105
+[]\OT1/cmr/m/n/10 The accelerometer-derived angles are computed from the total 
+acceleration vector using trigonometric
+ []
+
+
+
+[12]
+<assets/compl_filter_0.9.png, id=773, 1226.5825pt x 608.2725pt>
+File: assets/compl_filter_0.9.png Graphic file (type png)
+<use assets/compl_filter_0.9.png>
+Package pdftex.def Info: assets/compl_filter_0.9.png  used on input line 147.
+(pdftex.def)             Requested size: 458.99406pt x 227.62204pt.
+
+Overfull \hbox (15.41559pt too wide) in paragraph at lines 147--148
+ [][] 
+ []
+
+)
+
+[13 <./assets/compl_filter_0.9.png (PNG copy)>]
+\openout2 = `kalman_filter.aux'.
+
+ (kalman_filter.tex
+Overfull \hbox (5.66194pt too wide) in paragraph at lines 5--6
+\OT1/cmr/m/n/10 utilizing first-order Taylor series expansion to linearize proc
+ess and measurement models. EKF maintains
+ []
+
+
+Overfull \hbox (10.73239pt too wide) in paragraph at lines 22--23
+\OT1/cmr/m/n/10 Gaussian noise. It accounts for inaccuracies in the measurement
+s due to sensor errors, environmental
+ []
+
+
+
+[14
+
+
+
+]
+Overfull \hbox (22.39793pt too wide) in paragraph at lines 53--54
+[]$\OML/cmm/m/it/10 R$\OT1/cmr/m/n/10 : This is the measurement noise covarianc
+e matrix, representing the uncertainty in the measurements. 
+ []
+
+
+
+[15]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 119.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 119.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 123.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 123.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 129.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 129.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 140.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 140.
+
+
+
+[16]
+Overfull \hbox (45.48396pt too wide) detected at line 237
+[][]
+ []
+
+
+
+[17])
+
+[18]
+\openout2 = `pid.aux'.
+
+ (pid.tex
+Overfull \hbox (0.58798pt too wide) in paragraph at lines 4--5
+\OT1/cmr/m/n/10 The algorithm utilizes cascade Proportional{Integral{Derivative
+ (PID) control loop to maintain balance
+ []
+
+File: assets/Control_Loop.png Graphic file (type png)
+<use assets/Control_Loop.png>
+Package pdftex.def Info: assets/Control_Loop.png  used on input line 8.
+(pdftex.def)             Requested size: 221.78923pt x 362.19832pt.
+
+
+[19
+
+
+
+]
+
+[20]
+Overfull \hbox (0.10915pt too wide) in paragraph at lines 94--95
 []\OT1/cmr/bx/n/10 Proportional (P): \OT1/cmr/m/n/10 The proportional term is b
 ased on the current error (the pitch angle deviation
  []
 
 
 
-[9])
+[21])
 
-[10]
+[22]
 
-[11] (main.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 44--47
+[23]
+\openout2 = `obstacle_avoidance.aux'.
+
+ (obstacle_avoidance.tex
+
+[24
+
+
+
+]
+
+[25])
+
+[26]
+\openout2 = `serial_communication_debugging.aux'.
+
+ (serial_communication_debugging.tex
+Overfull \hbox (20.28346pt too wide) in paragraph at lines 27--28
+\OT1/cmr/m/n/10 Extensive testing was conducted to ensure the reliability and r
+esponsiveness of the Bluetooth communication
+ []
+
+)
+
+[27
+
+
+
+]
+\openout2 = `simulation_and_testing.aux'.
+
+ (simulation_and_testing.tex
+Overfull \hbox (16.72687pt too wide) in paragraph at lines 32--33
+[]\OT1/cmr/m/n/10 Overall, the combination of Python and MATLAB simulations sig
+nificantly accelerated the development
+ []
+
+
+
+[28
+
+
+
+]
+Overfull \hbox (16.72687pt too wide) in paragraph at lines 68--69
+[]\OT1/cmr/m/n/10 Overall, the combination of Python and MATLAB simulations sig
+nificantly accelerated the development
+ []
+
+)
+
+[29]
+\openout2 = `power_management.aux'.
+
+ (power_management.tex)
+
+[30
+
+
+
+]
+\openout2 = `user_interface.aux'.
+
+ (user_interface.tex)
+
+[31
+
+
+
+]
+\openout2 = `safety_features.aux'.
+
+ (safety_features.tex)
+
+[32
+
+
+
+]
+\openout2 = `future_work_and_improvements.aux'.
+
+ (future_work_and_improvements.tex
+Overfull \hbox (7.2834pt too wide) in paragraph at lines 3--4
+\OT1/cmr/m/n/10 While the current implementation of the two-wheeled self-balanc
+ing robot achieved significant milestones,
+ []
+
+)
+
+[33
+
+
+
+]
+\openout2 = `real_world_applications.aux'.
+
+ (real_world_applications.tex
+Overfull \hbox (0.83904pt too wide) in paragraph at lines 6--7
+\OT1/cmr/m/n/10 Self-balancing technology is commonly used in personal transpor
+t devices like hoverboards and Segways,
+ []
+
+)
+Overfull \hbox (0.47801pt too wide) in paragraph at lines 15--237
+\OT1/cmr/m/n/10 In healthcare, self-balancing robots can assist individuals wit
+h mobility impairments, providing stability
+ []
+
+
+
+[34
+
+
+
+]
+\openout2 = `challenges_and_limitations.aux'.
+
+ (challenges_and_limitations.tex
+Overfull \hbox (8.08893pt too wide) in paragraph at lines 17--18
+[]\OT1/cmr/m/n/10 Addressing these challenges will be key in future iterations 
+to enhance the robustness and functionality
+ []
+
+)
+
+[35
+
+
+
+] (main.bbl
+Underfull \hbox (badness 1590) in paragraph at lines 38--42
+[]\OT1/cmr/m/n/10 B. T. M. Shop. Sparkfun motor treiber, dual tb6612fng, mit
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--48
 \OT1/cmr/m/n/10 semicon-[]storage . com / us / semiconductor / product / motor-
 []driver-[]ics / brushed-[]dc-[]motor-[]driver-[]ics /
  []
 
 )
 
-[12
+[36
 
 
-] (main.aux (modelling.aux) (kalman_filter.aux) (pid.aux))
+] (main.aux (modelling.aux) (firmware_overview.aux) (sensor_fusion.aux)
+(kalman_filter.aux) (pid.aux) (obstacle_avoidance.aux)
+(serial_communication_debugging.aux) (simulation_and_testing.aux)
+(power_management.aux) (user_interface.aux) (safety_features.aux)
+(future_work_and_improvements.aux) (real_world_applications.aux)
+(challenges_and_limitations.aux))
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E8FF0C149DB91861A49BD0D4FC3908B4;5743.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 1C1A00E2D788D78CD21278AAD4E67DC2;19162
+(rerunfilecheck)             After:  74433DA03174A48CCB798A13F3314BC0;19157.
  ) 
 Here is how much of TeX's memory you used:
- 13347 strings out of 475616
- 206415 string characters out of 5771254
- 868371 words of memory out of 5000000
- 35922 multiletter control sequences out of 15000+600000
- 565181 words of font info for 61 fonts, out of 8000000 for 9000
+ 15881 strings out of 475616
+ 260362 string characters out of 5771254
+ 1090246 words of memory out of 5000000
+ 38057 multiletter control sequences out of 15000+600000
+ 565695 words of font info for 63 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
- 75i,14n,79p,853b,1286s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,14n,79p,868b,2059s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\harri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><D:/Installed Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.p
 fb><D:/Installed Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D
@@ -612,10 +1004,12 @@ fonts/cm/cmr5.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/amsfonts/c
 m/cmr7.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.
 pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
 D:/Installed Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/Ins
-talled Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on main.pdf (12 pages, 885412 bytes).
+talled Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><D:/Installe
+d Softwares//MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><D:/Installed Sof
+twares//MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on main.pdf (36 pages, 3011616 bytes).
 PDF statistics:
- 387 PDF objects out of 1000 (max. 8388607)
- 93 named destinations out of 1000 (max. 500000)
- 306 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1239 PDF objects out of 1440 (max. 8388607)
+ 387 named destinations out of 1000 (max. 500000)
+ 945 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -16,8 +16,9 @@ void setup() {
   Wire.onReceive([](uint8_t numBytes){ receiveEvent(numBytes); }); // Register event for receiving data
   Wire.onRequest(requestEvent); // Register event for sending data
   Serial.begin(9600); // Start serial communication for debugging
-  data.yaw_ = 1;
-  data.distance_ = 99;
+  data.robotYawDegrees = 1;
+  data.robotDistanceCm = 99;
+  data.ultrasonicDistanceCm = 200;
 }
 
 
@@ -25,7 +26,7 @@ void loop() {
   // data.sendUartBytes();
   // data.sendUartASCII();  
   // cmd.readUartBytes();
-  // delay(100);
+  delay(100);
 
   // cmd.readUartASCII();
   // cmd.readI2CASCII(uint8_t address);

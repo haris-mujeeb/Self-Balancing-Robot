@@ -16,8 +16,8 @@ telemetryPacket telemetry_data;
 commandPacket command_data;
 
 void loop() {
-  command_data.command_ = Move;
-  command_data.value_ = 100;
+  command_data.command = Move;
+  command_data.commandValue = 100;
   // command_data.sendUartASCII();
   // command_data.sendUartBytes();
 

@@ -1,0 +1,115 @@
+
+\subsection{Front Obstacle Detection}
+The Ultrasonic distance measuring sensor is used to detect the obstacle in front of the robot.
+
+\subsection{Ultrasonic Working Principle}
+The sensor consists of a \textbf{transmitter} and a \textbf{receiver}:
+\begin{itemize}
+	\item The transmitter emits an ultrasonic pulse (40 kHz).
+	\item The pulse reflects off an obstacle and is received by the receiver.
+	\item The time difference between transmission and reception is used to compute the distance using the formula:
+\end{itemize}
+\begin{equation}
+	d = \frac{t \times v}{2}
+\end{equation}
+where:
+\begin{itemize}
+	\item \(d\) is the measured distance,
+	\item \(t\) is the time delay (in microseconds),
+	\item \(v\) is the speed of sound (approximately 343 m/s at room temperature).
+\end{itemize}
+
+\subsubsection{Ultrasonic Implementation}
+The HC-SR04 requires control signals to be sent from a microcontroller:
+\begin{enumerate}
+	\item A short \textbf{trigger pulse} is sent to the \texttt{TRIG} pin.
+	\item The sensor responds with a high signal on the \texttt{ECHO} pin.
+	\item The duration of the \texttt{ECHO} signal is measured to determine the distance.
+\end{enumerate}
+
+\subsubsection{Code for Distance Measurement}Based on the datasheet \cite{ultra-sonic}, an operating frequency of 20 Hz (corresponding to a 50 ms interval) is selected for distance measurements. The speed of sound is taken as 340.29 m/s, leading to the following constants in the code:
+
+\begin{lstlisting}[style=cppstyle2]
+	constexpr uint8_t USONIC_GET_DISTANCE_DELAY_MS = 50;
+	constexpr float SPEED_OF_SOUND_HALVED = (340.29 * 100.0) / (2 * 1000 * 1000);
+\end{lstlisting}
+
+Here, the speed of sound is converted to cm/µs, and it is divided by 2 to account for the round-trip travel time of the ultrasonic pulse. The following C++ function is used to initiate distance measurement using the HC-SR04 ultrasonic sensor:
+\begin{lstlisting}[style=cppstyle2]
+void StartUltrasonicMeasurement() {
+	if (millis() - usonicGetDistancePrevTime > USONIC_GET_DISTANCE_DELAY_MS) {
+		usonicMeasureFlag = SEND;
+		usonicGetDistancePrevTime = millis();
+		
+		attachPinChangeInterrupt(ECHO_PIN, HandleUltrasonicMeasurementInterrupt, RISING);
+		
+		digitalWrite(TRIG_PIN, LOW);
+		digitalWrite(TRIG_PIN, HIGH);
+		digitalWrite(TRIG_PIN, LOW);
+	}
+\end{lstlisting}
+
+\begin{itemize}
+	\item The function \texttt{StartUltrasonicMeasurement()} ensures that the measurement is taken at regular intervals.
+	\item A global flag \texttt{usonicMeasureFlag} is set to \texttt{SEND}, indicating that the trigger pulse is sent.
+	\item The function \texttt{attachPinChangeInterrupt()} attaches an interrupt to detect when the \texttt{ECHO} pin goes HIGH.
+	\item The \texttt{TRIG} pin is first set LOW (to reset), then HIGH (to trigger the pulse), and then set LOW again.
+\end{itemize}
+This setup enables precise distance measurement by capturing the time delay between sending and receiving the ultrasonic pulse.
+
+
+\subsubsection{Interrupt Service Routine}
+The following function handles the interrupt to measure the distance:
+
+\begin{lstlisting}[style=cppstyle2]
+	void HandleUltrasonicMeasurementInterrupt() {
+		if (usonicMeasureFlag == SEND) {
+			usonicMeasurePrevTime = micros();
+			attachPinChangeInterrupt(ECHO_PIN, HandleUltrasonicMeasurementInterrupt, FALLING);
+			usonicMeasureFlag = RECEIVED;
+		} else if (usonicMeasureFlag == RECEIVED) {
+			usonicDistanceValue = (uint8_t)((micros() - usonicMeasurePrevTime) * SPEED_OF_SOUND_HALVED);
+			usonicMeasureFlag = IDLE;
+		}
+	}
+\end{lstlisting}
+
+\begin{itemize}
+	\item When the echo signal first rises (RISING edge), the timestamp is recorded using \texttt{micros()}.
+	\item The interrupt is then reattached to detect the falling edge.
+	\item When the falling edge is detected, the elapsed time is computed.
+	\item The time is converted to distance using the speed of sound formula.
+	\item Finally, the system resets for the next measurement.
+\end{itemize}
+
+
+\subsubsection{Infrared Sensing Implementation}
+The IR LED transmits a modulated 38kHz infrared signal. If an obstacle is present, the signal reflects and is received by the IRM-56384, which demodulates the signal and provides a digital output. The following code is used to control and process the IR proximity sensors:
+\begin{lstlisting}[style=cppstyle2]
+	void IRSesorSend38KPule(unsigned char ir_pin){
+		for( int i = 0; i < 39; i++) {
+			digitalWrite(ir_pin, LOW);
+			delayMicroseconds(9);
+			digitalWrite(ir_pin, HIGH);
+			delayMicroseconds(9);
+		}
+	}
+	
+	void ProcessLeftIRSensor(){
+		if (millis() - irLeftCountTime > IR_COUNT_DELAY_MS) {
+			UpdateSlidingWindow(irLeftPulseCount >= 3, irLeftHistory, irLeftIndex, irLeftRunningCount);    
+			irLeftIsObstacle = (irLeftRunningCount >= 5);
+			irLeftPulseCount = 0;
+			irLeftCountTime = millis();
+		}
+	}
+	
+	void ProcessRightIRSensor(){
+		if (millis() - irRightCountTime > IR_COUNT_DELAY_MS) {
+			UpdateSlidingWindow((irRightPulseCount >= 3), irRightHistory, irRightIndex, irRightRunningCount);
+			irRightIsObstacle = (irRightRunningCount >= 5);
+			irRightPulseCount = 0;
+			irRightCountTime = millis();
+		}
+	}
+\end{lstlisting}

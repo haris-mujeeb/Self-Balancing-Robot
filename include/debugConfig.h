@@ -21,7 +21,7 @@
     #define DEBUG_WATCHDOG false
   #endif
 
-  #define DEBUG_COMM true   // Debugging for Communication module
+  #define DEBUG_COMM false   // Debugging for Communication module
   #define DEBUG_USONIC false // Debugging for Ultrasonic and IR modules
 #endif
 

@@ -3,8 +3,30 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: modelling.aux
+Reallocating 'name_of_file' (item size: 1) to 28 items.
+A level-1 auxiliary file: software_implementation.aux
+Reallocating 'name_of_file' (item size: 1) to 18 items.
+A level-1 auxiliary file: sensor_fusion.aux
 Reallocating 'name_of_file' (item size: 1) to 18 items.
 A level-1 auxiliary file: kalman_filter.aux
+Reallocating 'name_of_file' (item size: 1) to 8 items.
+A level-1 auxiliary file: pid.aux
+Reallocating 'name_of_file' (item size: 1) to 27 items.
+A level-1 auxiliary file: simulation_and_testing.aux
+Reallocating 'name_of_file' (item size: 1) to 37 items.
+A level-1 auxiliary file: remote_control_and_communication.aux
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+A level-1 auxiliary file: power_management.aux
+Reallocating 'name_of_file' (item size: 1) to 19 items.
+A level-1 auxiliary file: user_interface.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: safety_features.aux
+Reallocating 'name_of_file' (item size: 1) to 33 items.
+A level-1 auxiliary file: future_work_and_improvements.aux
+Reallocating 'name_of_file' (item size: 1) to 28 items.
+A level-1 auxiliary file: real_world_applications.aux
+Reallocating 'name_of_file' (item size: 1) to 31 items.
+A level-1 auxiliary file: challenges_and_limitations.aux
 Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: IEEEtran.bst
 Reallocating 'name_of_file' (item size: 1) to 15 items.
@@ -19,44 +41,44 @@ Database file #1: references.bib
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 6 entries,
+You've used 14 entries,
             4087 wiz_defined-function locations,
-            848 strings with 7976 characters,
-and the built_in function-call counts, 2264 in all, are:
-= -- 173
-> -- 24
+            893 strings with 9431 characters,
+and the built_in function-call counts, 5146 in all, are:
+= -- 405
+> -- 56
 < -- 0
-+ -- 12
-- -- 6
-* -- 67
-:= -- 443
-add.period$ -- 18
-call.type$ -- 6
-change.case$ -- 12
++ -- 28
+- -- 14
+* -- 131
+:= -- 997
+add.period$ -- 42
+call.type$ -- 14
+change.case$ -- 28
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 174
-empty$ -- 205
-format.name$ -- 6
-if$ -- 476
+cite$ -- 14
+duplicate$ -- 406
+empty$ -- 477
+format.name$ -- 14
+if$ -- 1108
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 48
-newline$ -- 53
-num.names$ -- 6
-pop$ -- 144
+int.to.str$ -- 14
+missing$ -- 112
+newline$ -- 93
+num.names$ -- 14
+pop$ -- 336
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 162
+skip$ -- 377
 stack$ -- 0
-substring$ -- 12
-swap$ -- 96
+substring$ -- 28
+swap$ -- 224
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 6
+type$ -- 14
 warning$ -- 0
-while$ -- 6
-width$ -- 7
-write$ -- 82
+while$ -- 14
+width$ -- 16
+write$ -- 162
