@@ -38,6 +38,17 @@ Simulation and testing played a crucial role in the development and refinement o
 \subsection{Simulation Tools and Environment}
 For simulating the dynamics and control strategies of the robot, we utilized both \textbf{Python} and \textbf{MATLAB}. These platforms provided robust frameworks for numerical computation, visualization, and algorithm development.
 
+\subsection{PID Tuning}
+\subsubsection{}
+\subsubsection{PID Tuning Results}
+Response specifications No Load With Loads 
+Initial Deviation 
+Rise Time
+Peak Time
+Maximum Overshoot
+Settling Time
+Error Steady State
+
 \begin{itemize}
 \item \textbf{Python:} Utilized libraries such as \textit{NumPy}, \textit{SciPy}, and \textit{Matplotlib} for numerical simulations and visualizations. \textit{Control} and \textit{SymPy} libraries were used to model the control systems and analyze the system's response.
 \item \textbf{MATLAB:} Employed for more advanced control design and simulation, including the use of Simulink for block diagram modeling and simulation of dynamic systems. MATLAB's built-in tools facilitated the tuning and optimization of control parameters.
@@ -62,6 +73,7 @@ Several metrics were used to evaluate the performance of the control algorithms 
 
 \subsection{Real-World Validation}
 Post-simulation, the control algorithms were transferred to the physical robot for real-world testing. The outcomes from the simulations provided a strong baseline, and discrepancies observed during physical trials were fed back into the simulation models for further refinement. This iterative process ensured a robust and reliable control system.
+
 
 To thoroughly test the robustness of the system, we introduced controlled disturbances and varying surface conditions in the real-world environment. This helped identify edge cases and stress points that were not evident in the simulation phase. By iteratively refining the control algorithms based on these findings, we were able to enhance the overall stability and performance of the robot.
 

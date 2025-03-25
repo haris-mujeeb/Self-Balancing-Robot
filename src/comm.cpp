@@ -39,7 +39,7 @@ void telemetryPacket::sendUartBytes() const {
 
 void telemetryPacket::sendUartASCII() const {
   char buffer[BUFFER_SIZE];
-  snprintf(buffer, BUFFER_SIZE, "%hd,%ld,%hd\n", robotYawDegrees, robotDistanceCm, ultrasonicDistanceCm);
+  snprintf(buffer, BUFFER_SIZE, "%hd,%ld,%hd", robotYawDegrees, robotDistanceCm, ultrasonicDistanceCm);
   Serial.println(buffer);
   DEBUG_PRINT(DEBUG_COMM, "Sent Uart: " + String(robotYawDegrees) + "," + String(robotDistanceCm) + "," + String(ultrasonicDistanceCm));
 }

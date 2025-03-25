@@ -1,10 +1,10 @@
 #pragma once
 
 // plot mode (for plotting pitch angle , yaw angle and position along with there correspoing pid output values)
-#define PLOT_MODE false      
+#define PLOT_MODE false    
 
 // Global debug mode (set to false to disable all debugging)
-#define DEBUG_MODE true     
+#define DEBUG_MODE false     
 #if DEBUG_MODE
   // Module-specific debug modes
   #define DEBUG_MOTOR false     // Debugging for Motor Control module

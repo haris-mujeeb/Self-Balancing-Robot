@@ -1,3 +1,7 @@
+#define BUFFER_SIZE 255
+
+char inputBuffer[BUFFER_SIZE];
+uint8_t bufferIndex = 0;
 
 void setup() {
   // Initialize UART communication with 115200 baud rate
@@ -30,7 +34,7 @@ void loop() {
         bufferIndex = 0; // Reset buffer index
       }
     }
-    // Serial.println(inputBuffer); // Send to Serial
+    Serial.println(inputBuffer); // Send to Serial
     // parseAndCalculate(data);
   }
 }

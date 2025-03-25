@@ -2,6 +2,38 @@
 \subsection{Introduction}
 Self-balancing robots require accurate estimation of their tilt angle for effective control. The MPU6050, a widely used Inertial Measurement Unit (IMU), provides raw accelerometer and gyroscope data. However, due to individual sensor limitations, direct usage of these readings is unreliable. Sensor fusion techniques like the Complementary Filter and Kalman Filter help in obtaining a stable and accurate tilt angle
 
+\subsubsection{Microcontroller}
+The ATmega328P (shown in Fig. \ref{fig:ATmega328p}) is a popular microcontroller from Microchip Technology, widely used in embedded systems and electronics projects. With a 16 MHz clock speed, 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM \cite{atmega_microchip}, the ATmega328P provides ample resources for this projects application. 
+
+The ATMEGA328P is also used in the Arduino Nano (shown in Fig. \ref{fig:arduino_nano}), a widely adopted development board known for its low cost and open-source ecosystem \cite{arduino_nano}. The combination of affordability and extensive community support makes it an ideal choice for rapid prototyping and academic research, ensuring easy integration with various sensors and motor drivers. 
+
+\begin{figure}[H]
+	\centering
+	\subfloat[ATMEGA328P \cite{atmega_microchip}.]{
+		\includegraphics[height=3cm]{assets/ATmega328p.png}
+		\label{fig:ATmega328p}
+	}
+	\qquad
+	\subfloat[Arduino Nano \cite{arduino_nano}.]{
+	\includegraphics[height=3cm]{assets/arduino_nano.jpg}
+	\label{fig:arduino_nano}
+	} 
+	\label{fig:ATmega328p_and_arduino_nano}
+	\caption{}
+\end{figure}
+
+\subsubsection{Inertial Measuring Unit}
+The MPU6050 is a widely used six-axis sensor that integrates a three-axis gyroscope and a three-axis accelerometer on a single chip, making it essential for motion tracking and stabilization applications (shown in Fig. \ref{fig:mpu-6050}). Its compact design and built-in Digital Motion Processor (DMP) enable real-time processing of sensor data, which is crucial for robotics, drones, and wearable devices.
+In applications like self-balancing robots, it provides accurate orientation and acceleration data necessary for maintaining stability. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=3cm]{assets/mpu-6050.png}
+	\caption{MPU-6050 \cite{mpu6050}.}
+	\label{fig:mpu-6050}
+\end{figure}
+
+
 \subsection{Working of MPU6050}
 The MPU6050 is a 6-axis IMU that provides:
 \begin{itemize}
@@ -47,22 +79,27 @@ To overcome these issues, sensor fusion techniques are applied.
 
 
 \subsection{Complementary Filter}
-The complementary filter is a simple yet effective method for sensor fusion. It blends high-frequency data from the gyroscope with low-frequency data from the accelerometer:
+The complementary filter is a simple yet effective method for sensor fusion \cite{rabbany_design_2021} \cite{10193276} \cite{1174486}. It blends high-frequency data from the gyroscope with low-frequency data from the accelerometer:
 
 \subsubsection{Mathematical Model}
 Raw accelerometer readings $A_y$ and $Az$ can be used to calculate tilt angle using following equation:
-$$
-\theta_{acc} = \text{arctan} \left(A_y/Az  \right) 
-$$
-
-Similarly, using the angular velocity from the gyroscope $\omega$, the sampling time interval $\Delta t$ and previous angle value $\theta_{previous}$ can be used to calculate tilt angle using following equation:
-$$
-\theta_{gyro} = \theta_{previous} + \omega . \Delta t
-$$
-
+\begin{equation}
+\theta_{acc} = \text{arctan} \left(A_y/Az  \right) \label{eq:eq}
+\end{equation}
+Similarly, using raw angular velocity data from the gyroscope $\omega_{x}$,
+\begin{equation}
+	\begin{aligned}
+		\dot{\theta}_{gyro}(t) &= - \omega_{x,bias}(t) \\ \label{eq:state_eq_1}
+		\dot{\omega}_{x,bias}(t) &= 0
+	\end{aligned}
+\end{equation}
+In these equations, $\theta(t)$ represents the measured angle of the system, and $\omega_{\text{gyro,bias}}(t)$ represents the bias of the gyroscope. The first equation models how the angle evolves over time, influenced by the constant gyroscope bias. The second equation indicates that the gyroscope bias remains constant over time. The sampling time interval $\Delta t$ and previous angle value $\theta_{previous}$ can be used to calculate tilt angle using following equation:
+\begin{equation}
+\theta_{gyro} = \theta_{previous, gyro} + \omega_{gyro} \Delta t \label{eq:eq}
+\end{equation}
 Then the final estimated angle $\theta_{estimate}$ is calculated as:
 \begin{equation}
-	\theta_{estimate} = \alpha . \theta_{gyro} + (1 - \alpha) . \theta_{acc}
+	\theta_{estimate} = \alpha \ \theta_{gyro} + (1 - \alpha) \ \theta_{acc} \label{eq:eq}
 \end{equation}
 Where $\alpha$ is the filter coefficient, $\omega$ is the angular velocity from the gyroscope, and $\theta_{acc}$ is the angle from the accelerometer.
 

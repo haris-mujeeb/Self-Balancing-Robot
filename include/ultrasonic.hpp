@@ -24,7 +24,7 @@ enum UltrasonicMeasureFlagStatus {
 constexpr uint8_t IR_COUNT_DELAY_MS = 50; 
 constexpr uint8_t IR_PULSE_DELAY_MS = 15; 
 constexpr uint8_t SLIDING_WINDOW_SIZE = 10;
-constexpr uint8_t USONIC_GET_DISTANCE_DELAY_MS = 50; 
+constexpr uint8_t USONIC_GET_DISTANCE_DELAY_MS = 100; 
 constexpr float SPEED_OF_SOUND_HALVED = (340.29 * 100.0)/(2 * 1000.0 * 1000.0); // in cm per microSec
 
 // Global Variables

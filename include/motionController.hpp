@@ -126,11 +126,13 @@ constexpr float ENCODER_STEP_PER_CM = 32.0;  // Time for robot to stand upright.
 
 // Control Gains
 constexpr double kp_balance = 55;
-constexpr double kd_balance = 0.75;
 constexpr double kd_position = 20;
 constexpr double kp_position = 0.26;
 constexpr double kp_turn = 2.5;
 constexpr double kd_turn = 0.5;
+constexpr double kd_balance_large_angle = 1.25;
+constexpr double kd_balance_small_angle = 0.75;
+double kd_balance = kd_balance_large_angle;
 
 // Kalman Filter and Complementary Filter Constants
 // constexpr float angle_zero = 0.0f;           ///< Default zero angle for the system
@@ -151,27 +153,27 @@ Note:
 */
 
 
-double pwm_left = 0;                         ///< Left motor PWM (control value)
-double pwm_right = 0;                        ///< Right motor PWM (control value)
-int long encoder_left_position = 0;          ///< Position of the left encoder
-int long encoder_right_position = 0;         ///< Position of the right encoder
-unsigned int position_control_period_count = 0; ///< Counter for position control frequency
-double pitch_pid_output = 0;                 ///< Output of the pitch PID controller
-double position_pid_output = 0;              ///< Output of the position PID controller
-double yaw_pid_output = 0;                  ///< Output of the yaw PID controller
-double encoder_speed_filtered = 0;           ///< Filtered encoder speed value
-double encoder_speed_filtered_old = 0;       ///< Previous filtered encoder speed value
-double current_position = 0;                   ///< Current position of the robot
-double move_to_position = 0;                   ///< Temporary taget position for the robot
-double final_position = 0;                   ///< Final position of the robot
-double setting_car_speed = 0;                ///< Desired speed of the robot
+double pwm_left = 0.0;                         ///< Left motor PWM (control value)
+double pwm_right = 0.0;                        ///< Right motor PWM (control value)
+int long encoder_left_position = 0.0;          ///< Position of the left encoder
+int long encoder_right_position = 0.0;         ///< Position of the right encoder
+unsigned int position_control_period_count = 0.0; ///< Counter for position control frequency
+double pitch_pid_output = 0.0;                 ///< Output of the pitch PID controller
+double position_pid_output = 0.0;              ///< Output of the position PID controller
+double yaw_pid_output = 0.0;                  ///< Output of the yaw PID controller
+double encoder_speed_filtered = 0.0;           ///< Filtered encoder speed value
+double encoder_speed_filtered_old = 0.0;       ///< Previous filtered encoder speed value
+double current_position = 0.0;                   ///< Current position of the robot
+double move_to_position = 0.0;                   ///< Temporary taget position for the robot
+double final_position = 0.0;                   ///< Final position of the robot
+double move_speed_percent = 0.0;                ///< Desired speed of the robot
 double setting_car_rotation_speed = 0;       ///< Desired rotational speed (yaw)
 float pitch_angle = 0;                       ///< Measured pitch angle
 constexpr float pitch_angle_zero = 0.0f;                    ///< Default zero angle for the system
 float yaw_angle_degrees = 0;                       ///< Measured pitch angle
 float alpha = 0.95;                       ///< Measured pitch angle
 double desired_yaw_angle = 0;                   ///< Current position of the robot
-double desired_yaw_speed = 0;                   ///< Current position of the robot
+double yaw_speed_percent = 0;                   ///< Current position of the robot
 float gyro_x = 0;                            ///< Gyro X-axis angular velocity
 float gyro_z = 0;                            ///< Gyro Z-axis angular velocity
 float voltage_value = 0;                     ///< Measured battery voltage
@@ -259,6 +261,13 @@ void motionController::balance() {
 
   sei();  // Enable global interrupts
   updateSensorValues(pitch_angle, gyro_x, gyro_z);
+  
+  if (pitch_angle > 8) {
+    kd_balance = kd_balance_large_angle;
+  } else {
+    kd_balance = kd_balance_small_angle;
+  }
+
   runPitchControl();  ///< Compute pitch control output
   updateEncoderValues();
 
@@ -366,6 +375,7 @@ inline void updateEncoderValues(){
   encoder_count_right_a = 0;
 }
 
+
 inline void updateDistance(){
   position_control_period_count = 0;
   double encoder_speed = (encoder_left_position + encoder_right_position) * 0.5; 
@@ -415,23 +425,23 @@ inline void runPitchControl() {
 
 /**
  * @brief Executes the yaw control algorithm.
- * 
+ *
  * Calculates the yaw PID output to control the rotational motion of the robot.
  * using the z-axis angular velocity and desired rotation speed.
  */
 inline void runYawControl() {
-  desired_yaw_speed = constrain(desired_yaw_speed, -1, 1);
+  float speed_limit = 0.7 * yaw_speed_percent + 30;
   float delta_yaw_angle = yaw_angle_degrees - desired_yaw_angle;
   setting_car_rotation_speed = kp_turn * (delta_yaw_angle) ;
-  setting_car_rotation_speed = constrain(setting_car_rotation_speed, -50, 50);
+  setting_car_rotation_speed = constrain(setting_car_rotation_speed, -speed_limit, speed_limit);
 
   if (abs(delta_yaw_angle) < 1 && (currentRobotState == TURN_LEFT || currentRobotState == TURN_RIGHT)) {
     currentRobotState = STANDBY;
     setting_car_rotation_speed = 0;
-    desired_yaw_speed = 0;
+    yaw_speed_percent = 0;
   }
 
-  yaw_pid_output = setting_car_rotation_speed + kd_turn * gyro_z; 
+  yaw_pid_output = setting_car_rotation_speed + kd_turn * gyro_z;
 }
 
 
@@ -442,17 +452,16 @@ inline void runYawControl() {
  * which helps in maintaining or changing the robot's position based on the target speed.
  */
 inline void runPositionControl() {
-  setting_car_speed = constrain(setting_car_speed, -0.1, 0.1);  
-  move_to_position = move_to_position*0.7 + final_position*0.3;
+  float car_speed_limit = ( move_speed_percent * 8 ) + 500;  
+  // move_to_position = move_to_position*0.7 + final_position*0.3;
   if (abs(current_position - final_position) < 5*ENCODER_STEP_PER_CM
     && (currentRobotState == MOVE_FORWARD || currentRobotState == MOVE_BACKWARD))
   {
     currentRobotState = STANDBY;
   }
 
-  position_pid_output = - (kp_position + setting_car_speed) * (
-                          constrain(current_position - move_to_position, -1000, 1000)
-                        ) - kd_position * encoder_speed_filtered;
+  position_pid_output = kp_position * ( constrain(final_position - current_position, -car_speed_limit, car_speed_limit) ) 
+                        - kd_position * encoder_speed_filtered;
 }
 
 
@@ -520,20 +529,20 @@ void resetWdt() {
 
 /**
  * @brief Moves the robot a specified distance in centimeters.
- * 
+ *
  * This function converts the given distance in centimeters to the corresponding 
  * encoder steps and stores it in the final_position variable.
  * The conversion uses the constant ENCODER_STEP_PER_CM, which defines the 
  * number of encoder steps per centimeter.
- * 
+ *
  * @param dist_in_cm The distance to move in centimeters.
- *  
+ * 
  * @param speed The speed for the robot (positive value for moving forward).
  */
-void motionController::move(float dist_in_cm, float moveSpeed = 0.0) {
+void motionController::move(float dist_in_cm, float moveSpeed = 40) {
   final_position = dist_in_cm * ENCODER_STEP_PER_CM;
-  setting_car_speed = moveSpeed/2;
-  if (final_position  - current_position > 0) {
+  move_speed_percent = constrain(moveSpeed, 0.0, 100);
+  if (final_position - current_position > 0) {
     currentRobotState = MOVE_FORWARD;
   } else {
     currentRobotState = MOVE_BACKWARD;
@@ -543,19 +552,19 @@ void motionController::move(float dist_in_cm, float moveSpeed = 0.0) {
 
 /**
  * @brief Sets the desired yaw angle to turn the robot by a specified number of degrees.
- * 
+ *
  * This function sets the desired yaw angle for the robot to rotate by the given
  * number of degrees in a clockwise direction. The angle is stored in the 
  * desired_yaw_angle variable.
- * 
+ *
  * @param degreesCW The angle in degrees to turn the robot clockwise.
- * 
+ *
  * @param speed The rotation speed for the robot (positive value for CW).
  */
-void motionController::rotate(float degreesCW, float rotSpeed){
+void motionController::rotate(float degreesCW, float rotSpeed = 100){
   desired_yaw_angle = degreesCW;
-  desired_yaw_speed = rotSpeed;
-  setting_car_speed = 0;
+  yaw_speed_percent = constrain(rotSpeed, 0.0, 100.0);
+  move_speed_percent = 0;
   if (desired_yaw_angle  - yaw_angle_degrees > 0) {
     currentRobotState = TURN_RIGHT;
   } else {
@@ -571,9 +580,9 @@ void motionController::rotate(float degreesCW, float rotSpeed){
  */
 void motionController::stop(){
   final_position = current_position;
-  setting_car_speed = 0;
+  move_speed_percent = 0;
   desired_yaw_angle = yaw_angle_degrees;
-  desired_yaw_speed = 0;
+  yaw_speed_percent = 0;
 }
 
 
@@ -585,10 +594,10 @@ void motionController::stop(){
 void motionController::reset(){
   final_position = 0.0;
   current_position = 0.0;
-  setting_car_speed = 0.0;
+  move_speed_percent = 0.0;
   desired_yaw_angle = 0.0;
   yaw_angle_degrees = 0.0;
-  desired_yaw_speed = 0.0;
+  yaw_speed_percent = 0.0;
   currentRobotState = STANDBY;
 }
 

@@ -7,7 +7,7 @@
 void updateCMD();
 void i2cRecvHandle(int numBytes);
 void i2cRequestEvent();
-void  serialInputHandle();
+void serialInputHandle();
 
 motionController robot;
 telemetryPacket tele_data;
@@ -19,7 +19,6 @@ bool obstacleDetected = false;
 void setup() { 
   while(!digitalRead(KEY_MODE)) {}
   Serial.begin(9600); // for Bluetooth 
-  // Serial.begin(115200);   // for Terra
   Wire.begin(SLAVE_ADDR);
   Wire.onReceive(i2cRecvHandle);
   Wire.onRequest(i2cRequestEvent);
@@ -35,23 +34,26 @@ void loop() {
 
   if(millis() - updateTime > UPDATE_DATA_MS) {
     updateTime = millis();
+
     StartUltrasonicMeasurement();
+
     robot.getRobotStateData(tele_data);
     tele_data.ultrasonicDistanceCm = usonicDistanceValue;
-    // Test
     tele_data.sendUartASCII();
   }
-
-  if (irLeftIsObstacle && irRightIsObstacle && (usonicDistanceValue < 20)) {
-    if (!obstacleDetected) {
-      robot.move((float)(tele_data.robotDistanceCm - 10), (float)cmd.commandSpeed);
-      obstacleDetected = true;   
-    } 
+                                                      
+  if ( usonicDistanceValue < 40 && cmd.command == Move) {
+    // float usonicPIDValue = 2 * usonicDistanceValue;
+    robot.move( (float)(cmd.commandValue), (float)(20.0) );
+    if (irLeftIsObstacle && irRightIsObstacle && (usonicDistanceValue < 15)) {
+        if (!obstacleDetected) {
+        robot.move((float)(tele_data.robotDistanceCm), 10.0); 
+        obstacleDetected = true;   
+      }
+    }
   }
 
-  if(usonicDistanceValue > 15) {
-      obstacleDetected = false;   
-  }
+  if(usonicDistanceValue > 15) {obstacleDetected = false;}
 
   serialInputHandle();
 
@@ -67,8 +69,16 @@ void serialInputHandle(){
 
 void i2cRecvHandle(int numBytes){
   cmd.readI2CBytes(numBytes);
+  // cmd.readI2CASCII(numBytes);
   updateCMD();
 }
+
+
+void i2cRequestEvent(){
+  tele_data.sendI2CBytes();
+  // tele_data.sendI2CASCII();
+}
+
 
 
 void updateCMD() {
@@ -95,10 +105,4 @@ void updateCMD() {
         DEBUG_PRINT(DEBUG_COMM, "Invalid command");
         break;
     }
-}
-
-
-void i2cRequestEvent(){
-  // tele_data.readI2CBytes();
-  tele_data.sendUartASCII();
 }

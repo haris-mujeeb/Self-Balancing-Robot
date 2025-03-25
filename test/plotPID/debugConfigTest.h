@@ -2,7 +2,7 @@
 
 // Global debug mode (set to false to disable all debugging)
 #define PLOT_MODE true      
-#define DEBUG_MODE false     
+#define DEBUG_MODE true     
 // Module-specific debug modes
 #if DEBUG_MODE
   #define DEBUG_MOTOR false     // Debugging for Motor Control module

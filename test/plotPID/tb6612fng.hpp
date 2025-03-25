@@ -2,7 +2,7 @@
 #define TB6612FNG_H
 #include <Arduino.h>
 #include "pins.hpp"
-#include "debugConfig.h"
+#include "debugConfigTest.h"
 
 // Compile-time configuration modes
 // #define MOTOR_MODE_SINGLE_DIRECTION
