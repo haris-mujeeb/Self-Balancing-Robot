@@ -10,7 +10,7 @@
 #define MPU6050_READINGS 200        ///< Number of readings for error calculation
 #define MPU6050_ACCEL_SCALE 16384.0 ///< Accelerometer scale (±2g)
 #define MPU6050_GYRO_SCALE 131.0    ///< Gyroscope scale (±250deg/s)
-#define CALIBRATION_SAMPLES 100    ///< Number of samples used for calibration
+#define CALIBRATION_SAMPLES 1000    ///< Number of samples used for calibration
 
 /**
  * @struct IMUErrorData
