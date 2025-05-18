@@ -41,7 +41,7 @@ void loop() {
     tele_data.ultrasonicDistanceCm = usonicDistanceValue;
     tele_data.leftIR_Detected = irLeftIsObstacle;
     tele_data.rightIR_Detected = irRightIsObstacle;
-    tele_data.sendUartASCII();
+    tele_data.sendUartASCII(Serial);
   }
 
   if ( usonicDistanceValue < 40 && cmd.command == Move) {
@@ -64,7 +64,7 @@ void loop() {
 
 void serialInputHandle(){
   if (Serial.available()){
-    cmd.readUartASCII();
+    cmd.readUartASCII(Serial);
     updateCMD();
   }
 }
@@ -78,7 +78,7 @@ void i2cRecvHandle(int numBytes){
 
 void i2cRequestEvent(){
   tele_data.sendI2CBytes();
-  // tele_data.sendI2CASCII();
+  // tele_data.sendI2CASCII(Serial);
 }
 
 

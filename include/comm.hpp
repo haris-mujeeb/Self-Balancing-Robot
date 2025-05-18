@@ -3,7 +3,6 @@
 #ifndef TELEMETRY_COMMAND_HPP
 #define TELEMETRY_COMMAND_HPP
 
-#include "avr/pgmspace.h"
 #include <stdint.h>
 #include "Arduino.h"
 #include <Wire.h>
@@ -55,8 +54,8 @@ struct telemetryPacket {
   uint8_t ultrasonicDistanceCm = 0; ///< Ultrasonic distance measurement in centimeters.
   bool leftIR_Detected = 0;
   bool rightIR_Detected = 0;
-  int16_t leftMotorEncoderValue = 0;      ///< Robot Yaw angle in degrees.
-  int16_t rightMotorEncoderValue = 0;      ///< Robot Yaw angle in degrees.
+  int32_t leftMotorEncoderValue = 0;      ///< Robot Yaw angle in degrees.
+  int32_t rightMotorEncoderValue = 0;      ///< Robot Yaw angle in degrees.
 
   /**
    * @brief Sends telemetry data as raw bytes over I2C.
@@ -71,12 +70,12 @@ struct telemetryPacket {
   /**
    * @brief Sends telemetry data as raw bytes over UART.
    */
-  void sendUartBytes() const;
+  void sendUartBytes(Stream& serial) const;
 
   /**
    * @brief Sends telemetry data as ASCII over UART.
    */
-  void sendUartASCII() const;
+  void sendUartASCII(Stream& serial) const;
 
   /**
    * @brief Reads telemetry data as raw bytes from an I2C device.
@@ -95,12 +94,12 @@ struct telemetryPacket {
   /**
    * @brief Reads telemetry data as raw bytes from UART.
    */
-  void readUartBytes();
+  void readUartBytes(Stream& serial);
 
   /**
    * @brief Reads telemetry data as ASCII from UART.
    */
-  void readUartASCII();
+  void readUartASCII(Stream& serial);
 };
 
 /**
@@ -127,12 +126,12 @@ struct commandPacket {
   /**
    * @brief Sends command data as raw bytes over UART.
    */
-  void sendUartBytes() const;
+  void sendUartBytes(Stream& serial) const;
 
   /**
    * @brief Sends command data as ASCII over UART.
    */
-  void sendUartASCII() const;
+  void sendUartASCII(Stream& serial) const;
 
   /**
    * @brief Reads command data as raw bytes from an I2C device.
@@ -151,12 +150,12 @@ struct commandPacket {
   /**
    * @brief Reads command data as raw bytes from UART.
    */
-  void readUartBytes();
+  void readUartBytes(Stream& serial);
 
   /**
    * @brief Reads command data as ASCII from UART.
    */
-  void readUartASCII();
+  void readUartASCII(Stream& serial);
 };
 
 #endif // TELEMETRY_COMMAND_HPP
