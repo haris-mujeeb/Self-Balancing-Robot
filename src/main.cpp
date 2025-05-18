@@ -39,9 +39,11 @@ void loop() {
 
     robot.getRobotStateData(tele_data);
     tele_data.ultrasonicDistanceCm = usonicDistanceValue;
+    tele_data.leftIR_Detected = irLeftIsObstacle;
+    tele_data.rightIR_Detected = irRightIsObstacle;
     tele_data.sendUartASCII();
   }
-                                                      
+
   if ( usonicDistanceValue < 40 && cmd.command == Move) {
     // float usonicPIDValue = 2 * usonicDistanceValue;
     robot.move( (float)(cmd.commandValue), (float)(20.0) );

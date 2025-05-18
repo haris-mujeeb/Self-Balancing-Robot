@@ -36,12 +36,26 @@ void telemetryPacket::sendUartBytes() const {
   Serial.write(reinterpret_cast<const uint8_t*>(&ultrasonicDistanceCm), sizeof(ultrasonicDistanceCm));
   DEBUG_PRINT(DEBUG_COMM, "Sent Uart: " + String(robotYawDegrees) + "," + String(robotDistanceCm) + "," + String(ultrasonicDistanceCm));
 }
-
 void telemetryPacket::sendUartASCII() const {
   char buffer[BUFFER_SIZE];
-  snprintf(buffer, BUFFER_SIZE, "%hd,%ld,%hd", robotYawDegrees, robotDistanceCm, ultrasonicDistanceCm);
+  snprintf(buffer, BUFFER_SIZE, "%hd,%ld,%hhu,%d,%d,%hd,%hd",
+           robotYawDegrees,
+           robotDistanceCm,
+           ultrasonicDistanceCm,
+           leftIR_Detected,
+           rightIR_Detected,
+           leftMotorEncoderValue,
+           rightMotorEncoderValue);
+
   Serial.println(buffer);
-  DEBUG_PRINT(DEBUG_COMM, "Sent Uart: " + String(robotYawDegrees) + "," + String(robotDistanceCm) + "," + String(ultrasonicDistanceCm));
+
+  DEBUG_PRINT(DEBUG_COMM, "Sent Uart: " + String(robotYawDegrees) + "," +
+                                       String(robotDistanceCm) + "," +
+                                       String(ultrasonicDistanceCm) + "," +
+                                       String(leftIR_Detected) + "," +
+                                       String(rightIR_Detected) + "," +
+                                       String(leftMotorEncoderValue) + "," +
+                                       String(rightMotorEncoderValue));
 }
 
 void telemetryPacket::readI2CBytes(uint8_t address) {

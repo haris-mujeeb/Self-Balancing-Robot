@@ -122,7 +122,7 @@ constexpr uint8_t MINIMUM_ALLOWED_VOLTAGE = 5.0;   // Minimum allowed voltage fo
 constexpr uint16_t VOLTAGE_MEASUREMENT_PERIOD = 200;   // Minimum allowed voltage for operation 
 constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8;   // e.g. one time after 8 interrupt calls to balance()
 constexpr uint16_t START_UP_TIME = 5000;  // Time for robot to stand upright.
-constexpr float ENCODER_STEP_PER_CM = 32.0;  // Time for robot to stand upright.
+constexpr float ENCODER_STEP_PER_CM = 32.0;  // Encoder pulses to Centimeter conversion factor.
 
 // Control Gains
 constexpr double kp_balance = 55;
@@ -155,14 +155,16 @@ Note:
 
 double pwm_left = 0.0;                         ///< Left motor PWM (control value)
 double pwm_right = 0.0;                        ///< Right motor PWM (control value)
-int long encoder_left_position = 0.0;          ///< Position of the left encoder
-int long encoder_right_position = 0.0;         ///< Position of the right encoder
+int encoder_left_count = 0.0;          ///< Position of the left encoder
+int encoder_right_count = 0.0;         ///< Position of the right encoder
 unsigned int position_control_period_count = 0.0; ///< Counter for position control frequency
 double pitch_pid_output = 0.0;                 ///< Output of the pitch PID controller
 double position_pid_output = 0.0;              ///< Output of the position PID controller
 double yaw_pid_output = 0.0;                  ///< Output of the yaw PID controller
 double encoder_speed_filtered = 0.0;           ///< Filtered encoder speed value
 double encoder_speed_filtered_old = 0.0;       ///< Previous filtered encoder speed value
+double encoder_left_position = 0;                   ///< Current position of the robot
+double encoder_right_position = 0;                   ///< Current position of the robot
 double current_position = 0.0;                   ///< Current position of the robot
 double move_to_position = 0.0;                   ///< Temporary taget position for the robot
 double final_position = 0.0;                   ///< Final position of the robot
@@ -332,8 +334,8 @@ void motionController::balance() {
 
   #if DEBUG_ENCODER
     // Debug encoder position data
-    debugEncoderMsg += "[ENC L:" + String(encoder_left_position) 
-      +"][ENC R:"+ String(encoder_right_position) + "]";
+    debugEncoderMsg += "[ENC L:" + String(encoder_left_count) 
+      +"][ENC R:"+ String(encoder_right_count) + "]";
     DEBUG_PRINT(DEBUG_ENCODER, debugEncoderMsg)
     debugEncoderMsg = "";
   #endif
@@ -369,8 +371,8 @@ inline void checkVoltageLevel(unsigned long& voltage_measure_time) {
  */
 inline void updateEncoderValues(){
   position_control_period_count ++;
-  encoder_left_position +=  pwm_left < 0 ? -encoder_count_left_a : encoder_count_left_a;
-  encoder_right_position += pwm_right < 0 ? -encoder_count_right_a : encoder_count_right_a;
+  encoder_left_count +=  pwm_left < 0 ? -encoder_count_left_a : encoder_count_left_a;
+  encoder_right_count += pwm_right < 0 ? -encoder_count_right_a : encoder_count_right_a;
   encoder_count_left_a = 0;
   encoder_count_right_a = 0;
 }
@@ -378,12 +380,14 @@ inline void updateEncoderValues(){
 
 inline void updateDistance(){
   position_control_period_count = 0;
-  double encoder_speed = (encoder_left_position + encoder_right_position) * 0.5; 
-  encoder_left_position = 0;
-  encoder_right_position = 0;
+  encoder_left_position += encoder_left_count;
+  encoder_right_position += encoder_right_count;
+  double encoder_speed = (encoder_left_count + encoder_right_count) * 0.5; 
   encoder_speed_filtered = encoder_speed_filtered_old * 0.7 + encoder_speed * 0.3; 
   encoder_speed_filtered_old = encoder_speed_filtered;
   current_position += encoder_speed_filtered;
+  encoder_left_count = 0;
+  encoder_right_count = 0;
 }
 
 
@@ -615,6 +619,8 @@ void motionController::getRobotStateData(telemetryPacket& data){
   cli(); // Disable interrupts
   data.robotDistanceCm = current_position/ENCODER_STEP_PER_CM;
   data.robotYawDegrees = yaw_angle_degrees;
+  data.leftMotorEncoderValue = encoder_left_position;
+  data.rightMotorEncoderValue = encoder_right_position;
   sei(); // Re-enable interrupts
 }
 
