@@ -123,6 +123,7 @@ constexpr uint16_t VOLTAGE_MEASUREMENT_PERIOD = 200;   // Minimum allowed voltag
 constexpr uint8_t POSITION_CONTROL_FREQUENCY = 8;   // e.g. one time after 8 interrupt calls to balance()
 constexpr uint16_t START_UP_TIME = 5000;  // Time for robot to stand upright.
 constexpr float ENCODER_STEP_PER_CM = 32.0;  // Encoder pulses to Centimeter conversion factor.
+constexpr float ENCODER_STEP_PER_DEGREES = 0.1098;  // Encoder pulses to Centimeter conversion factor.
 
 // Control Gains
 constexpr double kp_balance = 55;
@@ -172,8 +173,8 @@ double move_speed_percent = 0.0;                ///< Desired speed of the robot
 double setting_car_rotation_speed = 0;       ///< Desired rotational speed (yaw)
 float pitch_angle = 0;                       ///< Measured pitch angle
 constexpr float pitch_angle_zero = 0.0f;                    ///< Default zero angle for the system
-float yaw_angle_degrees = 0;                       ///< Measured pitch angle
-float alpha = 0.95;                       ///< Measured pitch angle
+float yaw_angle_degrees = 0;                       ///< Measured yaw angle
+float alpha = 0.995;                       ///< Measured pitch angle
 double desired_yaw_angle = 0;                   ///< Current position of the robot
 double yaw_speed_percent = 0;                   ///< Current position of the robot
 float gyro_x = 0;                            ///< Gyro X-axis angular velocity
@@ -407,7 +408,7 @@ inline void updateSensorValues(float& pitch_angle, float& gyro_x, float& gyro_z)
   gyro_x = mpu.getGyroX();
   gyro_z = mpu.getGyroZ();
   pitch_angle = mpu.getPitchAngle();
-  yaw_angle_degrees += gyro_z * dt; // record angle 
+  yaw_angle_degrees = -( ENCODER_STEP_PER_DEGREES * (encoder_left_position - encoder_right_position) * alpha ) +  ( gyro_z * dt * (1 - alpha) ); // record angle 
 
   // Update Kalman filter
   pitch_angle = kalman.getAngle(pitch_angle, gyro_x);
@@ -435,7 +436,7 @@ inline void runPitchControl() {
  */
 inline void runYawControl() {
   float speed_limit = 0.7 * yaw_speed_percent + 30;
-  float delta_yaw_angle = yaw_angle_degrees - desired_yaw_angle;
+  float delta_yaw_angle =  desired_yaw_angle - yaw_angle_degrees;
   setting_car_rotation_speed = kp_turn * (delta_yaw_angle) ;
   setting_car_rotation_speed = constrain(setting_car_rotation_speed, -speed_limit, speed_limit);
 
@@ -570,9 +571,9 @@ void motionController::rotate(float degreesCW, float rotSpeed = 100){
   yaw_speed_percent = constrain(rotSpeed, 0.0, 100.0);
   move_speed_percent = 0;
   if (desired_yaw_angle  - yaw_angle_degrees > 0) {
-    currentRobotState = TURN_RIGHT;
-  } else {
     currentRobotState = TURN_LEFT;
+  } else {
+    currentRobotState = TURN_RIGHT;
   }
 }
 
@@ -621,6 +622,7 @@ void motionController::getRobotStateData(telemetryPacket& data){
   data.robotYawDegrees = yaw_angle_degrees;
   data.leftMotorEncoderValue = encoder_left_position;
   data.rightMotorEncoderValue = encoder_right_position;
+  data.robotPitchDegrees = pitch_angle;
   sei(); // Re-enable interrupts
 }
 

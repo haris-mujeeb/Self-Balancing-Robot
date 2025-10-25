@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.11.23)  23 FEB 2025 11:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.11.23)  4 JUN 2025 17:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2031,12 +2031,12 @@ Package biblatex Info: Data encoding 'utf8' specified.
 \openout4 = `main-blx.bib'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' found.
- (main.bbl)
+Package biblatex Info: ... file 'main.bbl' not found.
+
+No file main.bbl.
 Package biblatex Info: Reference section=0 on input line 39.
 Package biblatex Info: Reference segment=0 on input line 39.
 Package hyperref Info: Link coloring ON on input line 39.
-
 (main.out) (main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
@@ -2222,26 +2222,64 @@ d Softwares//MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}] (main.lot)
 \openout2 = `introduction.aux'.
 
  (introduction.tex
-<assets/tumbller.jpg, id=369, 1450.41875pt x 1218.5525pt>
+<assets/tumbller.jpg, id=349, 1450.41875pt x 1218.5525pt>
 File: assets/tumbller.jpg Graphic file (type jpg)
 <use assets/tumbller.jpg>
 Package pdftex.def Info: assets/tumbller.jpg  used on input line 10.
 (pdftex.def)             Requested size: 203.19003pt x 170.71652pt.
+
+
+LaTeX Warning: Citation 'tumbller' on page 7 undefined on input line 11.
+
+
+LaTeX Warning: Citation 'tumbller' on page 7 undefined on input line 11.
+
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 7.
- (D:\Installed Softwares\\MiKTeX\tex/latex/lm\ts1lmr.fd
+(D:\Installed Softwares\\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
+
+LaTeX Warning: Citation 'matlab_inverted_pendulum' on page 7 undefined on input
+ line 26.
+
+
+LaTeX Warning: Citation '10193276' on page 7 undefined on input line 26.
+
+
 
 [7
 
 {D:/Installed Softwares//MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc} <./assets/tumbll
 er.jpg>]
-<assets/tumbller2.jpg, id=385, 1505.625pt x 1505.625pt>
+
+LaTeX Warning: Citation '1174486' on page 8 undefined on input line 28.
+
+
+LaTeX Warning: Citation 'Tsai_Chih_2008' on page 8 undefined on input line 32.
+
+
+LaTeX Warning: Citation 'Ranasinghe_Vidanapathirana_2019' on page 8 undefined o
+n input line 32.
+
+
+Overfull \hbox (49.19403pt too wide) in paragraph at lines 32--33
+\T1/lmr/m/n/10.95 machine learning-based adaptive control methods [] [].
+ []
+
+
+LaTeX Warning: Citation 'opensource' on page 8 undefined on input line 44.
+
+<assets/tumbller2.jpg, id=357, 1505.625pt x 1505.625pt>
 File: assets/tumbller2.jpg Graphic file (type jpg)
 <use assets/tumbller2.jpg>
 Package pdftex.def Info: assets/tumbller2.jpg  used on input line 49.
 (pdftex.def)             Requested size: 170.6965pt x 170.71652pt.
+
+LaTeX Warning: Citation 'tumbller' on page 8 undefined on input line 50.
+
+
+LaTeX Warning: Citation 'tumbller' on page 8 undefined on input line 50.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -2254,18 +2292,39 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 \openout2 = `modelling.aux'.
 
  (modelling.tex
-<assets/simplified-inverted-pendulem.png, id=401, 185.19188pt x 85.82062pt>
+<assets/simplified-inverted-pendulem.png, id=366, 185.19188pt x 85.82062pt>
 File: assets/simplified-inverted-pendulem.png Graphic file (type png)
 <use assets/simplified-inverted-pendulem.png>
 Package pdftex.def Info: assets/simplified-inverted-pendulem.png  used on input
  line 6.
 (pdftex.def)             Requested size: 290.2211pt x 134.49506pt.
-<assets/FBD-inverted-pendulum.png, id=407, 243.15843pt x 130.98938pt>
+
+
+LaTeX Warning: Citation '10193276' on page 10 undefined on input line 7.
+
+
+LaTeX Warning: Citation '10193276' on page 10 undefined on input line 7.
+
+
+LaTeX Warning: Citation 'prasad_optimal_2014' on page 10 undefined on input lin
+e 12.
+
+
+LaTeX Warning: Citation 'matlab_inverted_pendulum' on page 10 undefined on inpu
+t line 12.
+
+<assets/FBD-inverted-pendulum.png, id=368, 243.15843pt x 130.98938pt>
 File: assets/FBD-inverted-pendulum.png Graphic file (type png)
 <use assets/FBD-inverted-pendulum.png>
 Package pdftex.def Info: assets/FBD-inverted-pendulum.png  used on input line 1
 8.
 (pdftex.def)             Requested size: 290.2211pt x 156.34299pt.
+
+LaTeX Warning: Citation '10193276' on page 10 undefined on input line 19.
+
+
+LaTeX Warning: Citation '10193276' on page 10 undefined on input line 19.
+
 
 
 [10
@@ -2274,7 +2333,7 @@ Package pdftex.def Info: assets/FBD-inverted-pendulum.png  used on input line 1
 
  <./assets/simplified-inverted-pendulem.png> <./assets/FBD-inverted-pendulum.pn
 g>]
-<assets/pole-zero-map.png, id=421, 472.76625pt x 373.99725pt>
+<assets/pole-zero-map.png, id=379, 472.76625pt x 373.99725pt>
 File: assets/pole-zero-map.png Graphic file (type png)
 <use assets/pole-zero-map.png>
 Package pdftex.def Info: assets/pole-zero-map.png  used on input line 41.
@@ -2288,13 +2347,13 @@ pole-zero-map.png>])
 \openout2 = `software_overview.aux'.
 
  (software_overview.tex
-<assets/code_overview_flowchart.png, id=446, 484.209pt x 407.87381pt>
+<assets/code_overview_flowchart.png, id=404, 484.209pt x 407.87381pt>
 File: assets/code_overview_flowchart.png Graphic file (type png)
 <use assets/code_overview_flowchart.png>
 Package pdftex.def Info: assets/code_overview_flowchart.png  used on input line
  5.
 (pdftex.def)             Requested size: 386.95901pt x 325.96341pt.
-<assets/control_loop_diagram.png, id=447, 280.94963pt x 641.39626pt>
+<assets/control_loop_diagram.png, id=405, 280.94963pt x 641.39626pt>
 File: assets/control_loop_diagram.png Graphic file (type png)
 <use assets/control_loop_diagram.png>
 Package pdftex.def Info: assets/control_loop_diagram.png  used on input line 14
@@ -2316,21 +2375,58 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 \openout2 = `sensor_fusion.aux'.
 
  (sensor_fusion.tex
-<assets/ATmega328p.png, id=464, 555.07375pt x 461.725pt>
+
+LaTeX Warning: Citation 'atmega_microchip' on page 15 undefined on input line 6
+.
+
+
+LaTeX Warning: Citation 'arduino_nano' on page 15 undefined on input line 8.
+
+<assets/ATmega328p.png, id=420, 555.07375pt x 461.725pt>
 File: assets/ATmega328p.png Graphic file (type png)
 <use assets/ATmega328p.png>
 Package pdftex.def Info: assets/ATmega328p.png  used on input line 15.
 (pdftex.def)             Requested size: 102.6108pt x 85.35826pt.
-<assets/arduino_nano.jpg, id=467, 1003.75pt x 752.8125pt>
+
+LaTeX Warning: Citation 'atmega_microchip' on page 15 undefined on input line 1
+5.
+
+
+LaTeX Warning: Citation 'atmega_microchip' on page 15 undefined on input line 1
+5.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[][]|\T1/lmr/m/n/9 ATMEGA328P
+ []
+
+<assets/arduino_nano.jpg, id=421, 1003.75pt x 752.8125pt>
 File: assets/arduino_nano.jpg Graphic file (type jpg)
 <use assets/arduino_nano.jpg>
 Package pdftex.def Info: assets/arduino_nano.jpg  used on input line 20.
 (pdftex.def)             Requested size: 113.79767pt x 85.35826pt.
-<assets/mpu-6050.png, id=471, 501.875pt x 358.33875pt>
+
+LaTeX Warning: Citation 'arduino_nano' on page 15 undefined on input line 20.
+
+
+LaTeX Warning: Citation 'arduino_nano' on page 15 undefined on input line 20.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--20
+[][]|\T1/lmr/m/n/9 Arduino Nano
+ []
+
+<assets/mpu-6050.png, id=423, 501.875pt x 358.33875pt>
 File: assets/mpu-6050.png Graphic file (type png)
 <use assets/mpu-6050.png>
 Package pdftex.def Info: assets/mpu-6050.png  used on input line 31.
 (pdftex.def)             Requested size: 119.54881pt x 85.35826pt.
+
+LaTeX Warning: Citation 'mpu6050' on page 15 undefined on input line 32.
+
+
+LaTeX Warning: Citation 'mpu6050' on page 15 undefined on input line 32.
+
 
 
 [15
@@ -2350,10 +2446,21 @@ File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 
 [16 <./assets/mpu-6050.png>]
 
+LaTeX Warning: Citation 'rabbany_design_2021' on page 17 undefined on input lin
+e 82.
+
+
+LaTeX Warning: Citation '10193276' on page 17 undefined on input line 82.
+
+
+LaTeX Warning: Citation '1174486' on page 17 undefined on input line 82.
+
+
+
 [17]
 
 [18]
-<assets/compl_filter_0.9.png, id=573, 459.96844pt x 228.10219pt>
+<assets/compl_filter_0.9.png, id=518, 459.96844pt x 228.10219pt>
 File: assets/compl_filter_0.9.png Graphic file (type png)
 <use assets/compl_filter_0.9.png>
 Package pdftex.def Info: assets/compl_filter_0.9.png  used on input line 184.
@@ -2370,7 +2477,7 @@ Package pdftex.def Info: assets/compl_filter_0.9.png  used on input line 184.
 
 
 ]
-<assets/block_representation_kalman_filter.png, id=593, 287.57437pt x 151.3153p
+<assets/block_representation_kalman_filter.png, id=538, 287.57437pt x 151.3153p
 t>
 File: assets/block_representation_kalman_filter.png Graphic file (type png)
 <use assets/block_representation_kalman_filter.png>
@@ -2381,24 +2488,54 @@ Package pdftex.def Info: assets/block_representation_kalman_filter.png  used on
 
 [21 <./assets/block_representation_kalman_filter.png>]
 
+LaTeX Warning: Citation 'github_kalman_filter' on page 22 undefined on input li
+ne 103.
+
+
+
 [22])
 
 [23]
 \openout2 = `motor_control.aux'.
 
  (motor_control.tex
-<assets/control-loop-block-diagram.png, id=669, 391.4625pt x 139.11975pt>
+
+LaTeX Warning: Citation 'jamil_modeling_2014' on page 24 undefined on input lin
+e 3.
+
+<assets/control-loop-block-diagram.png, id=611, 391.4625pt x 139.11975pt>
 File: assets/control-loop-block-diagram.png Graphic file (type png)
 <use assets/control-loop-block-diagram.png>
 Package pdftex.def Info: assets/control-loop-block-diagram.png  used on input l
 ine 15.
 (pdftex.def)             Requested size: 240.18353pt x 85.35826pt.
-<assets/TB6612FNG.jpg, id=673, 451.6875pt x 451.6875pt>
+
+LaTeX Warning: Citation 'TB6612FNG' on page 24 undefined on input line 20.
+
+<assets/TB6612FNG.jpg, id=614, 451.6875pt x 451.6875pt>
 File: assets/TB6612FNG.jpg Graphic file (type jpg)
 <use assets/TB6612FNG.jpg>
 Package pdftex.def Info: assets/TB6612FNG.jpg  used on input line 27.
 (pdftex.def)             Requested size: 85.35284pt x 85.35826pt.
-<assets/TB6612FNG_target_characteristics.png, id=676, 1259.4553pt x 529.22719pt
+
+LaTeX Warning: Citation 'TB6612FNG_photo' on page 24 undefined on input line 27
+.
+
+
+LaTeX Warning: Citation 'TB6612FNG_photo' on page 24 undefined on input line 27
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+[][]|\T1/lmr/m/n/9 TB6612FNG
+ []
+
+
+Overfull \hbox (19.13647pt too wide) in paragraph at lines 27--27
+[]\T1/lmr/m/n/9 .| 
+ []
+
+<assets/TB6612FNG_target_characteristics.png, id=615, 1259.4553pt x 529.22719pt
 >
 File: assets/TB6612FNG_target_characteristics.png Graphic file (type png)
 <use assets/TB6612FNG_target_characteristics.png>
@@ -2406,75 +2543,126 @@ Package pdftex.def Info: assets/TB6612FNG_target_characteristics.png  used on i
 nput line 31.
 (pdftex.def)             Requested size: 406.26251pt x 170.71652pt.
 
+LaTeX Warning: Citation 'TB6612FNG' on page 24 undefined on input line 31.
+
+
+LaTeX Warning: Citation 'TB6612FNG' on page 24 undefined on input line 31.
+
+
 
 [24
 
 
 
  <./assets/control-loop-block-diagram.png>]
-<assets/SN74LVC2G14.png, id=690, 1284.8pt x 722.7pt>
+<assets/SN74LVC2G14.png, id=625, 1284.8pt x 722.7pt>
 File: assets/SN74LVC2G14.png Graphic file (type png)
 <use assets/SN74LVC2G14.png>
 Package pdftex.def Info: assets/SN74LVC2G14.png  used on input line 42.
 (pdftex.def)             Requested size: 101.15892pt x 56.9055pt.
-<assets/schmitt_trigger_hysteresis.png, id=693, 836.3747pt x 255.20343pt>
+
+
+LaTeX Warning: Citation 'SN74LVC2G14' on page 25 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'SN74LVC2G14' on page 25 undefined on input line 42.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
+[][]|\T1/lmr/m/n/9 SN74LVC2G14
+ []
+
+<assets/schmitt_trigger_hysteresis.png, id=626, 836.3747pt x 255.20343pt>
 File: assets/schmitt_trigger_hysteresis.png Graphic file (type png)
 <use assets/schmitt_trigger_hysteresis.png>
 Package pdftex.def Info: assets/schmitt_trigger_hysteresis.png  used on input l
 ine 46.
 (pdftex.def)             Requested size: 372.99596pt x 113.81102pt.
-<assets/dc-motor-with-encoder.jpg, id=698, 1204.5pt x 803.0pt>
+
+LaTeX Warning: Citation 'schmitt_trigger_hysteresis' on page 25 undefined on in
+put line 46.
+
+
+LaTeX Warning: Citation 'schmitt_trigger_hysteresis' on page 25 undefined on in
+put line 46.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--46
+[][]|\T1/lmr/m/n/9 Schmitt trigger output without hysteresis (left) and with hy
+steresis (right)
+ []
+
+
+LaTeX Warning: Citation 'dc_motor' on page 25 undefined on input line 52.
+
+<assets/dc-motor-with-encoder.jpg, id=628, 1204.5pt x 803.0pt>
 File: assets/dc-motor-with-encoder.jpg Graphic file (type jpg)
 <use assets/dc-motor-with-encoder.jpg>
 Package pdftex.def Info: assets/dc-motor-with-encoder.jpg  used on input line 5
 5.
 (pdftex.def)             Requested size: 170.70569pt x 113.81102pt.
 
+LaTeX Warning: Citation 'dc_motor' on page 25 undefined on input line 56.
+
+
+LaTeX Warning: Citation 'dc_motor' on page 25 undefined on input line 56.
+
+
 
 [25 <./assets/TB6612FNG.jpg> <./assets/TB6612FNG_target_characteristics.png> <.
 /assets/SN74LVC2G14.png> <./assets/schmitt_trigger_hysteresis.png>]
 
 [26 <./assets/dc-motor-with-encoder.jpg>]
-<assets/Battery.png, id=721, 386.19281pt x 344.78813pt>
+
+LaTeX Warning: Citation 'battery' on page 27 undefined on input line 103.
+
+<assets/Battery.png, id=645, 386.19281pt x 344.78813pt>
 File: assets/Battery.png Graphic file (type png)
 <use assets/Battery.png>
 Package pdftex.def Info: assets/Battery.png  used on input line 107.
 (pdftex.def)             Requested size: 191.21611pt x 170.71652pt.
-<assets/voltage-divider.png, id=722, 196.48407pt x 36.88782pt>
+
+
+[27 <./assets/Battery.png>]
+<assets/voltage-divider.png, id=652, 196.48407pt x 36.88782pt>
 File: assets/voltage-divider.png Graphic file (type png)
 <use assets/voltage-divider.png>
 Package pdftex.def Info: assets/voltage-divider.png  used on input line 121.
 (pdftex.def)             Requested size: 151.55702pt x 28.45274pt.
 
 
-[27 <./assets/Battery.png>]
+LaTeX Warning: Citation 'tumbller' on page 28 undefined on input line 122.
+
+
+LaTeX Warning: Citation 'tumbller' on page 28 undefined on input line 122.
+
+
 
 [28 <./assets/voltage-divider.png>]
-<assets/pid_pitch_kp_55_kd_1_25.png, id=758, 606.01407pt x 233.37187pt>
+
+[29]
+<assets/pid_pitch_kp_55_kd_1_25.png, id=688, 606.01407pt x 233.37187pt>
 File: assets/pid_pitch_kp_55_kd_1_25.png Graphic file (type png)
 <use assets/pid_pitch_kp_55_kd_1_25.png>
 Package pdftex.def Info: assets/pid_pitch_kp_55_kd_1_25.png  used on input line
  205.
 (pdftex.def)             Requested size: 386.95901pt x 149.01563pt.
-
-
-[29]
-<assets/pid_pitch_overshoot.png, id=774, 608.2725pt x 218.31563pt>
+<assets/pid_pitch_overshoot.png, id=691, 608.2725pt x 218.31563pt>
 File: assets/pid_pitch_overshoot.png Graphic file (type png)
 <use assets/pid_pitch_overshoot.png>
 Package pdftex.def Info: assets/pid_pitch_overshoot.png  used on input line 215
 .
 (pdftex.def)             Requested size: 386.95901pt x 138.88538pt.
-<assets/pid_pitch_combined.png, id=776, 609.02531pt x 232.61906pt>
+
+
+[30 <./assets/pid_pitch_kp_55_kd_1_25.png> <./assets/pid_pitch_overshoot.png>]
+<assets/pid_pitch_combined.png, id=705, 609.02531pt x 232.61906pt>
 File: assets/pid_pitch_combined.png Graphic file (type png)
 <use assets/pid_pitch_combined.png>
 Package pdftex.def Info: assets/pid_pitch_combined.png  used on input line 233.
 
 (pdftex.def)             Requested size: 386.95901pt x 147.80374pt.
-
-
-[30 <./assets/pid_pitch_kp_55_kd_1_25.png> <./assets/pid_pitch_overshoot.png>]
-<assets/pid_yaw_kp_2_5_kd_0_5_target_20_deg.png, id=791, 609.77812pt x 221.3268
+<assets/pid_yaw_kp_2_5_kd_0_5_target_20_deg.png, id=707, 609.77812pt x 221.3268
 7pt>
 File: assets/pid_yaw_kp_2_5_kd_0_5_target_20_deg.png Graphic file (type png)
 <use assets/pid_yaw_kp_2_5_kd_0_5_target_20_deg.png>
@@ -2483,9 +2671,8 @@ n input line 256.
 (pdftex.def)             Requested size: 386.95901pt x 140.45656pt.
 
 
-[31 <./assets/pid_pitch_combined.png> <./assets/pid_yaw_kp_2_5_kd_0_5_target_20
-_deg.png>]
-<assets/pid_position_kp_0_26_kd_20.png, id=806, 606.01407pt x 234.8775pt>
+[31 <./assets/pid_pitch_combined.png>]
+<assets/pid_position_kp_0_26_kd_20.png, id=726, 606.01407pt x 234.8775pt>
 File: assets/pid_position_kp_0_26_kd_20.png Graphic file (type png)
 <use assets/pid_position_kp_0_26_kd_20.png>
 Package pdftex.def Info: assets/pid_position_kp_0_26_kd_20.png  used on input l
@@ -2493,33 +2680,39 @@ ine 277.
 (pdftex.def)             Requested size: 386.95901pt x 149.97702pt.
 
 
-[32 <./assets/pid_position_kp_0_26_kd_20.png>]
-<assets/pitch_angle_control_loop.png, id=824, 444.91219pt x 233.37187pt>
+[32 <./assets/pid_yaw_kp_2_5_kd_0_5_target_20_deg.png> <./assets/pid_position_k
+p_0_26_kd_20.png>]
+<assets/pitch_angle_control_loop.png, id=739, 444.91219pt x 233.37187pt>
 File: assets/pitch_angle_control_loop.png Graphic file (type png)
 <use assets/pitch_angle_control_loop.png>
 Package pdftex.def Info: assets/pitch_angle_control_loop.png  used on input lin
 e 307.
 (pdftex.def)             Requested size: 433.96753pt x 227.62204pt.
-<assets/final_pid.png, id=829, 472.01344pt x 226.59656pt>
+
+
+LaTeX Warning: Citation '10193276' on page 33 undefined on input line 308.
+
+
+LaTeX Warning: Citation '10193276' on page 33 undefined on input line 308.
+
+
+
+[33 <./assets/pitch_angle_control_loop.png>]
+<assets/final_pid.png, id=758, 472.01344pt x 226.59656pt>
 File: assets/final_pid.png Graphic file (type png)
 <use assets/final_pid.png>
 Package pdftex.def Info: assets/final_pid.png  used on input line 318.
 (pdftex.def)             Requested size: 386.95901pt x 185.76888pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 File: assets/control_loop_diagram.png Graphic file (type png)
 <use assets/control_loop_diagram.png>
 Package pdftex.def Info: assets/control_loop_diagram.png  used on input line 32
 5.
 (pdftex.def)             Requested size: 241.84846pt x 552.14787pt.
 
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 )
-
-[33 <./assets/pitch_angle_control_loop.png>]
 
 [34 <./assets/final_pid.png>]
 
@@ -2527,26 +2720,51 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 \openout2 = `obstacle_avoidance.aux'.
 
  (obstacle_avoidance.tex
-<assets/obstacle_diagram.png, id=850, 261.97874pt x 343.2825pt>
+<assets/obstacle_diagram.png, id=769, 261.97874pt x 343.2825pt>
 File: assets/obstacle_diagram.png Graphic file (type png)
 <use assets/obstacle_diagram.png>
 Package pdftex.def Info: assets/obstacle_diagram.png  used on input line 7.
 (pdftex.def)             Requested size: 195.42424pt x 256.0748pt.
-<assets/Ultrasonic-HC-SR04.png, id=851, 313.9228pt x 240.9pt>
+<assets/Ultrasonic-HC-SR04.png, id=770, 313.9228pt x 240.9pt>
 File: assets/Ultrasonic-HC-SR04.png Graphic file (type png)
 <use assets/Ultrasonic-HC-SR04.png>
 Package pdftex.def Info: assets/Ultrasonic-HC-SR04.png  used on input line 17.
 (pdftex.def)             Requested size: 120.92422pt x 92.79272pt.
-<assets/HIR204C.jpg, id=854, 642.4pt x 642.4pt>
+
+
+LaTeX Warning: Citation 'ultrasonic_sensor' on page 36 undefined on input line 
+18.
+
+
+LaTeX Warning: Citation 'ultrasonic_sensor' on page 36 undefined on input line 
+18.
+
+<assets/HIR204C.jpg, id=771, 642.4pt x 642.4pt>
 File: assets/HIR204C.jpg Graphic file (type jpg)
 <use assets/HIR204C.jpg>
 Package pdftex.def Info: assets/HIR204C.jpg  used on input line 29.
 (pdftex.def)             Requested size: 113.80379pt x 113.81102pt.
-<assets/ir-receiver.png, id=857, 94.10156pt x 121.95563pt>
+
+LaTeX Warning: Citation 'ir_led' on page 36 undefined on input line 29.
+
+
+LaTeX Warning: Citation 'ir_led' on page 36 undefined on input line 29.
+
+<assets/ir-receiver.png, id=772, 94.10156pt x 121.95563pt>
 File: assets/ir-receiver.png Graphic file (type png)
 <use assets/ir-receiver.png>
 Package pdftex.def Info: assets/ir-receiver.png  used on input line 34.
 (pdftex.def)             Requested size: 87.81793pt x 113.81102pt.
+
+LaTeX Warning: Citation 'ir_receiver' on page 36 undefined on input line 34.
+
+
+LaTeX Warning: Citation 'ir_receiver' on page 36 undefined on input line 34.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[][]|\T1/lmr/m/n/9 IRM-56384
+ []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -2559,6 +2777,11 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
  <./assets/obstacle_diagram.png> <./assets/Ultrasonic-HC-SR04.png>]
 
+LaTeX Warning: Citation 'ultrasonic_sensor' on page 37 undefined on input line 
+66.
+
+
+
 [37 <./assets/HIR204C.jpg> <./assets/ir-receiver.png>]
 
 [38]
@@ -2569,15 +2792,34 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 \openout2 = `serial_communication_debugging.aux'.
 
  (serial_communication_debugging.tex
-<assets/BT16Module.png, id=957, 151.3153pt x 183.68625pt>
+<assets/BT16Module.png, id=867, 151.3153pt x 183.68625pt>
 File: assets/BT16Module.png Graphic file (type png)
 <use assets/BT16Module.png>
 Package pdftex.def Info: assets/BT16Module.png  used on input line 13.
 (pdftex.def)             Requested size: 70.31702pt x 85.35826pt.
 
+
+LaTeX Warning: Citation 'bluetooth_module' on page 41 undefined on input line 1
+4.
+
+
+LaTeX Warning: Citation 'bluetooth_module' on page 41 undefined on input line 1
+4.
+
+
+LaTeX Warning: Citation 'bluetooth_module' on page 41 undefined on input line 2
+8.
+
+
 Overfull \hbox (3.16977pt too wide) in paragraph at lines 28--29
 \T1/lmr/m/n/10.95 typically with a Bluetooth module or a computer for debugging
  and remote control. The communication
+ []
+
+
+Overfull \hbox (12.12332pt too wide) in paragraph at lines 28--29
+\T1/lmr/m/n/10.95 is initialized at a baud rate of \T1/lmtt/m/n/10.95 9600\T1/l
+mr/m/n/10.95 , which is commonly used for Bluetooth modules []. 
  []
 
 
@@ -2606,17 +2848,20 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 \openout2 = `assembly.aux'.
 
  (assembly.tex
-<assets/assembly1.png, id=990, 642.4pt x 481.8pt>
+
+LaTeX Warning: Citation 'tumbller' on page 45 undefined on input line 2.
+
+<assets/assembly1.png, id=896, 642.4pt x 481.8pt>
 File: assets/assembly1.png Graphic file (type png)
 <use assets/assembly1.png>
 Package pdftex.def Info: assets/assembly1.png  used on input line 5.
 (pdftex.def)             Requested size: 338.58636pt x 253.94861pt.
-<assets/assembly2.png, id=991, 1422.31375pt x 1066.98625pt>
+<assets/assembly2.png, id=897, 1422.31375pt x 1066.98625pt>
 File: assets/assembly2.png Graphic file (type png)
 <use assets/assembly2.png>
 Package pdftex.def Info: assets/assembly2.png  used on input line 12.
 (pdftex.def)             Requested size: 338.58636pt x 253.99799pt.
-<assets/assembly3.png, id=992, 1104.125pt x 565.11125pt>
+<assets/assembly3.png, id=898, 1104.125pt x 565.11125pt>
 File: assets/assembly3.png Graphic file (type png)
 <use assets/assembly3.png>
 Package pdftex.def Info: assets/assembly3.png  used on input line 19.
@@ -2633,18 +2878,33 @@ Package pdftex.def Info: assets/assembly3.png  used on input line 19.
 \openout2 = `terra_bee.aux'.
 
  (terra_bee.tex
-<assets/terraRangerMultiplex.jpg, id=1006, 246.6816pt x 135.8676pt>
+
+LaTeX Warning: Citation 'terra_mount' on page 47 undefined on input line 2.
+
+<assets/terraRangerMultiplex.jpg, id=911, 246.6816pt x 135.8676pt>
 File: assets/terraRangerMultiplex.jpg Graphic file (type jpg)
 <use assets/terraRangerMultiplex.jpg>
 Package pdftex.def Info: assets/terraRangerMultiplex.jpg  used on input line 6.
 
 (pdftex.def)             Requested size: 309.96977pt x 170.71652pt.
-<assets/TerraRangerMultflexHubPinout.png, id=1009, 313.9228pt x 173.89969pt>
+
+LaTeX Warning: Citation 'terra_mount' on page 47 undefined on input line 7.
+
+
+LaTeX Warning: Citation 'terra_mount' on page 47 undefined on input line 7.
+
+<assets/TerraRangerMultflexHubPinout.png, id=912, 313.9228pt x 173.89969pt>
 File: assets/TerraRangerMultflexHubPinout.png Graphic file (type png)
 <use assets/TerraRangerMultflexHubPinout.png>
 Package pdftex.def Info: assets/TerraRangerMultflexHubPinout.png  used on input
  line 23.
 (pdftex.def)             Requested size: 154.08696pt x 85.35826pt.
+
+LaTeX Warning: Citation 'terra_mount' on page 47 undefined on input line 24.
+
+
+LaTeX Warning: Citation 'terra_mount' on page 47 undefined on input line 24.
+
 
 
 [47
@@ -2687,11 +2947,21 @@ Package pdftex.def Info: assets/TerraRangerMultflexHubPinout.png  used on input
 \openout2 = `appendix.aux'.
 
  (appendix.tex
+
+LaTeX Warning: Citation 'matlab_inverted_pendulum' on page 53 undefined on inpu
+t line 4.
+
 File: assets/FBD-inverted-pendulum.png Graphic file (type png)
 <use assets/FBD-inverted-pendulum.png>
 Package pdftex.def Info: assets/FBD-inverted-pendulum.png  used on input line 8
 .
 (pdftex.def)             Requested size: 316.91476pt x 170.71652pt.
+
+LaTeX Warning: Citation '10193276' on page 53 undefined on input line 9.
+
+
+LaTeX Warning: Citation '10193276' on page 53 undefined on input line 9.
+
 
 
 [53
@@ -2750,12 +3020,9 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 [60]
 
-[61
+LaTeX Warning: Empty bibliography on input line 89.
 
-
-]
-
-[62] (main.aux (introduction.aux) (modelling.aux) (software_overview.aux)
+(main.aux (introduction.aux) (modelling.aux) (software_overview.aux)
 (sensor_fusion.aux) (kalman_filter.aux) (motor_control.aux)
 (obstacle_avoidance.aux) (serial_communication_debugging.aux)
 (safety_features.aux) (assembly.aux) (terra_bee.aux) (maze_solving.aux)
@@ -2766,41 +3033,50 @@ L3 programming layer <2024-11-02>
  ***********
 
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+Package biblatex Warning: Please (re)run BibTeX on the file(s):
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57787 strings out of 475616
- 1310161 string characters out of 5771254
- 2582196 words of memory out of 5000000
- 79014 multiletter control sequences out of 15000+600000
- 636697 words of font info for 83 fonts, out of 8000000 for 9000
+ 57631 strings out of 475616
+ 1303748 string characters out of 5771254
+ 2581250 words of memory out of 5000000
+ 78887 multiletter control sequences out of 15000+600000
+ 639693 words of font info for 84 fonts, out of 8000000 for 9000
  2 hyphenation exceptions out of 8191
- 118i,17n,127p,10901b,2650s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 118i,17n,127p,10901b,2610s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmbx10.pfb><D:/Installe
 d Softwares//MiKTeX/fonts/type1/public/lm/lmbx12.pfb><D:/Installed Softwares//M
 iKTeX/fonts/type1/public/lm/lmbx8.pfb><D:/Installed Softwares//MiKTeX/fonts/typ
-e1/public/lm/lmcsc10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/
-lmex10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmmi10.pfb><D:
-/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmmi6.pfb><D:/Installed Soft
-wares//MiKTeX/fonts/type1/public/lm/lmmi8.pfb><D:/Installed Softwares//MiKTeX/f
-onts/type1/public/lm/lmr10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/publ
-ic/lm/lmr17.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmr6.pfb>
-<D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmr8.pfb><D:/Installed So
-ftwares//MiKTeX/fonts/type1/public/lm/lmr9.pfb><D:/Installed Softwares//MiKTeX/
-fonts/type1/public/lm/lmri10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/pu
-blic/lm/lmssbx10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmsy
-10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmsy8.pfb><D:/Inst
-alled Softwares//MiKTeX/fonts/type1/public/lm/lmtt10.pfb><D:/Installed Software
-s//MiKTeX/fonts/type1/public/lm/lmtt8.pfb>
-Output written on main.pdf (62 pages, 8900931 bytes).
+e1/public/lm/lmbx9.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lm
+csc10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmex10.pfb><D:/
+Installed Softwares//MiKTeX/fonts/type1/public/lm/lmmi10.pfb><D:/Installed Soft
+wares//MiKTeX/fonts/type1/public/lm/lmmi6.pfb><D:/Installed Softwares//MiKTeX/f
+onts/type1/public/lm/lmmi8.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/publ
+ic/lm/lmr10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmr17.pfb
+><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmr6.pfb><D:/Installed S
+oftwares//MiKTeX/fonts/type1/public/lm/lmr8.pfb><D:/Installed Softwares//MiKTeX
+/fonts/type1/public/lm/lmr9.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/pub
+lic/lm/lmri10.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmssbx1
+0.pfb><D:/Installed Softwares//MiKTeX/fonts/type1/public/lm/lmsy10.pfb><D:/Inst
+alled Softwares//MiKTeX/fonts/type1/public/lm/lmsy8.pfb><D:/Installed Softwares
+//MiKTeX/fonts/type1/public/lm/lmtt10.pfb><D:/Installed Softwares//MiKTeX/fonts
+/type1/public/lm/lmtt8.pfb>
+Output written on main.pdf (60 pages, 8900197 bytes).
 PDF statistics:
- 1710 PDF objects out of 1728 (max. 8388607)
- 589 named destinations out of 1000 (max. 500000)
+ 1596 PDF objects out of 1728 (max. 8388607)
+ 561 named destinations out of 1000 (max. 500000)
  1040 words of extra memory for PDF output out of 10000 (max. 10000000)
 

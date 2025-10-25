@@ -63,6 +63,7 @@ void UpdateSlidingWindow(bool value, bool* history, uint8_t& index, uint8_t& run
 void StartUltrasonicMeasurement();
 void HandleUltrasonicMeasurementInterrupt();
 
+
 /**
  * @brief Initializes pins and components for IR and Ultrasonic sensors.
  */
@@ -91,7 +92,8 @@ void IRLeftReceive(){
     irLeftReceiveFlag = false;
     enableInterrupt(LEFT_RECEIVE_PIN, IRLeftReceive, FALLING);
   }
-} 
+}
+
 
 /**
  * @brief Handles the interrupt for the right IR sensor.
@@ -135,6 +137,7 @@ void CheckIRObstacle(){
   DEBUG_PRINT(DEBUG_USONIC && irRightIsObstacle, "Obstacle on Right");
 }
 
+
 /**
  * @brief Processes the left IR sensor for obstacle detection.
  */
@@ -147,6 +150,7 @@ void ProcessLeftIRSensor(){
   }
 }
 
+ 
 /**
  * @brief Processes the right IR sensor for obstacle detection.
  */
@@ -174,6 +178,7 @@ void UpdateSlidingWindow(bool value, bool* history, uint8_t& index, uint8_t& run
   index  = (index + 1) % SLIDING_WINDOW_SIZE; 
 }
 
+
 /**
  * @brief Starts an ultrasonic distance measurement.
  */
@@ -198,6 +203,7 @@ void StartUltrasonicMeasurement(){
   }
 }
 
+
 /**
  * @brief Handles the ultrasonic sensor measurement interrupt.
  */
@@ -207,7 +213,7 @@ void HandleUltrasonicMeasurementInterrupt(){
     attachPinChangeInterrupt(ECHO_PIN, HandleUltrasonicMeasurementInterrupt, FALLING);
     usonicMeasureFlag = RECEIVED;
   } else if(usonicMeasureFlag == RECEIVED){
-    usonicDistanceValue = (uint8_t)((micros() - usonicMeasurePrevTime) * SPEED_OF_SOUND_HALVED); 
+    usonicDistanceValue = (uint8_t)((micros() - usonicMeasurePrevTime) * SPEED_OF_SOUND_HALVED) + 4.5; 
     usonicMeasureFlag = IDLE; 
   }
 }

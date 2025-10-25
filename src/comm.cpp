@@ -25,7 +25,7 @@ void telemetryPacket::sendI2CBytes() const {
 
 void telemetryPacket::sendI2CASCII() const {
   char buffer[BUFFER_SIZE];
-  int snprintfResult = snprintf(buffer, BUFFER_SIZE, "%hd,%ld,%hd", 
+  int snprintfResult = snprintf(buffer, BUFFER_SIZE, "%f,%ld,%hd", 
                                 robotYawDegrees, robotDistanceCm, ultrasonicDistanceCm);
 
   if (snprintfResult >= 0 && snprintfResult < BUFFER_SIZE) { // Check for successful formatting
@@ -49,17 +49,24 @@ void telemetryPacket::sendUartBytes(Stream& serial) const {
 
 void telemetryPacket::sendUartASCII(Stream& serial) const {
   char buffer[BUFFER_SIZE];
-  snprintf(buffer, BUFFER_SIZE, "%hd,%ld,%hhu,%d,%d,%ld,%ld",
-           robotYawDegrees,
+  char yawStr[20];
+  char pitchStr[20];
+
+  dtostrf(robotYawDegrees, 6, 2, yawStr);
+  dtostrf(robotPitchDegrees, 6, 2, pitchStr);
+
+  snprintf(buffer, BUFFER_SIZE, "%s,%ld,%hhu,%d,%d,%ld,%ld,%s",
+           yawStr,
            robotDistanceCm,
            ultrasonicDistanceCm,
            leftIR_Detected,
            rightIR_Detected,
            leftMotorEncoderValue,
-           rightMotorEncoderValue);
+           rightMotorEncoderValue,
+           pitchStr);
 
   serial.println(buffer);
-
+                                      
   DEBUG_PRINT(DEBUG_COMM, "Sent Uart: " + String(robotYawDegrees) + "," +
                                        String(robotDistanceCm) + "," +
                                        String(ultrasonicDistanceCm) + "," +
@@ -89,7 +96,7 @@ void telemetryPacket::readI2CASCII(uint8_t address) {
     buffer[index++] = Wire.read();
   }
   buffer[index] = '\0';
-  sscanf(buffer, "%hd,%ld,%hd", &robotYawDegrees, &robotDistanceCm, &ultrasonicDistanceCm);
+  sscanf(buffer, "%f,%ld,%hhu", &robotYawDegrees, &robotDistanceCm, &ultrasonicDistanceCm);
   DEBUG_PRINT(DEBUG_COMM, "Recv I2C: " + String(robotYawDegrees) + "," + String(robotDistanceCm) + "," + String(ultrasonicDistanceCm));
 }
 
@@ -102,14 +109,15 @@ void telemetryPacket::readUartBytes(Stream& serial) {
 
 void telemetryPacket::readUartASCII(Stream& serial) {
   String input = serial.readStringUntil('\n');
-  sscanf(input.c_str(), "%hd,%ld,%hhu,%d,%d,%hd,%hd",
+  sscanf(input.c_str(), "%f,%ld,%hhu,%d,%d,%ld,%ld,%f",
          &robotYawDegrees,
          &robotDistanceCm,
          &ultrasonicDistanceCm,
          (int*)&leftIR_Detected,
          (int*)&rightIR_Detected,
          &leftMotorEncoderValue,
-         &rightMotorEncoderValue);
+         &rightMotorEncoderValue,
+         &robotPitchDegrees);
 
   DEBUG_PRINT(DEBUG_COMM, "Recv Raw: " + input);
   DEBUG_PRINT(DEBUG_COMM, "Recv Uart: " +
@@ -119,7 +127,8 @@ void telemetryPacket::readUartASCII(Stream& serial) {
               String(leftIR_Detected) + "," +
               String(rightIR_Detected) + "," +
               String(leftMotorEncoderValue) + "," +
-              String(rightMotorEncoderValue));
+              String(rightMotorEncoderValue) + "," +
+              String(robotPitchDegrees));
 }
 
 void commandPacket::sendI2CBytes(uint8_t address) const {
@@ -179,7 +188,7 @@ void commandPacket::readI2CASCII(uint8_t address) {
     buffer[index++] = Wire.read();
   }
   buffer[index] = '\0';
-  sscanf(buffer, "%hhu,%hd,%hhu", &command, &commandValue, &commandSpeed);
+  sscanf(buffer, "%hhu,%d,%hhu", &command, &commandValue, &commandSpeed);
   DEBUG_PRINT(DEBUG_COMM, "Recv I2C: " + commandToString(command) + "," + String(commandValue) + "," + String(commandSpeed));
 }
 
@@ -189,11 +198,11 @@ void commandPacket::readUartBytes(Stream& serial) {
   serial.readBytes(reinterpret_cast<uint8_t*>(&commandSpeed), sizeof(commandSpeed));
   DEBUG_PRINT(DEBUG_COMM, "Recv Uart: " + commandToString(command) + "," + String(commandValue) + "," + String(commandSpeed));
 }
-
+\
 void commandPacket::readUartASCII(Stream& serial) {
   String input = serial.readStringUntil('\n');
   uint8_t tempCommand;
-  sscanf(input.c_str(), "%hhu,%hd,%hhu", &tempCommand, &commandValue, &commandSpeed);
+  sscanf(input.c_str(), "%hhu,%d,%hhu", &tempCommand, &commandValue, &commandSpeed);
     if (tempCommand >= INVALID) {
       command = INVALID;
   } else {
